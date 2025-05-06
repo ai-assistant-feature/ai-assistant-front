@@ -1,25 +1,12 @@
-import { useState } from 'react'
-import { useDebounce } from 'use-debounce'
-
 import { Page } from '@/components/client/Page'
-import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import { PropertyCard } from '@app/(dashboard)/-components/PropertyCard'
 import { usePropertiesQuery } from '../-api/getProperties.query'
 import { Chat } from '../-components/Chat'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel'
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 
 const Main = () => {
-  const [search, setSearch] = useState('')
-  const [debouncedSearch] = useDebounce(search, 1000)
-
-  const { data, isLoading, isFetching, isFetched } = usePropertiesQuery(debouncedSearch)
+  const { data, isLoading, isFetching, isFetched } = usePropertiesQuery()
 
   const showSkeleton = isLoading || isFetching
   const hasNoResults = isFetched && data?.items?.length === 0
@@ -41,7 +28,7 @@ const Main = () => {
           </div>
         ) : hasNoResults ? (
           <div className='text-center text-muted-foreground text-sm mt-10'>
-            Ничего не найдено по запросу «{debouncedSearch}»
+            Ничего не найдено по запросу
           </div>
         ) : (
           <Carousel className='w-full overflow-x-auto'>
