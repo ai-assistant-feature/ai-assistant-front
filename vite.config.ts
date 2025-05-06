@@ -18,9 +18,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
       manifest: {
-        name: 'My React PWA',
-        short_name: 'ReactPWA',
-        description: 'Пример Progressive Web App на React + Vite',
+        name: 'Dubai',
+        short_name: 'Dubai',
+        description: 'Dubai apartment',
         theme_color: '#ffffff',
         background_color: '#ffffff',
         display: 'standalone',

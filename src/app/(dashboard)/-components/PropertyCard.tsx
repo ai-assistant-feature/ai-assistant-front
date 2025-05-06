@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardHeader,
@@ -31,23 +32,29 @@ export const PropertyCard = ({ item }: Props) => {
     : null
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{item.name}</CardTitle>
+    <Card className='flex flex-col h-full'>
+      {/* <CardHeader>
+        <CardTitle className='text-base font-medium'>{item.name}</CardTitle>
         <CardDescription>{item.area}</CardDescription>
-      </CardHeader>
-      <CardContent className='flex flex-col gap-4'>
+      </CardHeader> */}
+
+      <CardContent className='p-2'>
+        <div className='text-xs font-medium  uppercase'>{item.name}</div>
+        <div className='text-xs text-muted-foreground mb-2'>{item.area}</div>
         {image && (
-          <img src={image} alt={item.name} className='h-48 w-full rounded-lg object-cover' />
+          <img src={image} alt={item.name} className='w-full h-28 object-cover rounded-lg' />
         )}
-        <div className='text-sm text-muted-foreground'>
+
+        <div className='mt-2 mb-6 text-sm text-muted-foreground w-full'>
           <p>Статус: {item.sale_status}</p>
-          {completionYear && <p>Год сдачи: {completionYear}</p>}
+          {/* {completionYear && <p>Год сдачи: {completionYear}</p>} */}
         </div>
+        <Button className='text-xs w-full'>Узнать условия</Button>
       </CardContent>
-      <CardFooter>
+
+      {/* <CardFooter>
         <span className='text-xs text-muted-foreground'>Площадь указана в {item.area_unit}</span>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   )
 }
