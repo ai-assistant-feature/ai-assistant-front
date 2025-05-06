@@ -4,7 +4,6 @@ import { Drawer } from 'vaul'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { ScrollArea } from '@/components/ui/scroll-area'
 
 const messages = [
   { role: 'user', content: 'Привет! Какие апартаменты вы можете порекомендовать?' },
