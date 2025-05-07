@@ -5,7 +5,7 @@ const usePropertiesQuery = (searchQuery?: string) => {
   return useQuery({
     queryKey: ['properties', searchQuery],
     queryFn: async () => {
-      const baseUrl = `https://nest-dubai.onrender.com/reelly/properties`
+      const baseUrl = `https://nest-dubai.onrender.com/reelly/properties?page=2`
       const url = searchQuery
         ? `${baseUrl}?search_query=${encodeURIComponent(searchQuery)}`
         : baseUrl

@@ -19,7 +19,7 @@ const Chat = () => {
 
   const scrollRef = useRef<HTMLDivElement | null>(null)
 
-  const { mutate, data, isPending } = useGptAskMutation()
+  const { mutate, isPending } = useGptAskMutation()
 
   const handleSend = () => {
     if (!input.trim()) return
