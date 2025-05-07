@@ -5,6 +5,8 @@ import { usePropertiesQuery } from '../-api/getProperties.query'
 import { Chat } from '../-components/Chat'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 
+import { House } from 'lucide-react'
+
 const Main = () => {
   const { data, isLoading, isFetching, isFetched } = usePropertiesQuery()
 
@@ -14,17 +16,33 @@ const Main = () => {
   return (
     <Page>
       <Page.Content>
+        <div className='w-full px-6 py-4 bg-white shadow-md rounded-full'>
+          <div className='max-w-7xl mx-auto flex items-center justify-between'>
+            {/* Название */}
+            <div className='text-xl font-semibold text-gray-900'>DubaiHomes</div>
+
+            {/* Логотип */}
+            <div>
+              <House className='w-4 h-4' />
+            </div>
+          </div>
+        </div>
+        <header className='bg-white  overflow-hidden mb-6 mt-8'>
+          {/* Контент */}
+          <div className='max-w-5xl ml-auto text-right z-10'>
+            <h1 className='text-xl font-bold text-gray-900 mb-2'>Элитная недвижимость в Дубае</h1>
+            <p className='text-sm md:text-xl text-gray-600'>
+              Персональный подбор квартир с помощью{' '}
+              <span className='font-semibold text-black'>искусственного интеллекта</span>.<br />
+            </p>
+
+            {/* <Button className='text-xs w-full'>Начать подбор</Button> */}
+          </div>
+        </header>
+
         {showSkeleton ? (
           <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4'>
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className='space-y-4'>
-                <Skeleton className='h-48 w-full rounded-xl' />
-                <div className='space-y-2 px-2'>
-                  <Skeleton className='h-4 w-3/4' />
-                  <Skeleton className='h-4 w-1/2' />
-                </div>
-              </div>
-            ))}
+            <Skeleton className='h-48 w-full rounded-xl' />
           </div>
         ) : hasNoResults ? (
           <div className='text-center text-muted-foreground text-sm mt-10'>
