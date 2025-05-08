@@ -16,29 +16,27 @@ const Main = () => {
   return (
     <Page>
       <Page.Content>
-        <div className='w-full px-6 py-4 bg-white shadow-md rounded-full'>
+        <header className='w-full px-6 py-4 bg-[#F8F1E4] shadow-md rounded-full'>
           <div className='max-w-7xl mx-auto flex items-center justify-between'>
             {/* Название */}
-            <div className='text-xl font-semibold text-gray-900'>DubaiHomes</div>
+            <div className='text-xl font-semibold text-[#1A1F36]'>DubaiHomes</div>
 
             {/* Логотип */}
-            <div>
-              <House className='w-4 h-4' />
+            <div className='bg-[#F4E2D8] p-2 rounded-full'>
+              <House className='w-5 h-5 text-[#1A1F36]' />
             </div>
           </div>
-        </div>
-        <header className='bg-white  overflow-hidden mb-6 mt-8'>
-          {/* Контент */}
+        </header>
+
+        <div className='bg-white  overflow-hidden mb-6 mt-8'>
           <div className='max-w-5xl ml-auto text-right z-10'>
-            <h1 className='text-xl font-bold text-gray-900 mb-2'>Элитная недвижимость в Дубае</h1>
+            <h1 className='text-xl font-bold text-gray-900 mb-2 '>Элитная недвижимость в Дубае</h1>
             <p className='text-sm md:text-xl text-gray-600'>
               Персональный подбор квартир с помощью{' '}
               <span className='font-semibold text-black'>искусственного интеллекта</span>.<br />
             </p>
-
-            {/* <Button className='text-xs w-full'>Начать подбор</Button> */}
           </div>
-        </header>
+        </div>
 
         {showSkeleton ? (
           <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4'>
