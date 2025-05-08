@@ -63,7 +63,7 @@ const Chat = () => {
               <CardDescription>Спросите AI-ассистента</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className='w-full'>Открытый диалог с AI</Button>
+              <Button className='w-full'>Открыть диалог с AI</Button>
             </CardContent>
           </Card>
         </div>
