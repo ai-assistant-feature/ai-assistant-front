@@ -54,7 +54,7 @@ const Chat = () => {
     <>
       <div className='w-full bg-white rounded-2xl flex flex-col'>
         {/* Контейнер сообщений со скроллом */}
-        <div className='flex-1 overflow-y-auto px-4 py-2 mb-10'>
+        <div className='flex-1 overflow-y-auto px-4 py-2 mb-16'>
           <div className='flex flex-col gap-3'>
             {messages.map((msg, idx) => (
               <div
