@@ -11,9 +11,16 @@
 // Import Routes
 
 import { Route as rootRoute } from './app/__root'
+import { Route as HomeImport } from './app/home'
 import { Route as dashboardIndexImport } from './app/(dashboard)/index'
 
 // Create/Update Routes
+
+const HomeRoute = HomeImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const dashboardIndexRoute = dashboardIndexImport.update({
   id: '/(dashboard)/',
@@ -25,6 +32,13 @@ const dashboardIndexRoute = dashboardIndexImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeImport
+      parentRoute: typeof rootRoute
+    }
     '/(dashboard)/': {
       id: '/(dashboard)/'
       path: '/'
@@ -38,32 +52,37 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
+  '/home': typeof HomeRoute
   '/': typeof dashboardIndexRoute
 }
 
 export interface FileRoutesByTo {
+  '/home': typeof HomeRoute
   '/': typeof dashboardIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/home': typeof HomeRoute
   '/(dashboard)/': typeof dashboardIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/home' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/(dashboard)/'
+  to: '/home' | '/'
+  id: '__root__' | '/home' | '/(dashboard)/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
+  HomeRoute: typeof HomeRoute
   dashboardIndexRoute: typeof dashboardIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  HomeRoute: HomeRoute,
   dashboardIndexRoute: dashboardIndexRoute,
 }
 
@@ -77,8 +96,12 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/home",
         "/(dashboard)/"
       ]
+    },
+    "/home": {
+      "filePath": "home.tsx"
     },
     "/(dashboard)/": {
       "filePath": "(dashboard)/index.tsx"
