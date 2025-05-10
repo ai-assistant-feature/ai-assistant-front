@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Page } from '@/components/client/Page'
 import { Skeleton } from '@/components/ui/skeleton'
 import { PropertyCard } from '@app/(dashboard)/-components/PropertyCard'
@@ -5,12 +6,31 @@ import { usePropertiesQuery } from '../-api/getProperties.query'
 import { Chat } from '../-components/Chat'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { Header } from '../-components/Header'
+import logo from '@/assets/logo.jpeg'
 
 const Main = () => {
+  const [showSplash, setShowSplash] = useState(true)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowSplash(false)
+    }, 1000) // 1 секунда
+
+    return () => clearTimeout(timeout)
+  }, [])
+
   const { data, isLoading, isFetching, isFetched } = usePropertiesQuery()
 
   const showSkeleton = isLoading || isFetching
   const hasNoResults = isFetched && data?.items?.length === 0
+
+  if (showSplash) {
+    return (
+      <div className='min-h-screen flex items-center justify-center  bg-[#0342a2]'>
+        <img src={logo} alt='Logo' className='w-40 h-40 object-contain rounded-[8px]' />
+      </div>
+    )
+  }
 
   return (
     <Page>
