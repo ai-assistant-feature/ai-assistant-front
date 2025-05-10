@@ -15,7 +15,7 @@ const Navbar: FC<IProps> = ({ children, className }) => {
 }
 
 const Content: FC<IProps> = ({ children, className }) => {
-  return <div className={cn('px-[20px] py-[16px] overflow-y-auto grow', className)}>{children}</div>
+  return <div className={cn('px-[20px] py-[16px] grow', className)}>{children}</div>
 }
 
 interface IPage {

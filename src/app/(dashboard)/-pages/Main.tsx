@@ -17,14 +17,7 @@ const Main = () => {
       <Page.Content>
         <Header />
 
-        <div className='bg-white overflow-hidden mb-6'>
-          <div className='max-w-5xl mx-auto text-center z-10'>
-            <h1 className='text-xl text-gray-900'>Ваш умный помощник</h1>
-            <p className='text-sm md:text-xl text-gray-600'>
-              Персональный подбор квартир с помощью <span>искусственного интеллекта</span>.<br />
-            </p>
-          </div>
-        </div>
+        <div className='text-sm text-center mb-4 mt-4'>Спросите меня о жилье — я помогу</div>
 
         {showSkeleton ? (
           <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4'>
@@ -35,8 +28,8 @@ const Main = () => {
             Ничего не найдено по запросу
           </div>
         ) : (
-          <Carousel className='w-full overflow-x-auto'>
-            <CarouselContent className='flex snap-x snap-mandatory gap-1'>
+          <Carousel className='w-full bg-[#ffffff] sticky top-0 z-10 overflow-x-auto'>
+            <CarouselContent className='flex snap-x snap-mandatory gap-1 mt-2 mb-4'>
               {data?.items?.map((item: any) => (
                 <CarouselItem
                   key={item.id}
@@ -48,6 +41,7 @@ const Main = () => {
             </CarouselContent>
           </Carousel>
         )}
+
         <Chat />
       </Page.Content>
     </Page>

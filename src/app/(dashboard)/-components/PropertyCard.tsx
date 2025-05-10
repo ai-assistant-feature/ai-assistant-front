@@ -24,12 +24,9 @@ const RandomAIRecommendation = () => {
   const recommendations = [
     'Рекомендуется AI',
     'Новинка!',
-    'Сдача в этом году',
-    'Идеальное место для жизни',
-    'Популярный выбор среди покупателей',
-    'Лучший выбор в этом районе',
-    'Рекомендуется для инвестиций',
-    'Рекомендуем для вашего удобства',
+    'Идеальное место',
+    'Популярный выбор',
+    'Лучший выбор',
   ]
 
   // Состояние для случайной фразы
@@ -52,32 +49,33 @@ export const PropertyCard = ({ item }: Props) => {
   const image = JSON.parse(item.cover_image_url || '{}')?.url
 
   return (
-    <Card className='p-2 flex flex-col h-full rounded-2xl overflow-hidden bg-[#F8F8F8]'>
+    <Card className='p-2 flex flex-col h-full rounded-2xl overflow-hidden'>
       <CardContent className='p-2 flex flex-col justify-between h-full text-black'>
-        {/* Рекомендация AI */}
-        <RandomAIRecommendation />
+        <div className='flex gap-4'>
+          {/* Изображение слева */}
+          {image && (
+            <div className='w-1/3'>
+              <img src={image} alt={item.name} className='w-full h-20 object-cover rounded-l-xl' />
+            </div>
+          )}
 
-        {/* Название и район */}
-        <div>
-          <div className='text-xl font-semibold uppercase tracking-wide'>{item.name}</div>
-          <div className='text-xs text-gray-500 mb-3'>{item.area}</div>
-        </div>
+          {/* Контент справа */}
+          <div className='flex flex-col justify-between w-2/3'>
+            {/* Рекомендация AI */}
+            <RandomAIRecommendation />
+            {/* Название и район */}
+            <div className='text-sm font-semibold uppercase tracking-wide truncate'>
+              {item.name}
+            </div>
 
-        {/* Изображение */}
-        {image && (
-          <div className='mb-4'>
-            <img src={image} alt={item.name} className='w-full h-32 object-cover rounded-t-xl' />
+            {/* Статус */}
+            <div className='text-sm text-gray-600 mb-4'>{item.sale_status}</div>
           </div>
-        )}
-
-        {/* Статус */}
-        <div className='text-sm text-gray-600 mb-6'>
-          <span className='font-medium text-black'>Статус:</span> {item.sale_status}
         </div>
 
         {/* Кнопки */}
-        <div className='flex items-center mt-auto w-full gap-2'>
-          <Button className='w-1/2 text-xs font-medium rounded-l-full py-3'>Узнать от AI</Button>
+        <div className='flex items-center  w-full gap-2 mt-2'>
+          <Button className='w-1/2 text-xs font-medium rounded-l-full py-1'>Узнать от AI</Button>
           <a
             href='https://t.me/ilnarshan'
             target='_blank'
