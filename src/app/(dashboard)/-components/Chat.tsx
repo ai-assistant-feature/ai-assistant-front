@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { Drawer } from 'vaul'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useGptAskMutation } from '../-api/sendGptMessage.mutation'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Send } from 'lucide-react'
 
 type Message = {
   role: 'user' | 'assistant'
@@ -13,7 +11,6 @@ type Message = {
 }
 
 const Chat = () => {
-  const [open, setOpen] = useState(false)
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
 
@@ -54,73 +51,53 @@ const Chat = () => {
   }, [messages, isPending])
 
   return (
-    <Drawer.Root open={open} onOpenChange={setOpen}>
-      <Drawer.Trigger asChild>
-        <div className='mt-8'>
-          <Card>
-            <CardHeader>
-              <CardTitle>Найти апартаменты</CardTitle>
-              <CardDescription>Спросите AI-ассистента</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className='w-full'>Открыть диалог с AI</Button>
-            </CardContent>
-          </Card>
-        </div>
-      </Drawer.Trigger>
+    <div className='w-full bg-white rounded-2xl flex flex-col mt-8 min-h-[140px]'>
+      <div className='text-sm font-bold text-center mb-2'>Спросите меня о жилье — я помогу</div>
 
-      <Drawer.Portal>
-        <Drawer.Overlay className='fixed inset-0 bg-black/50' />
-        <Drawer.Content className='fixed bottom-0 left-0 right-0 h-[95vh] bg-white rounded-t-2xl p-6 shadow-lg flex flex-col'>
-          <div className='w-12 h-1.5 bg-gray-400 rounded-full mx-auto mb-4' />
-          <Drawer.Title className='text-lg font-semibold text-center mb-2'>Чат с AI</Drawer.Title>
-
-          {/* Сообщения */}
-          <div className='flex-1 overflow-y-auto pr-2'>
-            <div className='flex flex-col gap-3'>
-              {messages.map((msg, idx) => (
-                <div
-                  key={idx}
-                  className={`max-w-[75%] px-4 py-2 rounded-xl text-sm whitespace-pre-wrap ${
-                    msg.role === 'user'
-                      ? 'bg-blue-100 self-end text-right'
-                      : 'bg-gray-100 self-start text-left'
-                  }`}
-                >
-                  {msg.content}
-                </div>
-              ))}
-              {isPending && (
-                <div className='flex items-center gap-2 text-sm text-gray-500'>
-                  <Loader2 className='animate-spin w-4 h-4' /> AI думает...
-                </div>
-              )}
-              <div ref={scrollRef} />
+      {/* Сообщения */}
+      <div className='flex-1 overflow-y-auto pr-2 max-h-[50vh]'>
+        <div className='flex flex-col gap-3'>
+          {messages.map((msg, idx) => (
+            <div
+              key={idx}
+              className={`max-w-[75%] px-4 py-2 rounded-xl text-sm whitespace-pre-wrap ${
+                msg.role === 'user'
+                  ? 'bg-blue-100 self-end text-right'
+                  : 'bg-gray-100 self-start text-left'
+              }`}
+            >
+              {msg.content}
             </div>
-          </div>
+          ))}
+          {isPending && (
+            <div className='flex items-center gap-2 text-sm text-gray-500'>
+              <Loader2 className='animate-spin w-4 h-4' /> AI думает...
+            </div>
+          )}
+          <div ref={scrollRef} />
+        </div>
+      </div>
 
-          {/* Инпут */}
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              handleSend()
-            }}
-            className='mt-4 flex gap-2'
-          >
-            <Input
-              className='flex-1'
-              placeholder='Введите сообщение...'
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              disabled={isPending}
-            />
-            <Button type='submit' disabled={isPending}>
-              Отправить
-            </Button>
-          </form>
-        </Drawer.Content>
-      </Drawer.Portal>
-    </Drawer.Root>
+      {/* Инпут */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleSend()
+        }}
+        className='mt-4 flex gap-2'
+      >
+        <Input
+          className='flex-1'
+          placeholder='Сообщение...'
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          disabled={isPending}
+        />
+        <Button type='submit' disabled={isPending}>
+          <Send className='w-4 h-4' />
+        </Button>
+      </form>
+    </div>
   )
 }
 

@@ -42,7 +42,7 @@ const RandomAIRecommendation = () => {
   }, [])
 
   return (
-    <div className='text-xs font-medium text-[#F8F1E4] mb-4'>
+    <div className='text-xs font-medium text-gray-500 mb-2'>
       <span className='italic'>{randomRecommendation}</span>
     </div>
   )
@@ -52,14 +52,15 @@ export const PropertyCard = ({ item }: Props) => {
   const image = JSON.parse(item.cover_image_url || '{}')?.url
 
   return (
-    <Card className='flex flex-col h-full rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-[#1A1F36]'>
-      <CardContent className='p-4 flex flex-col justify-between h-full text-white'>
+    <Card className='p-2 flex flex-col h-full rounded-2xl overflow-hidden bg-[#F8F8F8]'>
+      <CardContent className='p-2 flex flex-col justify-between h-full text-black'>
         {/* Рекомендация AI */}
         <RandomAIRecommendation />
+
         {/* Название и район */}
         <div>
           <div className='text-xl font-semibold uppercase tracking-wide'>{item.name}</div>
-          <div className='text-xs text-[#D1D5DB] mb-3'>{item.area}</div>
+          <div className='text-xs text-gray-500 mb-3'>{item.area}</div>
         </div>
 
         {/* Изображение */}
@@ -70,20 +71,18 @@ export const PropertyCard = ({ item }: Props) => {
         )}
 
         {/* Статус */}
-        <div className='text-sm text-[#D1D5DB] mb-6'>
-          <span className='font-medium text-white'>Статус:</span> {item.sale_status}
+        <div className='text-sm text-gray-600 mb-6'>
+          <span className='font-medium text-black'>Статус:</span> {item.sale_status}
         </div>
 
         {/* Кнопки */}
         <div className='flex items-center mt-auto w-full gap-2'>
-          <Button className='w-1/2 text-xs font-medium bg-[#F8F1E4] text-[#1A1F36] hover:bg-[#b9935e] transition rounded-l-full py-3'>
-            Узнать от AI
-          </Button>
+          <Button className='w-1/2 text-xs font-medium rounded-l-full py-3'>Узнать от AI</Button>
           <a
             href='https://t.me/ilnarshan'
             target='_blank'
             rel='noopener noreferrer'
-            className='w-1/2 text-center text-xs font-medium bg-[#F8F1E4] text-[#1A1F36] hover:bg-[#b9935e] transition rounded-r-full py-3 flex items-center justify-center'
+            className='w-1/2 text-center text-xs font-medium bg-[#ffffff] text-[#1A1F36] rounded-r-full py-3 flex items-center justify-center'
           >
             Написать агенту
           </a>

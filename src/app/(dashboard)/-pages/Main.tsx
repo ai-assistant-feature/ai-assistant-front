@@ -4,8 +4,7 @@ import { PropertyCard } from '@app/(dashboard)/-components/PropertyCard'
 import { usePropertiesQuery } from '../-api/getProperties.query'
 import { Chat } from '../-components/Chat'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
-
-import { House } from 'lucide-react'
+import { Header } from '../-components/Header'
 
 const Main = () => {
   const { data, isLoading, isFetching, isFetched } = usePropertiesQuery()
@@ -16,24 +15,13 @@ const Main = () => {
   return (
     <Page>
       <Page.Content>
-        <header className='w-full px-6 py-4 bg-[#F8F1E4] shadow-md rounded-full'>
-          <div className='max-w-7xl mx-auto flex items-center justify-between'>
-            {/* Название */}
-            <div className='text-xl font-semibold text-[#1A1F36]'>DubaiHomes</div>
+        <Header />
 
-            {/* Логотип */}
-            <div className='bg-[#F4E2D8] p-2 rounded-full'>
-              <House className='w-5 h-5 text-[#1A1F36]' />
-            </div>
-          </div>
-        </header>
-
-        <div className='bg-white  overflow-hidden mb-6 mt-8'>
-          <div className='max-w-5xl ml-auto text-right z-10'>
-            <h1 className='text-xl font-bold text-gray-900 mb-2 '>Элитная недвижимость в Дубае</h1>
+        <div className='bg-white overflow-hidden mb-6'>
+          <div className='max-w-5xl mx-auto text-center z-10'>
+            <h1 className='text-xl text-gray-900'>Ваш умный помощник</h1>
             <p className='text-sm md:text-xl text-gray-600'>
-              Персональный подбор квартир с помощью{' '}
-              <span className='font-semibold text-black'>искусственного интеллекта</span>.<br />
+              Персональный подбор квартир с помощью <span>искусственного интеллекта</span>.<br />
             </p>
           </div>
         </div>
