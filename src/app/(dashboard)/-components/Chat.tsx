@@ -12,7 +12,12 @@ type Message = {
 
 const Chat = () => {
   const [input, setInput] = useState('')
-  const [messages, setMessages] = useState<Message[]>([])
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      role: 'assistant',
+      content: 'Спросите меня о жилье — я помогу',
+    },
+  ])
 
   const scrollRef = useRef<HTMLDivElement | null>(null)
 

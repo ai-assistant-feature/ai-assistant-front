@@ -35,9 +35,9 @@ const Main = () => {
   return (
     <Page>
       <Page.Content>
-        <Header />
+        {/* <Header /> */}
 
-        <div className='text-sm text-center mb-4 mt-4'>Спросите меня о жилье — я помогу</div>
+        {/* <div className='text-sm text-center mb-4 mt-4'>Спросите меня о жилье — я помогу</div> */}
 
         {showSkeleton ? (
           <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4'>
