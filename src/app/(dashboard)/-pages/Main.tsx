@@ -5,7 +5,6 @@ import { PropertyCard } from '@app/(dashboard)/-components/PropertyCard'
 import { usePropertiesQuery } from '../-api/getProperties.query'
 import { Chat } from '../-components/Chat'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
-import { Header } from '../-components/Header'
 import logo from '@/assets/logo.jpeg'
 
 const Main = () => {
