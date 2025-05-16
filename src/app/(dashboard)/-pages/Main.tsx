@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Page } from '@/components/client/Page'
-import { Skeleton } from '@/components/ui/skeleton'
-import { PropertyCard } from '@app/(dashboard)/-components/PropertyCard'
+// import { Skeleton } from '@/components/ui/skeleton'
+// import { PropertyCard } from '@app/(dashboard)/-components/PropertyCard'
 import { usePropertiesQuery } from '../-api/getProperties.query'
 import { Chat } from '../-components/Chat'
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
+// import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import logo from '@/assets/logo.jpeg'
 
 const Main = () => {
@@ -38,7 +38,7 @@ const Main = () => {
 
         {/* <div className='text-sm text-center mb-4 mt-4'>Спросите меня о жилье — я помогу</div> */}
 
-        {showSkeleton ? (
+        {/* {showSkeleton ? (
           <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4'>
             <Skeleton className='h-48 w-full rounded-xl' />
           </div>
@@ -59,7 +59,7 @@ const Main = () => {
               ))}
             </CarouselContent>
           </Carousel>
-        )}
+        )} */}
 
         <Chat />
       </Page.Content>
