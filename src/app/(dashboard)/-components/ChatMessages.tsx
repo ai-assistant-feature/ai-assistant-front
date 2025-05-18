@@ -1,4 +1,4 @@
-import { Loader2, MessageSquareMore } from 'lucide-react'
+import { MessageSquareMore } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FC, useEffect, useRef } from 'react'
