@@ -1,5 +1,16 @@
 import { FC, useEffect, useRef } from 'react'
-import { ArrowUp } from 'lucide-react'
+import { ArrowUp, UserPen } from 'lucide-react'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 
 interface IProps {
   input: string
@@ -40,7 +51,38 @@ const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSend }) =>
         rows={1}
       />
 
-      <div className='flex justify-end'>
+      <div className='flex justify-between'>
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <button
+              type='button'
+              disabled={isPending}
+              className='bg-black rounded-full p-2 hover:bg-gray-800 transition disabled:opacity-50'
+            >
+              <UserPen className='text-white w-4 h-4' />
+            </button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Написать агенту</AlertDialogTitle>
+              <AlertDialogDescription>
+                Вы будете переведены на живого агента, который поможет вам подобрать подходящее
+                жильё.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Закрыть</AlertDialogCancel>
+              <a
+                href='https://t.me/ilnarshan'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='w-full'
+              >
+                <AlertDialogAction className='w-full'>Перейти</AlertDialogAction>
+              </a>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
         <button
           type='submit'
           disabled={isPending}

@@ -40,7 +40,7 @@ const RandomAIRecommendation = () => {
 
   return (
     <div className='text-xs font-medium text-gray-500 mb-2'>
-      <span className='italic'>{randomRecommendation}</span>
+      <span>{randomRecommendation}</span>
     </div>
   )
 }
@@ -49,13 +49,13 @@ export const PropertyCard = ({ item }: Props) => {
   const image = JSON.parse(item.cover_image_url || '{}')?.url
 
   return (
-    <Card className='p-2 flex flex-col h-full rounded-2xl overflow-hidden'>
+    <Card className='p-2 flex flex-col h-full overflow-hidden'>
       <CardContent className='p-2 flex flex-col justify-between h-full text-black'>
         <div className='flex gap-4'>
           {/* Изображение слева */}
           {image && (
             <div className='w-1/3'>
-              <img src={image} alt={item.name} className='w-full h-20 object-cover rounded-l-xl' />
+              <img src={image} alt={item.name} className='w-full h-16 object-cover rounded-l-xl' />
             </div>
           )}
 
@@ -64,26 +64,11 @@ export const PropertyCard = ({ item }: Props) => {
             {/* Рекомендация AI */}
             <RandomAIRecommendation />
             {/* Название и район */}
-            <div className='text-sm font-semibold uppercase tracking-wide truncate'>
-              {item.name}
-            </div>
+            <div className='text-sm uppercase tracking-wide truncate'>{item.name}</div>
 
             {/* Статус */}
-            <div className='text-sm text-gray-600 mb-4'>{item.sale_status}</div>
+            <div className='text-xs text-gray-600'>{item.sale_status}</div>
           </div>
-        </div>
-
-        {/* Кнопки */}
-        <div className='flex items-center  w-full gap-2 mt-2'>
-          <Button className='w-1/2 text-xs font-medium rounded-l-full py-1'>Узнать от AI</Button>
-          <a
-            href='https://t.me/ilnarshan'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='w-1/2 text-center text-xs font-medium bg-[#ffffff] text-[#1A1F36] rounded-r-full py-3 flex items-center justify-center'
-          >
-            Написать агенту
-          </a>
         </div>
       </CardContent>
     </Card>

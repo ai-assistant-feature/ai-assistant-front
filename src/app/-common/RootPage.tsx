@@ -5,15 +5,20 @@ import { App } from '@app/-common/App'
 import { queryClient } from '../../queryClient'
 import { ThemeProvider } from '@app/-common/context/ThemeProvider'
 import { Toaster } from '@/components/ui/sonner'
+import { SidebarProvider } from '@/components/ui/sidebar'
+import { AppSidebar } from '@app/-common/AppSidebar'
 
 function RootPage() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
-        <App>
-          <Outlet />
-          <Toaster />
-        </App>
+        <SidebarProvider>
+          <App>
+            <AppSidebar />
+            <Outlet />
+            <Toaster />
+          </App>
+        </SidebarProvider>
       </ThemeProvider>
     </QueryClientProvider>
   )
