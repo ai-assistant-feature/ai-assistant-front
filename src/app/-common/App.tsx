@@ -5,8 +5,6 @@ interface IProps {
 }
 
 const App: FC<IProps> = ({ children }) => {
-  // const { isLoading } = useGetUser(userId!)
-
   return children
 }
 
