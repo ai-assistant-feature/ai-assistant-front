@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Page } from '@/components/client/Page'
-// import { usePropertiesQuery } from '../-api/getProperties.query'
 import { Chat } from '../-components/Chat'
 import logo from '@/assets/logo.jpeg'
 import { Header } from '@app/-common/components/Header'
@@ -15,8 +14,6 @@ const Main = () => {
 
     return () => clearTimeout(timeout)
   }, [])
-
-  // const { data, isLoading, isFetching, isFetched } = usePropertiesQuery()
 
   if (showSplash) {
     return (
