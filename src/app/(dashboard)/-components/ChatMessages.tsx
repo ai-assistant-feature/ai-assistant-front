@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FC, useEffect, useRef } from 'react'
 import { TMessage } from '../-infra/chat.infra'
+import { useTranslation } from 'react-i18next'
 
 interface IProps {
   messages: TMessage[]
@@ -11,6 +12,7 @@ interface IProps {
 
 const ChatMessages: FC<IProps> = ({ messages, isPending }) => {
   const scrollRef = useRef<HTMLDivElement | null>(null)
+  const { t } = useTranslation()
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -23,11 +25,8 @@ const ChatMessages: FC<IProps> = ({ messages, isPending }) => {
           {messages.length === 0 && !isPending && (
             <div className='flex flex-col items-center justify-center text-center text-zinc-500 mt-20 px-4'>
               <MessageSquareMore className='w-6 h-6 mb-2 text-zinc-400' />
-              <h2 className='text-sm font-semibold mb-2'>Найди жильё с помощью AI</h2>
-              <p className='text-xs text-zinc-400'>
-                Просто напиши, что ты ищешь — и наш искусственный интеллект подберёт лучшие варианты
-                в Дубае и других городах.
-              </p>
+              <h2 className='text-sm font-semibold mb-2'>{t('chat.emptyState.title')}</h2>
+              <p className='text-xs text-zinc-400'>{t('chat.emptyState.description')}</p>
             </div>
           )}
 
@@ -51,13 +50,13 @@ const ChatMessages: FC<IProps> = ({ messages, isPending }) => {
           </AnimatePresence>
 
           {isPending && (
-            <div className='flex items-center gap-2 text-sm text-gray-500 pl-1'>
-              <span className='flex gap-[2px]'>
-                <span className='w-1.5 h-1.5 bg-black rounded-full animate-bounce [animation-delay:-0.3s]'></span>
-                <span className='w-1.5 h-1.5 bg-black rounded-full animate-bounce [animation-delay:-0.15s]'></span>
-                <span className='w-1.5 h-1.5 bg-black rounded-full animate-bounce'></span>
-              </span>
-            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className='py-2 text-sm text-gray-500'
+            >
+              {t('common.loading')}
+            </motion.div>
           )}
 
           <div ref={scrollRef} />

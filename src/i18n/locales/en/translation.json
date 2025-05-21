@@ -1,0 +1,58 @@
+{
+  "common": {
+    "welcome": "Welcome!",
+    "login": "Sign up or log in",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "search": "Search",
+    "loading": "Loading..."
+  },
+  "sidebar": {
+    "settings": "Settings",
+    "language": "Language",
+    "newChat": "New Chat",
+    "saveDescription": "Save your favorite items, share them with friends and come back to them anytime"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "account": "Account",
+    "notifications": "Notifications"
+  },
+  "auth": {
+    "login": "Log in",
+    "signup": "Sign up",
+    "logout": "Log out",
+    "forgotPassword": "Forgot password?"
+  },
+  "errors": {
+    "general": "Something went wrong",
+    "notFound": "Page not found",
+    "unauthorized": "Please log in to continue"
+  },
+  "chat": {
+    "findWithAI": "Find housing with AI",
+    "writeToAgent": "Write to agent",
+    "agentHelp": "You will be connected to a live agent who will help you find suitable housing.",
+    "goToAgent": "Go to agent",
+    "placeholder": "Write what you're looking for...",
+    "emptyState": {
+      "title": "Find housing with AI",
+      "description": "Just write what you're looking for — and our artificial intelligence will find the best options in Dubai and other cities."
+    }
+  },
+  "property": {
+    "recommendations": {
+      "aiRecommended": "AI Recommended",
+      "new": "New!",
+      "perfectPlace": "Perfect place",
+      "popularChoice": "Popular choice",
+      "bestChoice": "Best choice"
+    }
+  },
+  "tabs": {
+    "subscriptions": "Subscriptions",
+    "communities": "Communities"
+  }
+}

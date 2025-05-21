@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 type Property = {
   id: number
@@ -19,23 +20,25 @@ type Props = {
 }
 
 const RandomAIRecommendation = () => {
-  // Список возможных фраз
-  const recommendations = [
-    'Рекомендуется AI',
-    'Новинка!',
-    'Идеальное место',
-    'Популярный выбор',
-    'Лучший выбор',
+  const { t } = useTranslation()
+
+  // Список возможных ключей переводов
+  const recommendationKeys = [
+    'property.recommendations.aiRecommended',
+    'property.recommendations.new',
+    'property.recommendations.perfectPlace',
+    'property.recommendations.popularChoice',
+    'property.recommendations.bestChoice',
   ]
 
   // Состояние для случайной фразы
   const [randomRecommendation, setRandomRecommendation] = useState('')
 
   useEffect(() => {
-    // Функция для выбора случайной фразы
-    const randomIndex = Math.floor(Math.random() * recommendations.length)
-    setRandomRecommendation(recommendations[randomIndex])
-  }, [])
+    // Функция для выбора случайного ключа
+    const randomIndex = Math.floor(Math.random() * recommendationKeys.length)
+    setRandomRecommendation(t(recommendationKeys[randomIndex]))
+  }, [t])
 
   return (
     <div className='text-xs font-medium text-gray-500 mb-2'>
