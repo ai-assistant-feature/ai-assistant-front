@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { router } from './router'
 import { RouterProvider } from '@tanstack/react-router'
+import '@/i18n' // <-- добавь это
 
 declare module '@tanstack/react-router' {
   interface Register {

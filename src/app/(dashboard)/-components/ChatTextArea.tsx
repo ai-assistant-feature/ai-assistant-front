@@ -1,5 +1,6 @@
-import { FC, useEffect, useRef } from 'react'
-import { ArrowUp, UserPen } from 'lucide-react'
+import { FC } from 'react'
+import { Textarea } from '@/components/ui/textarea'
+import { UserPen, ArrowUp } from 'lucide-react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,44 +12,30 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import { useTranslation } from 'react-i18next'
 
 interface IProps {
   input: string
-  setInput: React.Dispatch<React.SetStateAction<string>>
+  setInput: (value: string) => void
   isPending: boolean
   handleSend: () => void
 }
 
-const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSend }) => {
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSend }) => {
+  const { t } = useTranslation()
 
-  useEffect(() => {
-    const textarea = textareaRef.current
-    if (textarea) {
-      textarea.style.height = 'auto'
-      const maxHeight = 200
-      const newHeight = Math.min(textarea.scrollHeight, maxHeight)
-      textarea.style.height = `${newHeight}px`
-      textarea.style.overflowY = textarea.scrollHeight > maxHeight ? 'auto' : 'hidden'
-    }
-  }, [input])
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    handleSend()
+  }
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault()
-        handleSend()
-      }}
-      className='fixed bottom-0 left-0 w-full bg-white px-4 pt-3 pb-6 gap-2 z-50 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] rounded-t-2xl border-t border-gray-200'
-    >
-      <textarea
-        ref={textareaRef}
-        className='flex-1 resize-none pt-3 pb-0 text-sm focus:outline-none max-h-[200px] min-h-[40px] w-full'
-        placeholder='Спросите что нибудь...'
+    <form onSubmit={handleSubmit} className='relative'>
+      <Textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        disabled={isPending}
-        rows={1}
+        placeholder={t('chat.placeholder')}
+        className='min-h-[56px] w-full resize-none rounded-2xl bg-white px-4 py-[1.3rem] focus-within:outline-none sm:text-sm'
       />
 
       <div className='flex justify-between'>
@@ -64,21 +51,18 @@ const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSend }) =>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Написать агенту</AlertDialogTitle>
-              <AlertDialogDescription>
-                Вы будете переведены на живого агента, который поможет вам подобрать подходящее
-                жильё.
-              </AlertDialogDescription>
+              <AlertDialogTitle>{t('chat.writeToAgent')}</AlertDialogTitle>
+              <AlertDialogDescription>{t('chat.agentHelp')}</AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Закрыть</AlertDialogCancel>
+              <AlertDialogCancel>{t('common.close')}</AlertDialogCancel>
               <a
                 href='https://t.me/ilnarshan'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='w-full'
               >
-                <AlertDialogAction className='w-full'>Перейти</AlertDialogAction>
+                <AlertDialogAction className='w-full'>{t('chat.goToAgent')}</AlertDialogAction>
               </a>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -94,5 +78,3 @@ const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSend }) =>
     </form>
   )
 }
-
-export { ChatTextArea }
