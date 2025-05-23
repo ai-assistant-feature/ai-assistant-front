@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { FC, useEffect, useRef } from 'react'
 import { TMessage } from '../-infra/chat.infra'
 import { useTranslation } from 'react-i18next'
+import { YandexMap } from './YandexMap'
 
 interface IProps {
   messages: TMessage[]
@@ -18,6 +19,15 @@ const ChatMessages: FC<IProps> = ({ messages, isPending }) => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isPending])
 
+  // Function to extract address from message
+  const extractAddress = (content: string) => {
+    // Simple regex to detect if message contains address-like content
+    const addressRegex =
+      /(?:адрес|находится по адресу|расположен[а-я]* по адресу|улица|проспект|переулок):\s*([^\n.]+)/i
+    const match = content.match(addressRegex)
+    return match ? match[1].trim() : null
+  }
+
   return (
     <div className='w-full flex flex-col mt-24'>
       <div className='flex-1 overflow-y-auto mb-24'>
@@ -31,22 +41,27 @@ const ChatMessages: FC<IProps> = ({ messages, isPending }) => {
           )}
 
           <AnimatePresence initial={false}>
-            {messages.map((msg, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-                className={`py-2 text-sm whitespace-pre-wrap break-words rounded-lg ${
-                  msg.role === 'user'
-                    ? 'px-4 bg-gray-100 self-end text-right max-w-[75%]'
-                    : 'bg-white self-start text-left w-full'
-                }`}
-              >
-                <ReactMarkdown>{msg.content}</ReactMarkdown>
-              </motion.div>
-            ))}
+            {messages.map((msg, idx) => {
+              // const address = msg.role === 'assistant' ? extractAddress(msg.content) : null
+              const address = 'Dubai Mall, Dubai, UAE'
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                  className={`py-2 text-sm whitespace-pre-wrap break-words rounded-lg ${
+                    msg.role === 'user'
+                      ? 'px-4 bg-gray-100 self-end text-right max-w-[75%]'
+                      : 'bg-white self-start text-left w-full'
+                  }`}
+                >
+                  <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  <YandexMap />
+                </motion.div>
+              )
+            })}
           </AnimatePresence>
 
           {isPending && (
