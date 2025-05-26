@@ -19,15 +19,6 @@ const ChatMessages: FC<IProps> = ({ messages, isPending }) => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isPending])
 
-  // Function to extract address from message
-  const extractAddress = (content: string) => {
-    // Simple regex to detect if message contains address-like content
-    const addressRegex =
-      /(?:адрес|находится по адресу|расположен[а-я]* по адресу|улица|проспект|переулок):\s*([^\n.]+)/i
-    const match = content.match(addressRegex)
-    return match ? match[1].trim() : null
-  }
-
   return (
     <div className='w-full flex flex-col mt-24'>
       <div className='flex-1 overflow-y-auto mb-24'>
@@ -42,8 +33,8 @@ const ChatMessages: FC<IProps> = ({ messages, isPending }) => {
 
           <AnimatePresence initial={false}>
             {messages.map((msg, idx) => {
-              // const address = msg.role === 'assistant' ? extractAddress(msg.content) : null
-              const address = 'Dubai Mall, Dubai, UAE'
+              const address = msg.role === 'assistant' ? 'Дубай Молл' : null
+
               return (
                 <motion.div
                   key={idx}
@@ -58,7 +49,7 @@ const ChatMessages: FC<IProps> = ({ messages, isPending }) => {
                   }`}
                 >
                   <ReactMarkdown>{msg.content}</ReactMarkdown>
-                  <YandexMap />
+                  {address && <YandexMap address={address} />}
                 </motion.div>
               )
             })}

@@ -1,7 +1,13 @@
 import { FC, useEffect, useRef, useState } from 'react'
 
 interface IProps {
-  address?: string // Make address optional
+  address?: string
+}
+
+declare global {
+  interface Window {
+    ymaps: any
+  }
 }
 
 const YandexMap: FC<IProps> = ({ address }) => {
@@ -9,66 +15,92 @@ const YandexMap: FC<IProps> = ({ address }) => {
   const map = useRef<any>(null)
   const defaultAddress = 'Dubai Mall, Dubai, UAE'
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const initMap = () => {
       if (!mapRef.current) return
 
-      // @ts-ignore - Yandex Maps API
-      const ymaps3 = window.ymaps3
-      console.log('YMaps API status:', !!ymaps3)
-
-      if (!ymaps3) {
-        console.error('Yandex Maps API not loaded')
+      const ymaps = window.ymaps
+      if (!ymaps) {
+        setError('Yandex Maps API not loaded')
+        setIsLoading(false)
         return
       }
 
-      const searchAddress = address || defaultAddress
-      console.log('Searching for address:', searchAddress)
-
-      // Initialize the map if it hasn't been initialized yet
-      if (!map.current) {
-        console.log('Initializing map...')
+      ymaps.ready(() => {
         try {
-          map.current = new ymaps3.YMap(mapRef.current, {
-            location: {
-              center: [55.2796, 25.1971], // Default coordinates (Dubai Mall)
+          const searchAddress = address || defaultAddress
+
+          // Initialize the map if it hasn't been initialized yet
+          if (!map.current) {
+            map.current = new ymaps.Map(mapRef.current, {
+              center: [25.1971, 55.2796], // Default coordinates (Dubai Mall)
               zoom: 15,
-            },
+              controls: ['zoomControl', 'fullscreenControl', 'geolocationControl'],
+            })
+
+            // Create a placemark
+            const placemark = new ymaps.Placemark(
+              map.current.getCenter(),
+              {
+                hintContent: searchAddress,
+                balloonContent: searchAddress,
+              },
+              {
+                preset: 'islands#redDotIcon',
+              },
+            )
+
+            map.current.geoObjects.add(placemark)
+          }
+
+          // Search for the address and update map
+          ymaps.geocode(searchAddress).then((res: any) => {
+            const firstGeoObject = res.geoObjects.get(0)
+            if (firstGeoObject) {
+              const coords = firstGeoObject.geometry.getCoordinates()
+              map.current.setCenter(coords, 15)
+
+              // Update placemark position
+              map.current.geoObjects.removeAll()
+              const placemark = new ymaps.Placemark(
+                coords,
+                {
+                  hintContent: searchAddress,
+                  balloonContent: searchAddress,
+                },
+                {
+                  preset: 'islands#redDotIcon',
+                },
+              )
+              map.current.geoObjects.add(placemark)
+            }
           })
 
-          // Add map controls
-          map.current.addChild(new ymaps3.YMapDefaultSchemeLayer())
-          map.current.addChild(new ymaps3.YMapDefaultFeaturesLayer())
-          map.current.addChild(new ymaps3.YMapControls({ position: 'right' }))
-          console.log('Map initialized successfully')
-
-          // Add marker for default location
-          const marker = new ymaps3.YMapMarker({
-            coordinates: [55.2796, 25.1971],
-            draggable: false,
-          })
-          map.current.addChild(marker)
-        } catch (error) {
-          console.error('Error initializing map:', error)
+          setIsLoading(false)
+        } catch (err) {
+          console.error('Error initializing map:', err)
+          setError('Error initializing map')
+          setIsLoading(false)
         }
-      }
-
-      setIsLoading(false)
+      })
     }
 
-    // Check if API is loaded
-    const checkAndInitMap = () => {
-      // @ts-ignore
-      if (window.ymaps3) {
-        initMap()
-      } else {
-        // If not loaded, wait and try again
-        setTimeout(checkAndInitMap, 500)
+    // Load Yandex Maps API if not already loaded
+    if (!window.ymaps) {
+      const script = document.createElement('script')
+      script.src = 'https://api-maps.yandex.ru/2.1/?apikey=YOUR_API_KEY&lang=en_US'
+      script.async = true
+      script.onload = initMap
+      script.onerror = () => {
+        setError('Failed to load Yandex Maps API')
+        setIsLoading(false)
       }
+      document.body.appendChild(script)
+    } else {
+      initMap()
     }
-
-    checkAndInitMap()
 
     return () => {
       if (map.current) {
@@ -76,59 +108,19 @@ const YandexMap: FC<IProps> = ({ address }) => {
         map.current = null
       }
     }
-  }, [])
-
-  // Effect for handling address changes
-  useEffect(() => {
-    if (!map.current || isLoading) return
-
-    const searchAddress = address || defaultAddress
-    // @ts-ignore
-    const ymaps3 = window.ymaps3
-
-    ymaps3.geocoding
-      .search(searchAddress)
-      .then((response: any) => {
-        console.log('Geocoding response:', response)
-        if (response.features.length > 0) {
-          const coordinates = response.features[0].geometry.coordinates
-          console.log('Found coordinates:', coordinates)
-
-          // Remove previous markers if they exist
-          map.current.children.each((child: any) => {
-            if (child instanceof ymaps3.YMapMarker) {
-              map.current.removeChild(child)
-            }
-          })
-
-          // Add marker
-          const marker = new ymaps3.YMapMarker({
-            coordinates: coordinates,
-            draggable: false,
-          })
-
-          map.current.addChild(marker)
-
-          // Center map on the found location
-          map.current.setLocation({
-            center: coordinates,
-            zoom: 15,
-          })
-        }
-      })
-      .catch((error: any) => {
-        console.error('Geocoding error:', error)
-      })
-  }, [address, isLoading])
+  }, [address])
 
   return (
-    <div
-      ref={mapRef}
-      className='w-full h-[300px] rounded-lg overflow-hidden my-4 border border-gray-200'
-    >
+    <div className='relative w-full h-[300px] rounded-lg overflow-hidden my-4 border border-gray-200'>
+      <div ref={mapRef} className='w-full h-full' />
       {isLoading && (
-        <div className='w-full h-full flex items-center justify-center bg-gray-100'>
-          Loading map...
+        <div className='absolute inset-0 flex items-center justify-center bg-gray-100 bg-opacity-75'>
+          <span className='text-gray-600'>Loading map...</span>
+        </div>
+      )}
+      {error && (
+        <div className='absolute inset-0 flex items-center justify-center bg-red-100 bg-opacity-75'>
+          <span className='text-red-600'>{error}</span>
         </div>
       )}
     </div>
