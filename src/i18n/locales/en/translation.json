@@ -6,7 +6,10 @@
     "cancel": "Cancel",
     "save": "Save",
     "search": "Search",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create"
   },
   "sidebar": {
     "settings": "Settings",
@@ -54,5 +57,9 @@
   "tabs": {
     "subscriptions": "Subscriptions",
     "communities": "Communities"
+  },
+  "map": {
+    "locationTitle": "Location",
+    "showOnMap": "Show on map"
   }
 }

@@ -1,27 +1,19 @@
 import { FC } from 'react'
 import { Textarea } from '@/components/ui/textarea'
-import { UserPen, ArrowUp } from 'lucide-react'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
+import { ArrowUp } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { AgentDialog } from './AgentDialog'
+import { cn } from '@/lib/utils'
 
 interface IProps {
   input: string
   setInput: (value: string | ((prev: string) => string)) => void
   isPending: boolean
   handleSend: () => void
+  hasError?: boolean
 }
 
-export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSend }) => {
+export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSend, hasError }) => {
   const { t } = useTranslation()
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -30,57 +22,40 @@ export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSen
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className='fixed bottom-0 left-0 right-0 bg-gray-50 p-4 border-t border-gray-200'
-    >
-      <div className='max-w-5xl mx-auto'>
-        <Textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={t('chat.placeholder')}
-          className='min-h-[56px] w-full resize-none rounded-2xl bg-white px-4 py-[1.3rem] focus-within:outline-none sm:text-sm'
-        />
-
-        <div className='flex justify-between mt-2'>
-          <AlertDialog>
-            <AlertDialogTrigger>
+    <div className='sticky bottom-0 left-0 right-0 w-full bg-gradient-to-b from-transparent via-white to-white border-t pt-2'>
+      <form
+        onSubmit={handleSubmit}
+        className={cn(
+          'isolate z-[3] w-full basis-auto md:border-transparent md:pt-0 dark:border-white/20 md:dark:border-transparent flex flex-col',
+          'pb-3',
+          hasError &&
+            'has-data-has-thread-error:pt-2 has-data-has-thread-error:[box-shadow:var(--sharp-edge-bottom-shadow)]',
+        )}
+      >
+        <div className='relative flex w-full flex-col'>
+          <div className='relative'>
+            <div className='absolute left-3 bottom-2.5'>
+              <AgentDialog isPending={isPending} />
+            </div>
+            <Textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder={t('chat.placeholder')}
+              className='w-full resize-none rounded-xl border border-black/10 bg-white pl-12 pr-12 py-[10px] focus-within:outline-none text-sm leading-5 shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]'
+              style={{ maxHeight: '200px', height: '52px', overflowY: 'hidden' }}
+            />
+            <div className='absolute right-3 bottom-2.5'>
               <button
-                type='button'
-                disabled={isPending}
-                className='bg-black rounded-full p-2 hover:bg-gray-800 transition disabled:opacity-50'
+                type='submit'
+                disabled={!input.trim() || isPending}
+                className='text-white bg-black hover:bg-gray-800 disabled:opacity-40 disabled:hover:bg-black rounded-full p-1.5 transition-colors'
               >
-                <UserPen className='text-white w-4 h-4' />
+                <ArrowUp className='w-4 h-4' />
               </button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>{t('chat.writeToAgent')}</AlertDialogTitle>
-                <AlertDialogDescription>{t('chat.agentHelp')}</AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>{t('common.close')}</AlertDialogCancel>
-                <a
-                  href='https://t.me/ilnarshan'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='w-full'
-                >
-                  <AlertDialogAction className='w-full'>{t('chat.goToAgent')}</AlertDialogAction>
-                </a>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-
-          <button
-            type='submit'
-            disabled={isPending}
-            className='bg-black rounded-full p-2 hover:bg-gray-800 transition disabled:opacity-50'
-          >
-            <ArrowUp className='text-white w-4 h-4' />
-          </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   )
 }
