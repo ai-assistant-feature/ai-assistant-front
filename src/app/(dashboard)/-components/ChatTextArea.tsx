@@ -22,7 +22,7 @@ export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSen
   }
 
   return (
-    <div className='sticky bottom-6 left-0 right-0 w-full bg-gradient-to-b from-transparent via-white to-white pt-2'>
+    <div className='sticky bottom-0 left-0 right-0 w-full bg-white'>
       <form
         onSubmit={handleSubmit}
         className={cn(

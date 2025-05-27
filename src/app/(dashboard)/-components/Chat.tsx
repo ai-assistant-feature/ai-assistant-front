@@ -49,6 +49,7 @@ const Chat = () => {
             isPending={isPending}
             handleSend={handleSend}
           />
+          {/* <div className='absolute bottom-0 h-10 red'></div> */}
         </div>
       </div>
     </div>
