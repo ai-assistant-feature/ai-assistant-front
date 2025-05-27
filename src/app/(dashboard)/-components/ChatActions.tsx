@@ -10,7 +10,7 @@ interface IChatActionsProps {
 
 export const ChatActions: FC<IChatActionsProps> = ({ isPending, isDisabled, onSubmit }) => {
   return (
-    <div className='flex items-center gap-2 absolute left-3 right-3 bottom-2.5'>
+    <div className='flex items-center gap-2 left-3 right-3 bottom-2.5'>
       <div>
         <AgentDialog isPending={isPending} />
       </div>

@@ -29,7 +29,7 @@ export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSen
         )}
       >
         <div className='relative w-full'>
-          <div className='relative border rounded-xl'>
+          <div className='relative border rounded-4xl p-8'>
             <div className='flex-1 mb-10'>
               <ChatInput value={input} onChange={setInput} />
             </div>
