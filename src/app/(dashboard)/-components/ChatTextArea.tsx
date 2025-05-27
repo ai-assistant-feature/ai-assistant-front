@@ -1,9 +1,7 @@
 import { FC } from 'react'
-import { Textarea } from '@/components/ui/textarea'
-import { ArrowUp } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-import { AgentDialog } from './AgentDialog'
 import { cn } from '@/lib/utils'
+import { ChatInput } from './ChatInput'
+import { ChatActions } from './ChatActions'
 
 interface IProps {
   input: string
@@ -14,15 +12,13 @@ interface IProps {
 }
 
 export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSend, hasError }) => {
-  const { t } = useTranslation()
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     handleSend()
   }
 
   return (
-    <div className='sticky bottom-0 left-0 right-0 w-full bg-white'>
+    <div className='sticky bottom-6 left-0 right-0 w-full bg-white'>
       <form
         onSubmit={handleSubmit}
         className={cn(
@@ -32,27 +28,12 @@ export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSen
             'has-data-has-thread-error:pt-2 has-data-has-thread-error:[box-shadow:var(--sharp-edge-bottom-shadow)]',
         )}
       >
-        <div className='relative flex w-full flex-col'>
-          <div className='relative'>
-            <div className='absolute left-3 bottom-2.5'>
-              <AgentDialog isPending={isPending} />
+        <div className='relative w-full'>
+          <div className='relative border rounded-xl'>
+            <div className='flex-1 mb-10'>
+              <ChatInput value={input} onChange={setInput} />
             </div>
-            <Textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={t('chat.placeholder')}
-              className='w-full resize-none rounded-xl border border-black/10 bg-white pl-12 py-[10px] focus-within:outline-none text-sm leading-5'
-              style={{ maxHeight: '200px', height: '52px', overflowY: 'hidden' }}
-            />
-            <div className='absolute right-3 bottom-2.5'>
-              <button
-                type='submit'
-                disabled={!input.trim() || isPending}
-                className='text-white bg-black hover:bg-gray-800 disabled:opacity-40 disabled:hover:bg-black rounded-full p-1.5 transition-colors'
-              >
-                <ArrowUp className='w-4 h-4' />
-              </button>
-            </div>
+            <ChatActions isPending={isPending} isDisabled={!input.trim()} onSubmit={handleSend} />
           </div>
         </div>
       </form>
