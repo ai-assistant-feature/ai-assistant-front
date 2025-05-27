@@ -22,7 +22,7 @@ export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSen
   }
 
   return (
-    <div className='sticky bottom-6 left-0 right-0 w-full bg-gradient-to-b from-transparent via-white to-white border-t pt-2'>
+    <div className='sticky bottom-6 left-0 right-0 w-full bg-gradient-to-b from-transparent via-white to-white pt-2'>
       <form
         onSubmit={handleSubmit}
         className={cn(
@@ -41,7 +41,7 @@ export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSen
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={t('chat.placeholder')}
-              className='w-full resize-none rounded-xl border border-black/10 bg-white pl-12 pr-12 py-[10px] focus-within:outline-none text-sm leading-5 shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]'
+              className='w-full resize-none rounded-xl border border-black/10 bg-white pl-12 py-[10px] focus-within:outline-none text-sm leading-5'
               style={{ maxHeight: '200px', height: '52px', overflowY: 'hidden' }}
             />
             <div className='absolute right-3 bottom-2.5'>
