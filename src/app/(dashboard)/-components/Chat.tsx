@@ -40,7 +40,7 @@ const Chat = () => {
 
   return (
     <div className='min-h-full w-full flex justify-center'>
-      <div className='w-full max-w-[40%] relative'>
+      <div className='w-full max-w-[60%] relative'>
         <div className='relative'>
           <ChatMessages messages={messages} isPending={isPending} />
           <ChatTextArea
