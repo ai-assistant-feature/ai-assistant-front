@@ -39,15 +39,19 @@ const Chat = () => {
   }
 
   return (
-    <>
-      <ChatMessages messages={messages} isPending={isPending} />
-      <ChatTextArea
-        input={input}
-        setInput={setInput}
-        isPending={isPending}
-        handleSend={handleSend}
-      />
-    </>
+    <div className='min-h-full w-full flex justify-center'>
+      <div className='w-full max-w-[40%] relative'>
+        <div className='relative'>
+          <ChatMessages messages={messages} isPending={isPending} />
+          <ChatTextArea
+            input={input}
+            setInput={setInput}
+            isPending={isPending}
+            handleSend={handleSend}
+          />
+        </div>
+      </div>
+    </div>
   )
 }
 

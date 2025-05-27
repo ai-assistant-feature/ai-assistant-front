@@ -6,7 +6,10 @@
     "cancel": "Отмена",
     "save": "Сохранить",
     "search": "Поиск",
-    "loading": "Загрузка..."
+    "loading": "Загрузка...",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "create": "Создать"
   },
   "sidebar": {
     "settings": "Настройки",
@@ -54,5 +57,9 @@
   "tabs": {
     "subscriptions": "Подписки",
     "communities": "Сообщества"
+  },
+  "map": {
+    "locationTitle": "Местоположение",
+    "showOnMap": "Показать на карте"
   }
 }
