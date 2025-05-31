@@ -43,6 +43,10 @@
     "emptyState": {
       "title": "Find housing with AI",
       "description": "Just write what you're looking for — and our artificial intelligence will find the best options in Dubai and other cities."
+    },
+    "tabs": {
+      "list": "List",
+      "map": "Map"
     }
   },
   "property": {
