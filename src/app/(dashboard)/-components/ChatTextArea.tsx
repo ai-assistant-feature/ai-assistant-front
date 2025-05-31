@@ -11,7 +11,7 @@ interface IProps {
   hasError?: boolean
 }
 
-export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSend, hasError }) => {
+export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSend }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     handleSend()
@@ -23,14 +23,11 @@ export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSen
         onSubmit={handleSubmit}
         className={cn(
           'isolate z-[3] w-full basis-auto md:border-transparent md:pt-0 dark:border-white/20 md:dark:border-transparent flex flex-col',
-          'pb-3',
-          hasError &&
-            'has-data-has-thread-error:pt-2 has-data-has-thread-error:[box-shadow:var(--sharp-edge-bottom-shadow)]',
         )}
       >
         <div className='relative w-full'>
-          <div className='relative border rounded-4xl p-8'>
-            <div className='flex-1 mb-10'>
+          <div className='relative border rounded-4xl p-6 pt-2'>
+            <div className='flex-1 mb-2'>
               <ChatInput value={input} onChange={setInput} />
             </div>
             <ChatActions isPending={isPending} isDisabled={!input.trim()} onSubmit={handleSend} />
