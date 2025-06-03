@@ -1,8 +1,11 @@
 import { useState } from 'react'
-import { useGptAskMutation } from '../-api/sendGptMessage.mutation'
-import { ChatTextArea } from './ChatTextArea'
-import { ChatMessages } from './ChatMessages'
-import { TMessage } from '../-infra/chat.infra'
+// api
+import { useGptAskMutation } from '@app/-chat/api/sendGptMessage.mutation'
+// interface
+import { TMessage } from '@app/-chat/infra/chat.infra'
+// components
+import { ChatTextArea } from '@app/-chat/components/ChatTextArea'
+import { ChatMessages } from '@app/-chat/components/ChatMessages'
 
 const Chat = () => {
   const [input, setInput] = useState('')

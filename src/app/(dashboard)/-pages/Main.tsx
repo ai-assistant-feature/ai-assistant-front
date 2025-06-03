@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Page } from '@/components/client/Page'
-import { Chat } from '../-components/Chat'
 import logo from '@/assets/logo.jpeg'
+
+// components
 import { Header } from '@app/-common/components/Header'
+import { Chat } from '@app/-chat/containers/Chat'
 
 const Main = () => {
   const [showSplash, setShowSplash] = useState(true)
