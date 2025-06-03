@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { ArrowUp } from 'lucide-react'
-import { AgentDialog } from './AgentDialog'
+// components
+import { AgentDialog } from '@app/-chat/components/AgentDialog'
 
 interface IChatActionsProps {
   isPending: boolean
