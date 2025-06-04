@@ -24,6 +24,7 @@ export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSen
     <div className='fixed bottom-0 left-0 right-0 w-full bg-white'>
       <div
         className={cn(
+          'mb-0 md:mb-6',
           'w-full mx-auto transition-all duration-200 ease-linear',
           'md:[transform:translateX(var(--sidebar-shift))]',
           'md:max-w-[var(--chat-width)]',
@@ -40,7 +41,7 @@ export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSen
           className='isolate z-[3] w-full flex flex-col md:border-transparent md:pt-0 dark:border-white/20 md:dark:border-transparent'
         >
           <div className='relative w-full'>
-            <div className='relative border rounded-4xl p-6 pt-2'>
+            <div className='relative border rounded-t-4xl md:rounded-4xl p-6 pt-2'>
               <div className='flex-1 mb-2'>
                 <ChatInput value={input} onChange={setInput} />
               </div>
