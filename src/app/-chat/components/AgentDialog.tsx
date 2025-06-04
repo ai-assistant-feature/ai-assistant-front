@@ -23,12 +23,8 @@ const AgentDialog: FC<IProps> = ({ isPending }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <button
-          type='button'
-          disabled={isPending}
-          className='text-white bg-black hover:bg-gray-800 disabled:opacity-40 disabled:hover:bg-black rounded-full p-1.5 transition-colors'
-        >
-          <UserPen className='w-4 h-4' />
+        <button type='button' disabled={isPending}>
+          <UserPen className='w-6 h-6' />
         </button>
       </AlertDialogTrigger>
       <AlertDialogContent>
