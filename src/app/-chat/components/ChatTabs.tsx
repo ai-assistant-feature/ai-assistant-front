@@ -6,8 +6,8 @@ import { TestListFlats } from '@app/-chat/components/flats/TestListFlats'
 export const ChatTabs = () => {
   const { t } = useTranslation()
   return (
-    <Tabs defaultValue='list' className='w-full'>
-      <TabsList className='grid w-full grid-cols-2 mb-4'>
+    <Tabs defaultValue='list' className='w-full mt-4'>
+      <TabsList className='grid w-[70%] ml-auto grid-cols-2 mb-4'>
         <TabsTrigger value='list'>{t('chat.tabs.list')}</TabsTrigger>
         <TabsTrigger value='map'>{t('chat.tabs.map')}</TabsTrigger>
       </TabsList>

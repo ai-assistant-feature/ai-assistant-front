@@ -2,35 +2,45 @@ import { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Flat } from './types'
 import { testFlats } from './testData'
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 
 export const TestListFlats = () => {
   const [selectedFlat, setSelectedFlat] = useState<Flat | null>(null)
 
   return (
     <>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4'>
-        {testFlats.map((flat) => (
-          <div
-            key={flat.id}
-            onClick={() => setSelectedFlat(flat)}
-            className='bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer'
-          >
-            <div className='relative h-40'>
-              <img src={flat.image} alt={flat.title} className='w-full h-full object-cover' />
-            </div>
-            <div className='p-3'>
-              <h3 className='text-base font-semibold mb-1 line-clamp-1'>{flat.title}</h3>
-              <div className='flex justify-between items-center'>
-                <div className='text-sm text-gray-600'>
-                  {flat.rooms} комн. • {flat.area} м²
+      <div>
+        <Carousel
+          opts={{
+            align: 'start',
+            containScroll: 'trimSnaps',
+          }}
+          className='w-full'
+        >
+          <CarouselContent className='-ml-2 md:-ml-4'>
+            {testFlats.map((flat) => (
+              <CarouselItem key={flat.id} className='pl-2 md:pl-4 basis-[85%] md:basis-[45%]'>
+                <div
+                  onClick={() => setSelectedFlat(flat)}
+                  className='bg-white overflow-hidden cursor-pointer rounded-lg'
+                >
+                  <div className='relative h-40'>
+                    <img src={flat.image} alt={flat.title} className='w-full h-full object-cover' />
+                  </div>
+                  <div className='p-3 bg-gray-50'>
+                    <h3 className='text-base font-semibold mb-1 line-clamp-1'>{flat.title}</h3>
+                    <div className='flex justify-between items-center'>
+                      <div className='text-sm text-gray-600'>
+                        {flat.rooms} комн. • {flat.area} м²
+                      </div>
+                      <div className='text-base font-bold'>{flat.price.toLocaleString()} ₽</div>
+                    </div>
+                  </div>
                 </div>
-                <div className='text-base font-bold text-blue-600'>
-                  {flat.price.toLocaleString()} ₽
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
       </div>
 
       <Dialog open={!!selectedFlat} onOpenChange={() => setSelectedFlat(null)}>

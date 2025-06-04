@@ -26,13 +26,12 @@ const Main = () => {
   }
 
   return (
-    <Page>
-      <Page.Content>
-        <Header />
+    //
+    <div>
+      <Header />
 
-        <Chat />
-      </Page.Content>
-    </Page>
+      <Chat />
+    </div>
   )
 }
 

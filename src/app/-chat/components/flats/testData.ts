@@ -3,7 +3,7 @@ import { Flat } from './types'
 export const testFlats: Flat[] = [
   {
     id: 1,
-    title: 'Современная квартира в центре',
+    title: 'Dubai Sports City',
     price: 85000,
     location: '72 6B Street - Al Quoz - Al Quoz Industrial Area 3 - Dubai - ОАЭ',
     rooms: 2,
@@ -12,7 +12,7 @@ export const testFlats: Flat[] = [
   },
   {
     id: 2,
-    title: 'Уютная студия с ремонтом',
+    title: 'Jumeirah Village Triangle',
     price: 45000,
     location: 'King Salman Bin Abdulaziz Al Saud St - Al Sufouh 1 - Dubai - ОАЭ',
     rooms: 1,
@@ -21,7 +21,7 @@ export const testFlats: Flat[] = [
   },
   {
     id: 3,
-    title: 'Просторная трехкомнатная',
+    title: 'Al Furjan',
     price: 120000,
     location: 'Jumeirah Al Qasr - Al Sufouh 1 - Dubai - ОАЭ',
     rooms: 3,

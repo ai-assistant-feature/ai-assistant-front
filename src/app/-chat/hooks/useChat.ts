@@ -6,7 +6,7 @@ export const useChat = () => {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState<TMessage[]>([])
 
-  const { mutate, isPending } = useGptAskMutation()
+  const { mutate, isPending, isError } = useGptAskMutation()
 
   const handleSend = () => {
     if (!input.trim()) return
@@ -41,6 +41,7 @@ export const useChat = () => {
     setInput,
     messages,
     isPending,
+    isError,
     handleSend,
   }
 }

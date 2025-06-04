@@ -10,6 +10,7 @@ import { GPTMessage } from './messages/GPTMessage'
 interface IProps {
   messages: TMessage[]
   isPending: boolean
+  isError: boolean
 }
 
 const EmptyState = () => {
@@ -56,13 +57,18 @@ const MessageList = ({ messages }: { messages: TMessage[] }) => {
   )
 }
 
-const ChatMessages: FC<IProps> = ({ messages, isPending }) => {
+const ChatMessages: FC<IProps> = ({ messages, isPending, isError }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   return (
     <div className='flex-1 overflow-y-auto'>
       {messages.length === 0 ? <EmptyState /> : <MessageList messages={messages} />}
       {isPending && <LoadingState />}
+      {isError && (
+        <div className='p-4 text-red-500 bg-red-50 rounded-lg m-4'>
+          Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте еще раз.
+        </div>
+      )}
       <div ref={messagesEndRef} />
     </div>
   )

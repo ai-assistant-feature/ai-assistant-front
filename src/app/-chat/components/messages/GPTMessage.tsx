@@ -19,7 +19,14 @@ export const GPTMessage = ({ content }: GPTMessageProps) => {
         'bg-white self-start text-left w-full',
       )}
     >
-      <ChatTabs />
+      <div>
+        Вот несколько вариантов квартир в Дубае. Посмотри, пожалуйста — возможно, что-то стоит
+        уточнить или дополнить. Также дай знать, если есть дополнительные критерии, которые важно
+        учесть при подборе.
+      </div>
+      <div className='mb-4'>
+        <ChatTabs />
+      </div>
       <ReactMarkdown>{content}</ReactMarkdown>
     </motion.div>
   )
