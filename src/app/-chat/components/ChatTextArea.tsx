@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { cn } from '@/lib/utils'
 import { ChatInput } from './ChatInput'
 import { ChatActions } from './ChatActions'
+import { useSidebar } from '@/components/ui/sidebar'
 
 interface IProps {
   input: string
@@ -12,6 +13,8 @@ interface IProps {
 }
 
 export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSend }) => {
+  const { state } = useSidebar()
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     handleSend()
@@ -19,12 +22,22 @@ export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSen
 
   return (
     <div className='fixed bottom-0 left-0 right-0 w-full bg-white'>
-      <div className='w-full md:max-w-[60%] mx-auto'>
+      <div
+        className={cn(
+          'w-full mx-auto transition-all duration-200 ease-linear',
+          'md:[transform:translateX(var(--sidebar-shift))]',
+          'md:max-w-[var(--chat-width)]',
+        )}
+        style={
+          {
+            '--sidebar-shift': state === 'expanded' ? '8rem' : '0',
+            '--chat-width': state === 'expanded' ? 'calc(60% - 8rem)' : '60%',
+          } as React.CSSProperties
+        }
+      >
         <form
           onSubmit={handleSubmit}
-          className={cn(
-            'isolate z-[3] w-full basis-auto md:border-transparent md:pt-0 dark:border-white/20 md:dark:border-transparent flex flex-col',
-          )}
+          className='isolate z-[3] w-full flex flex-col md:border-transparent md:pt-0 dark:border-white/20 md:dark:border-transparent'
         >
           <div className='relative w-full'>
             <div className='relative border rounded-4xl p-6 pt-2'>
