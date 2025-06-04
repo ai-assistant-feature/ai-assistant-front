@@ -16,7 +16,7 @@ export default defineConfig({
     tsconfigPaths(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
+      includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png', 'splashscreens/*.png'],
       manifest: {
         name: 'Dubai',
         short_name: 'Dubai',
@@ -35,6 +35,14 @@ export default defineConfig({
             src: '/512.png',
             sizes: '512x512',
             type: 'image/png',
+          },
+        ],
+        screenshots: [
+          {
+            src: '/splashscreens/universal.png',
+            sizes: '2048x2732',
+            type: 'image/png',
+            label: 'Dubai App Screenshot',
           },
         ],
       },
