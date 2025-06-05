@@ -13,7 +13,8 @@ import { Button } from '@/components/ui/button'
 import { MessageSquareText, Globe } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
-import { LanguageDrawer } from '../components/LanguageDrawer'
+// components
+import { LanguageDrawer } from '@app/-common/components/LanguageDrawer'
 
 const LANGUAGES = {
   en: 'English',
