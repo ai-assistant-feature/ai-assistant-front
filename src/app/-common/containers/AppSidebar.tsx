@@ -10,10 +10,11 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { Button } from '@/components/ui/button'
-import { MessageSquareText, Globe, Check } from 'lucide-react'
+import { MessageSquareText, Globe } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { Drawer } from 'vaul'
 import { useState } from 'react'
+// components
+import { LanguageDrawer } from '@app/-common/components/LanguageDrawer'
 
 const LANGUAGES = {
   en: 'English',
@@ -87,34 +88,12 @@ export function AppSidebar() {
         </SidebarFooter>
       </Sidebar>
 
-      <Drawer.Root shouldScaleBackground open={isOpen} onOpenChange={setIsOpen}>
-        <Drawer.Portal>
-          <Drawer.Overlay className='fixed inset-0 bg-black/40' style={{ zIndex: 999 }} />
-          <Drawer.Content
-            className='bg-white flex flex-col fixed bottom-0 left-0 right-0 max-h-[96%] rounded-t-[10px]'
-            style={{ zIndex: 999 }}
-          >
-            <div className='p-4 bg-white rounded-t-[10px] flex-1'>
-              <div className='mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-gray-300 mb-8' />
-              <div className='max-w-md mx-auto'>
-                <h2 className='font-medium mb-4'>{t('sidebar.language')}</h2>
-                <div className='space-y-2'>
-                  {Object.entries(LANGUAGES).map(([code, name]) => (
-                    <button
-                      key={code}
-                      className='flex items-center justify-between w-full p-3 rounded-lg hover:bg-gray-100'
-                      onClick={() => changeLanguage(code as keyof typeof LANGUAGES)}
-                    >
-                      <span>{name}</span>
-                      {i18n.language === code && <Check className='w-4 h-4 text-green-500' />}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </Drawer.Content>
-        </Drawer.Portal>
-      </Drawer.Root>
+      <LanguageDrawer
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+        onLanguageChange={changeLanguage}
+        currentLanguage={i18n.language}
+      />
     </>
   )
 }
