@@ -5,42 +5,50 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  useSidebar,
 } from '@/components/ui/sidebar'
 import { Button } from '@/components/ui/button'
-import { MessageSquareText, Globe } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
+import { X } from 'lucide-react'
+// constants
+import { LANGUAGES, SIDEBAR_ITEMS, SIDEBAR_ACTION_TYPES } from '@app/-common/constants/sidebar'
 // components
 import { LanguageDrawer } from '@app/-common/components/LanguageDrawer'
+import { LanguagePopup } from '../components/LanguagePopup'
+import { SidebarMenuItems } from '@app/-common/components/SidebarMenuItems'
 
-const LANGUAGES = {
-  en: 'English',
-  ru: 'Русский',
-} as const
+const AppSidebar = () => {
+  const { setOpenMobile, isMobile } = useSidebar()
 
-export function AppSidebar() {
   const { t, i18n } = useTranslation()
-  const [isOpen, setIsOpen] = useState(false)
+  const [isLanguageDrawerOpen, setIsLanguageDrawerOpen] = useState(false)
 
   const currentLanguage = LANGUAGES[i18n.language as keyof typeof LANGUAGES] || i18n.language
 
   const changeLanguage = (lang: keyof typeof LANGUAGES) => {
     i18n.changeLanguage(lang)
-    setIsOpen(false)
+    setIsLanguageDrawerOpen(false)
   }
 
-  // Menu items.
-  const items = [
-    {
-      titleKey: 'sidebar.language',
-      icon: Globe,
-      showLanguage: true,
-      onClick: () => setIsOpen(true),
-    },
-  ]
+  const handleAction = (actionType: (typeof SIDEBAR_ITEMS)[number]['actionType']) => {
+    switch (actionType) {
+      case SIDEBAR_ACTION_TYPES.OPEN_LANGUAGE_DRAWER:
+        setIsLanguageDrawerOpen(true)
+        break
+      case SIDEBAR_ACTION_TYPES.OPEN_NEW_CHAT:
+        // TODO: Implement new chat functionality
+        console.log('Open new chat')
+        break
+      default:
+        console.warn('Unknown action type:', actionType)
+    }
+  }
+
+  const items = SIDEBAR_ITEMS.map((item) => ({
+    ...item,
+    onClick: () => handleAction(item.actionType),
+  }))
 
   return (
     <>
@@ -52,35 +60,24 @@ export function AppSidebar() {
       >
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel className='flex items-center gap-2 border-b border-gray-300 pb-3 mb-6 mt-4  rounded-none'>
-              <MessageSquareText className='w-5 h-5' />
-              <span>{t('sidebar.newChat')}</span>
+            <SidebarGroupLabel className='flex items-center justify-end mt-2'>
+              <Button
+                variant='ghost'
+                size='icon'
+                className='h-8 w-8'
+                onClick={() => setOpenMobile(false)}
+              >
+                <X className='h-4 w-4' />
+              </Button>
             </SidebarGroupLabel>
 
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {items.map((item) => (
-                  <SidebarMenuItem key={item.titleKey}>
-                    <SidebarMenuButton asChild>
-                      <div
-                        className='flex items-center gap-2 px-2 py-2 hover:bg-gray-100 rounded-md cursor-pointer'
-                        onClick={item.onClick}
-                      >
-                        {item.icon && <item.icon className='w-4 h-4 text-gray-500' />}
-                        <span className='text-gray-600'>{t(item.titleKey)}</span>
-                        {item.showLanguage && (
-                          <span className='ml-auto text-sm text-gray-400'>{currentLanguage}</span>
-                        )}
-                      </div>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
+            <SidebarGroupContent className='mt-6'>
+              <SidebarMenuItems items={items} currentLanguage={currentLanguage} />
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
 
-        <SidebarFooter className='p-4'>
+        <SidebarFooter className='p-4 mb-8'>
           <p className='mb-4 text-xs text-gray-600'>{t('sidebar.saveDescription')}</p>
           <Button disabled className='w-full'>
             {t('login')}
@@ -88,12 +85,23 @@ export function AppSidebar() {
         </SidebarFooter>
       </Sidebar>
 
-      <LanguageDrawer
-        isOpen={isOpen}
-        onOpenChange={setIsOpen}
-        onLanguageChange={changeLanguage}
-        currentLanguage={i18n.language}
-      />
+      {isMobile ? (
+        <LanguageDrawer
+          isOpen={isLanguageDrawerOpen}
+          onOpenChange={setIsLanguageDrawerOpen}
+          onLanguageChange={changeLanguage}
+          currentLanguage={i18n.language}
+        />
+      ) : (
+        <LanguagePopup
+          open={isLanguageDrawerOpen}
+          onOpenChange={setIsLanguageDrawerOpen}
+          currentLanguage={i18n.language}
+          onLanguageChange={changeLanguage}
+        />
+      )}
     </>
   )
 }
+
+export { AppSidebar }
