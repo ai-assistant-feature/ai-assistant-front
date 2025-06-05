@@ -14,9 +14,8 @@
   "sidebar": {
     "settings": "Settings",
     "language": "Language",
-    "selectLanguage": "Select Language",
     "newChat": "New Chat",
-    "saveDescription": "Save chat to continue later"
+    "saveDescription": "Save your favorite items, share them with friends and come back to them anytime"
   },
   "settings": {
     "title": "Settings",

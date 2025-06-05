@@ -1,5 +1,5 @@
 import { Outlet } from '@tanstack/react-router'
-import { AppSidebar } from '@app/-common/containers/AppSidebar'
+import { AppSidebar } from '@app/-common/components/AppSidebar'
 import { Toaster } from '@/components/ui/sonner'
 
 export function MainLayout() {
