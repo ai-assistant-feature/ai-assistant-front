@@ -48,7 +48,20 @@
     "tabs": {
       "list": "List",
       "map": "Map"
-    }
+    },
+    "quickQuestions": [
+      { "title": "Choose an apartment", "subtitle": "list top 5 best apartments" },
+      { "title": "Park view", "subtitle": "show new buildings with park view" },
+      { "title": "Maximum silence", "subtitle": "choose apartments in the quietest areas" },
+      { "title": "For families with children", "subtitle": "find housing near kindergarten and school" },
+      { "title": "Walking distance to metro", "subtitle": "looking for an apartment 10 minutes from the metro" },
+      { "title": "With good finishing", "subtitle": "show apartments with finishing" },
+      { "title": "Up to 10 million", "subtitle": "what options are there up to 10 million rubles" },
+      { "title": "At the start of sales", "subtitle": "looking for apartments in new buildings at the start of sales" },
+      { "title": "For investment", "subtitle": "what is better to buy for renting out" },
+      { "title": "Near the park", "subtitle": "show apartments near parks or squares" },
+      { "title": "With panoramic windows", "subtitle": "find apartments with panoramic windows" }
+    ]
   },
   "property": {
     "recommendations": {

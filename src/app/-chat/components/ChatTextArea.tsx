@@ -1,23 +1,31 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { ChatInput } from './ChatInput'
 import { ChatActions } from './ChatActions'
 import { useSidebar } from '@/components/ui/sidebar'
+import { QuickQuestions } from './QuickQuestions'
 
 interface IProps {
-  input: string
-  setInput: (value: string | ((prev: string) => string)) => void
   isPending: boolean
-  handleSend: () => void
-  hasError?: boolean
+  handleSend: (value: string) => void
 }
 
-export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSend }) => {
+export const ChatTextArea: FC<IProps> = ({ isPending, handleSend }) => {
   const { state } = useSidebar()
+  const [input, setInput] = useState('')
+  const [showQuickQuestions, setShowQuickQuestions] = useState(true)
+
+  const handleQuickSend = (value: string) => {
+    handleSend(value)
+    setShowQuickQuestions(false)
+    setInput('')
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    handleSend()
+    handleSend(input)
+    setInput('')
+    setShowQuickQuestions(false)
   }
 
   return (
@@ -36,6 +44,7 @@ export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSen
           } as React.CSSProperties
         }
       >
+        {showQuickQuestions && <QuickQuestions handleSend={handleQuickSend} />}
         <form
           onSubmit={handleSubmit}
           className='isolate z-[3] w-full flex flex-col md:border-transparent md:pt-0 dark:border-white/20 md:dark:border-transparent'
@@ -45,7 +54,11 @@ export const ChatTextArea: FC<IProps> = ({ input, setInput, isPending, handleSen
               <div className='flex-1 mb-2'>
                 <ChatInput value={input} onChange={setInput} />
               </div>
-              <ChatActions isPending={isPending} isDisabled={!input.trim()} onSubmit={handleSend} />
+              <ChatActions
+                isPending={isPending}
+                isDisabled={!input.trim()}
+                onSubmit={() => handleSend(input)}
+              />
             </div>
           </div>
         </form>

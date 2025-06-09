@@ -1,6 +1,7 @@
 /* Разобраться с темой */
 @import 'tailwindcss';
 @import "tw-animate-css";
+@import 'tailwind-scrollbar-hide/v4';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -119,3 +120,5 @@
     @apply bg-background text-foreground;
   }
 }
+
+

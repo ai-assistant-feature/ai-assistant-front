@@ -3,23 +3,22 @@ import { useGptAskMutation } from '@app/-chat/api/sendGptMessage.mutation'
 import { TMessage } from '@app/-chat/infra/chat.infra'
 
 export const useChat = () => {
-  const [input, setInput] = useState('')
   const [messages, setMessages] = useState<TMessage[]>([])
 
   const { mutate, isPending, isError } = useGptAskMutation()
 
-  const handleSend = () => {
-    if (!input.trim()) return
+  const handleSend = (value: string) => {
+    if (!value.trim()) return
 
     const userMessage: TMessage = {
       role: 'user',
-      content: input,
+      content: value,
     }
 
     setMessages((prev) => [...prev, userMessage])
 
     mutate(
-      { question: input },
+      { question: value },
       {
         onSuccess: (res) => {
           setMessages((prev) => [
@@ -32,13 +31,9 @@ export const useChat = () => {
         },
       },
     )
-
-    setInput('')
   }
 
   return {
-    input,
-    setInput,
     messages,
     isPending,
     isError,
