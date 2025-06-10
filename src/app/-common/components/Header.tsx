@@ -16,27 +16,27 @@ const Header = () => {
 
   return (
     <>
-      <header className='fixed top-0 left-0 right-0 z-50 w-full h-16 px-4 flex items-center border-b bg-white dark:bg-zinc-900 dark:border-zinc-800'>
+      <header className='fixed top-0 left-0 right-0 z-50 w-full h-16 px-4 flex items-center border-b bg-background border-border'>
         <div className='z-10'>
           <SidebarTrigger />
         </div>
 
         <div className='absolute inset-0 flex justify-center items-center pointer-events-none'>
-          <h1 className='text-lg font-semibold text-zinc-800 dark:text-white'>Rooma</h1>
+          <h1 className='text-lg font-semibold text-foreground'>Rooma</h1>
         </div>
 
         <div className='ml-auto z-10'>
           <button
             onClick={toggleDropdown}
-            className='p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition'
+            className='p-2 rounded-full hover:bg-accent hover:text-accent-foreground transition'
           >
-            <Sparkles className='w-5 h-5 text-zinc-800 dark:text-white' />
+            <Sparkles className='w-5 h-5' />
           </button>
         </div>
       </header>
 
       {showDropdown && (
-        <div className='fixed top-16 left-0 right-0 z-40 bg-white dark:bg-zinc-900 px-1 shadow-md py-4'>
+        <div className='fixed top-16 left-0 right-0 z-40 bg-background border-b border-border px-1 shadow-md py-4'>
           <Carousel className='w-full max-w-3xl mx-auto'>
             <CarouselContent>
               {isLoading || isFetching

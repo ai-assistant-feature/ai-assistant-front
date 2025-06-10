@@ -25,14 +25,14 @@ const Drawer: FC<IProps> = ({
     >
       <VaulDrawer.Portal>
         <VaulDrawer.Overlay className='fixed inset-0 bg-black/40 z-50' />
-        <VaulDrawer.Content className='bg-white flex flex-col fixed bottom-0 left-0 right-0 max-h-[96%] rounded-t-[10px] z-50'>
-          <div className='p-4 bg-white rounded-t-[10px] flex-1'>
+        <VaulDrawer.Content className='bg-background flex flex-col fixed bottom-0 left-0 right-0 max-h-[96%] rounded-t-[10px] z-50'>
+          <div className='p-4 bg-background rounded-t-[10px] flex-1'>
             <div className='max-w-md mx-auto'>
               <div className='flex items-center justify-between mb-4'>
                 <div></div>
-                <h2 className='font-medium'>{title}</h2>
+                <h2 className='font-medium text-foreground'>{title}</h2>
                 <button onClick={() => onOpenChange(false)}>
-                  <X className='w-5 h-5 text-gray-500' />
+                  <X className='w-5 h-5 text-muted-foreground' />
                 </button>
               </div>
               <div className='space-y-2'>{children}</div>

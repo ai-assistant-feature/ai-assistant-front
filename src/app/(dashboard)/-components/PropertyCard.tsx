@@ -41,7 +41,7 @@ const RandomAIRecommendation = () => {
   }, [t])
 
   return (
-    <div className='text-xs font-medium text-gray-500 mb-2'>
+    <div className='text-xs font-medium text-muted-foreground mb-2'>
       <span>{randomRecommendation}</span>
     </div>
   )
@@ -52,7 +52,7 @@ export const PropertyCard = ({ item }: Props) => {
 
   return (
     <Card className='p-2 flex flex-col h-full overflow-hidden'>
-      <CardContent className='p-2 flex flex-col justify-between h-full text-black'>
+      <CardContent className='p-2 flex flex-col justify-between h-full'>
         <div className='flex gap-4'>
           {/* Изображение слева */}
           {image && (
@@ -66,10 +66,12 @@ export const PropertyCard = ({ item }: Props) => {
             {/* Рекомендация AI */}
             <RandomAIRecommendation />
             {/* Название и район */}
-            <div className='text-sm uppercase tracking-wide truncate'>{item.name}</div>
+            <div className='text-sm uppercase tracking-wide truncate text-foreground'>
+              {item.name}
+            </div>
 
             {/* Статус */}
-            <div className='text-xs text-gray-600'>{item.sale_status}</div>
+            <div className='text-xs text-muted-foreground'>{item.sale_status}</div>
           </div>
         </div>
       </CardContent>

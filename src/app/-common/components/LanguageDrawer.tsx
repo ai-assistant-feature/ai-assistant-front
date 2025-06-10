@@ -28,11 +28,11 @@ const LanguageDrawer: FC<IProps> = ({
       {Object.entries(LANGUAGES).map(([code, name]) => (
         <button
           key={code}
-          className='flex items-center justify-between w-full p-3 rounded-lg hover:bg-gray-100'
+          className='flex items-center justify-between w-full p-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors'
           onClick={() => onLanguageChange(code as keyof typeof LANGUAGES)}
         >
-          <span>{name}</span>
-          {currentLanguage === code && <Check className='w-4 h-4 text-green-500' />}
+          <span className='text-foreground'>{name}</span>
+          {currentLanguage === code && <Check className='w-4 h-4 text-primary' />}
         </button>
       ))}
     </Drawer>

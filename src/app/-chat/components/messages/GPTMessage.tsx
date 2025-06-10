@@ -16,7 +16,7 @@ export const GPTMessage = ({ content }: GPTMessageProps) => {
       transition={{ duration: 0.3 }}
       className={cn(
         'py-2 text-sm whitespace-pre-wrap break-words rounded-lg',
-        'bg-white self-start text-left w-full',
+        'bg-background text-foreground self-start text-left w-full',
       )}
     >
       <div>
