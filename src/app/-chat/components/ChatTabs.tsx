@@ -17,7 +17,7 @@ export const ChatTabs = () => {
       </TabsContent>
 
       <TabsContent value='map' className='w-full'>
-        <div className='w-full bg-gray-50 rounded-lg'>
+        <div className='w-full bg-accent/50 rounded-lg'>
           <ChatMap />
         </div>
       </TabsContent>

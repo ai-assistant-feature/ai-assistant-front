@@ -23,13 +23,13 @@ export function SidebarMenuItems({ items, currentLanguage }: SidebarMenuItemsPro
         <SidebarMenuItem key={item.titleKey}>
           <SidebarMenuButton asChild>
             <div
-              className='flex items-center gap-2 px-2 py-2 pt-6 pb-6 hover:bg-gray-100 rounded-md cursor-pointer'
+              className='flex items-center gap-2 px-2 py-2 pt-6 pb-6 hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer transition-colors'
               onClick={item.onClick}
             >
-              {item.icon && <item.icon className='w-4 h-4 text-gray-500' />}
-              <span className='text-gray-600'>{t(item.titleKey)}</span>
+              {item.icon && <item.icon className='w-4 h-4 text-muted-foreground' />}
+              <span className='text-foreground'>{t(item.titleKey)}</span>
               {item.showLanguage && (
-                <span className='ml-auto text-sm text-gray-400'>{currentLanguage}</span>
+                <span className='ml-auto text-sm text-muted-foreground'>{currentLanguage}</span>
               )}
             </div>
           </SidebarMenuButton>

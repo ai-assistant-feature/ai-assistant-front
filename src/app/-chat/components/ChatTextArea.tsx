@@ -29,7 +29,7 @@ export const ChatTextArea: FC<IProps> = ({ isPending, handleSend }) => {
   }
 
   return (
-    <div className='fixed bottom-0 left-0 right-0 w-full bg-white'>
+    <div className='fixed bottom-0 left-0 right-0 w-full bg-background'>
       <div
         className={cn(
           'mb-0 md:mb-6',
@@ -47,10 +47,10 @@ export const ChatTextArea: FC<IProps> = ({ isPending, handleSend }) => {
         {showQuickQuestions && <QuickQuestions handleSend={handleQuickSend} />}
         <form
           onSubmit={handleSubmit}
-          className='isolate z-[3] w-full flex flex-col md:border-transparent md:pt-0 dark:border-white/20 md:dark:border-transparent'
+          className='isolate z-[3] w-full flex flex-col md:border-transparent md:pt-0'
         >
           <div className='relative w-full'>
-            <div className='relative border rounded-t-4xl md:rounded-4xl p-6 pt-2'>
+            <div className='relative border rounded-t-4xl md:rounded-4xl p-6 pt-2 bg-background border-border'>
               <div className='flex-1 mb-2'>
                 <ChatInput value={input} onChange={setInput} />
               </div>

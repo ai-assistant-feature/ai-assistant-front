@@ -16,10 +16,10 @@ interface IProps {
 const EmptyState = () => {
   const { t } = useTranslation()
   return (
-    <div className='flex flex-col items-center justify-center text-center text-zinc-500 px-4 mt-40 mb-10'>
-      <MessageSquareMore className='w-6 h-6 mb-2 text-zinc-400' />
+    <div className='flex flex-col items-center justify-center text-center text-muted-foreground px-4 mt-40 mb-10'>
+      <MessageSquareMore className='w-6 h-6 mb-2 text-muted-foreground' />
       <h2 className='text-sm font-semibold mb-2'>{t('chat.emptyState.title')}</h2>
-      <p className='text-xs text-zinc-400'>{t('chat.emptyState.description')}</p>
+      <p className='text-xs text-muted-foreground'>{t('chat.emptyState.description')}</p>
     </div>
   )
 }
@@ -30,7 +30,7 @@ const LoadingState = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className='py-2 text-sm text-gray-500'
+      className='py-2 text-sm text-muted-foreground'
     >
       {t('common.loading')}
     </motion.div>
@@ -65,7 +65,7 @@ const ChatMessages: FC<IProps> = ({ messages, isPending, isError }) => {
       {messages.length === 0 ? <EmptyState /> : <MessageList messages={messages} />}
       {isPending && <LoadingState />}
       {isError && (
-        <div className='p-4 text-red-500 bg-red-50 rounded-lg m-4'>
+        <div className='p-4 text-destructive bg-destructive/10 rounded-lg m-4'>
           Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте еще раз.
         </div>
       )}

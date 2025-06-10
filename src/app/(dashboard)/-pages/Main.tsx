@@ -4,7 +4,6 @@ import { Chat } from '@app/-chat/containers/Chat'
 
 const Main = () => {
   return (
-    //
     <div>
       <Header />
       <Chat />

@@ -30,7 +30,7 @@ const LanguagePopup = ({
         <AlertDialogHeader>
           <div className='flex items-center justify-between'>
             <div></div>
-            <div className='text-lg font-semibold'>{t('sidebar.language')}</div>
+            <div className='text-lg font-semibold text-foreground'>{t('sidebar.language')}</div>
             <Button
               variant='ghost'
               size='icon'
@@ -46,14 +46,14 @@ const LanguagePopup = ({
           {Object.entries(LANGUAGES).map(([code, name]) => (
             <button
               key={code}
-              className='flex items-center justify-between w-full p-3 rounded-lg hover:bg-gray-100'
+              className='flex items-center justify-between w-full p-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors'
               onClick={() => {
                 onLanguageChange(code as keyof typeof LANGUAGES)
                 onOpenChange(false)
               }}
             >
-              <span>{name}</span>
-              {currentLanguage === code && <Check className='w-4 h-4 text-green-500' />}
+              <span className='text-foreground'>{name}</span>
+              {currentLanguage === code && <Check className='w-4 h-4 text-primary' />}
             </button>
           ))}
         </div>

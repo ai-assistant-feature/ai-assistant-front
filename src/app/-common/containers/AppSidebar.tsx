@@ -52,12 +52,7 @@ const AppSidebar = () => {
 
   return (
     <>
-      <Sidebar
-        style={{
-          background: '#fff',
-        }}
-        className='flex flex-col justify-between h-full'
-      >
+      <Sidebar className='flex flex-col justify-between h-full'>
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel className='flex items-center justify-end mt-2'>
@@ -78,7 +73,7 @@ const AppSidebar = () => {
         </SidebarContent>
 
         <SidebarFooter className='p-4 mb-8'>
-          <p className='mb-4 text-xs text-gray-600'>{t('sidebar.saveDescription')}</p>
+          <p className='mb-4 text-xs text-muted-foreground'>{t('sidebar.saveDescription')}</p>
           <Button disabled className='w-full'>
             {t('login')}
           </Button>

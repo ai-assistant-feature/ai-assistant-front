@@ -22,18 +22,22 @@ export const TestListFlats = () => {
               <CarouselItem key={flat.id} className='pl-2 md:pl-4 basis-[85%] md:basis-[45%]'>
                 <div
                   onClick={() => setSelectedFlat(flat)}
-                  className='bg-white overflow-hidden cursor-pointer rounded-lg'
+                  className='bg-background overflow-hidden cursor-pointer rounded-lg border border-border'
                 >
                   <div className='relative h-40'>
                     <img src={flat.image} alt={flat.title} className='w-full h-full object-cover' />
                   </div>
-                  <div className='p-3 bg-gray-50'>
-                    <h3 className='text-base font-semibold mb-1 line-clamp-1'>{flat.title}</h3>
+                  <div className='p-3 bg-accent'>
+                    <h3 className='text-base font-semibold mb-1 line-clamp-1 text-accent-foreground'>
+                      {flat.title}
+                    </h3>
                     <div className='flex justify-between items-center'>
-                      <div className='text-sm text-gray-600'>
+                      <div className='text-sm text-muted-foreground'>
                         {flat.rooms} комн. • {flat.area} м²
                       </div>
-                      <div className='text-base font-bold'>{flat.price.toLocaleString()} ₽</div>
+                      <div className='text-base font-bold text-accent-foreground'>
+                        {flat.price.toLocaleString()} ₽
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -48,7 +52,9 @@ export const TestListFlats = () => {
           {selectedFlat && (
             <>
               <DialogHeader className='p-4 sm:p-0'>
-                <DialogTitle className='text-2xl font-bold'>{selectedFlat.title}</DialogTitle>
+                <DialogTitle className='text-2xl font-bold text-foreground'>
+                  {selectedFlat.title}
+                </DialogTitle>
               </DialogHeader>
 
               <div className='relative h-64 sm:h-72 mb-4'>
@@ -60,7 +66,7 @@ export const TestListFlats = () => {
               </div>
 
               <div className='space-y-4 p-4 sm:p-0'>
-                <div className='flex items-center text-gray-700'>
+                <div className='flex items-center text-muted-foreground'>
                   <svg
                     className='w-5 h-5 mr-2'
                     fill='none'
@@ -84,24 +90,28 @@ export const TestListFlats = () => {
                 </div>
 
                 <div className='grid grid-cols-2 gap-4'>
-                  <div className='bg-gray-50 p-3 rounded-lg'>
-                    <div className='text-sm text-gray-600'>Комнаты</div>
-                    <div className='text-lg font-semibold'>{selectedFlat.rooms}</div>
+                  <div className='bg-accent p-3 rounded-lg'>
+                    <div className='text-sm text-muted-foreground'>Комнаты</div>
+                    <div className='text-lg font-semibold text-accent-foreground'>
+                      {selectedFlat.rooms}
+                    </div>
                   </div>
-                  <div className='bg-gray-50 p-3 rounded-lg'>
-                    <div className='text-sm text-gray-600'>Площадь</div>
-                    <div className='text-lg font-semibold'>{selectedFlat.area} м²</div>
+                  <div className='bg-accent p-3 rounded-lg'>
+                    <div className='text-sm text-muted-foreground'>Площадь</div>
+                    <div className='text-lg font-semibold text-accent-foreground'>
+                      {selectedFlat.area} м²
+                    </div>
                   </div>
                 </div>
 
-                <div className='bg-blue-50 p-4 rounded-lg'>
-                  <div className='text-sm text-gray-600'>Стоимость аренды</div>
-                  <div className='text-2xl font-bold text-blue-600'>
+                <div className='bg-primary/10 p-4 rounded-lg'>
+                  <div className='text-sm text-muted-foreground'>Стоимость аренды</div>
+                  <div className='text-2xl font-bold text-primary'>
                     {selectedFlat.price.toLocaleString()} ₽/мес
                   </div>
                 </div>
 
-                <button className='w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors'>
+                <button className='w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors'>
                   Связаться с агентом
                 </button>
               </div>

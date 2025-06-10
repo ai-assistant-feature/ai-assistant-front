@@ -15,7 +15,7 @@ export const UserMessage = ({ content }: UserMessageProps) => {
       transition={{ duration: 0.3 }}
       className={cn(
         'py-2 text-sm whitespace-pre-wrap break-words rounded-lg',
-        'px-4 bg-gray-100 self-end text-right max-w-[75%]',
+        'px-4 bg-accent text-accent-foreground self-end text-right max-w-[75%]',
       )}
     >
       <ReactMarkdown>{content}</ReactMarkdown>

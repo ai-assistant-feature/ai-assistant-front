@@ -17,11 +17,15 @@ export const QuickQuestions: FC<QuickQuestionsProps> = ({ handleSend }) => {
           <button
             key={i}
             type='button'
-            className='flex flex-col px-4 py-2 rounded-2xl bg-gray-100 hover:bg-gray-200 transition w-auto max-w-[200px]'
+            className='flex flex-col px-4 py-2 rounded-2xl bg-accent hover:bg-accent/80 transition w-auto max-w-[200px]'
             onClick={() => handleSend(q.value)}
           >
-            <div className='text-sm font-bold truncate self-start'>{q.title}</div>
-            <div className='text-gray-400 text-xs leading-tight truncate w-full'>{q.subtitle}</div>
+            <div className='text-sm font-bold truncate self-start text-accent-foreground'>
+              {q.title}
+            </div>
+            <div className='text-muted-foreground text-xs leading-tight truncate w-full'>
+              {q.subtitle}
+            </div>
           </button>
         ))}
       </div>
