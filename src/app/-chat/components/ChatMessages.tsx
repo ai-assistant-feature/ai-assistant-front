@@ -1,11 +1,12 @@
 import { MessageSquareMore } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import { FC, useRef } from 'react'
 import { TMessage } from '@app/-chat/infra/chat.infra'
 import { useTranslation } from 'react-i18next'
 
 import { UserMessage } from './messages/UserMessage'
 import { GPTMessage } from './messages/GPTMessage'
+import { ChatLoading } from './ChatLoading'
 
 interface IProps {
   messages: TMessage[]
@@ -22,19 +23,6 @@ const EmptyState = () => {
       <h2 className='text-sm font-semibold mb-2'>{t('chat.emptyState.title')}</h2>
       <p className='text-xs text-muted-foreground'>{t('chat.emptyState.description')}</p>
     </div>
-  )
-}
-
-const LoadingState = () => {
-  const { t } = useTranslation()
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className='py-2 text-sm text-muted-foreground'
-    >
-      {t('common.loading')}
-    </motion.div>
   )
 }
 
@@ -65,7 +53,7 @@ const ChatMessages: FC<IProps> = ({ messages, isPending, isError, inputHeight = 
   return (
     <div className='flex-1 overflow-y-auto' style={{ marginBottom: `${inputHeight + 62}px` }}>
       {messages.length === 0 ? <EmptyState /> : <MessageList messages={messages} />}
-      {isPending && <LoadingState />}
+      {!isPending && <ChatLoading />}
       {isError && (
         <div className='p-4 text-destructive bg-destructive/10 rounded-lg m-4'>
           Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте еще раз.
