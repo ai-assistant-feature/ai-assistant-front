@@ -8,9 +8,10 @@ import { QuickQuestions } from './QuickQuestions'
 interface IProps {
   isPending: boolean
   handleSend: (value: string) => void
+  onHeightChange?: (height: number) => void
 }
 
-export const ChatTextArea: FC<IProps> = ({ isPending, handleSend }) => {
+export const ChatTextArea: FC<IProps> = ({ isPending, handleSend, onHeightChange }) => {
   const { state } = useSidebar()
   const [input, setInput] = useState('')
   const [showQuickQuestions, setShowQuickQuestions] = useState(true)
@@ -52,7 +53,7 @@ export const ChatTextArea: FC<IProps> = ({ isPending, handleSend }) => {
           <div className='relative w-full'>
             <div className='relative border rounded-t-4xl md:rounded-4xl p-6 pt-2 bg-background border-border'>
               <div className='flex-1 mb-2'>
-                <ChatInput value={input} onChange={setInput} />
+                <ChatInput value={input} onChange={setInput} onHeightChange={onHeightChange} />
               </div>
               <ChatActions
                 isPending={isPending}

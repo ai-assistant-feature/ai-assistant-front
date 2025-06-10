@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import { Textarea } from '@/components/ui/textarea'
 import { useTranslation } from 'react-i18next'
 
@@ -7,13 +7,34 @@ interface IChatInputProps {
   onChange: (value: string) => void
   placeholder?: string
   className?: string
+  onHeightChange?: (height: number) => void
 }
 
-export const ChatInput: FC<IChatInputProps> = ({ value, onChange, placeholder, className }) => {
+export const ChatInput: FC<IChatInputProps> = ({
+  value,
+  onChange,
+  placeholder,
+  className,
+  onHeightChange,
+}) => {
   const { t } = useTranslation()
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    const updateHeight = () => {
+      if (textareaRef.current && onHeightChange) {
+        onHeightChange(textareaRef.current.offsetHeight)
+      }
+    }
+
+    updateHeight()
+    window.addEventListener('resize', updateHeight)
+    return () => window.removeEventListener('resize', updateHeight)
+  }, [value, onHeightChange])
 
   return (
     <Textarea
+      ref={textareaRef}
       rows={1}
       value={value}
       onChange={(e) => onChange(e.target.value)}

@@ -11,6 +11,7 @@ interface IProps {
   messages: TMessage[]
   isPending: boolean
   isError: boolean
+  inputHeight?: number
 }
 
 const EmptyState = () => {
@@ -57,11 +58,12 @@ const MessageList = ({ messages }: { messages: TMessage[] }) => {
   )
 }
 
-const ChatMessages: FC<IProps> = ({ messages, isPending, isError }) => {
+const ChatMessages: FC<IProps> = ({ messages, isPending, isError, inputHeight = 0 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
+  console.log(inputHeight)
   return (
-    <div className='flex-1 overflow-y-auto'>
+    <div className='flex-1 overflow-y-auto' style={{ marginBottom: `${inputHeight + 62}px` }}>
       {messages.length === 0 ? <EmptyState /> : <MessageList messages={messages} />}
       {isPending && <LoadingState />}
       {isError && (
