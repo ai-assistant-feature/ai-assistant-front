@@ -53,7 +53,7 @@ const ChatMessages: FC<IProps> = ({ messages, isPending, isError, inputHeight = 
   return (
     <div className='flex-1 overflow-y-auto' style={{ marginBottom: `${inputHeight + 62}px` }}>
       {messages.length === 0 ? <EmptyState /> : <MessageList messages={messages} />}
-      {!isPending && <ChatLoading />}
+      {isPending && <ChatLoading />}
       {isError && (
         <div className='p-4 text-destructive bg-destructive/10 rounded-lg m-4'>
           Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте еще раз.

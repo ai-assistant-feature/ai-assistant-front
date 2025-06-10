@@ -8,7 +8,7 @@ const dotTransition = {
 
 const ChatLoading = () => {
   return (
-    <div className='flex items-center gap-1 py-2 text-muted-foreground'>
+    <div className='flex items-center gap-1 py-2 text-muted-foreground pb-24'>
       <motion.span
         className='block h-2 w-2 rounded-full bg-muted-foreground'
         animate={{ y: [0, -4, 0] }}
