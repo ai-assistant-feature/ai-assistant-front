@@ -47,7 +47,7 @@ const RandomAIRecommendation = () => {
   )
 }
 
-export const PropertyCard = ({ item }: Props) => {
+const HeaderPropertyCard = ({ item }: Props) => {
   const image = JSON.parse(item.cover_image_url || '{}')?.url
 
   return (
@@ -78,3 +78,5 @@ export const PropertyCard = ({ item }: Props) => {
     </Card>
   )
 }
+
+export { HeaderPropertyCard }
