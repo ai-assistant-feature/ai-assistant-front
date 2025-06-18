@@ -2,13 +2,14 @@ import { FC } from 'react'
 // components
 import { YandexMap } from '@app/-common/containers/YandexMap'
 
-export const ChatMap: FC = () => {
-  // TODO: get location from backend
-  const firstLocation = 'Дубай Молл'
+interface IProps {
+  coordinates?: [number, number][]
+}
 
+export const ChatMap: FC<IProps> = ({ coordinates }) => {
   return (
     <div className='w-full h-full'>
-      <YandexMap address={firstLocation} />
+      <YandexMap coordinates={coordinates} />
     </div>
   )
 }

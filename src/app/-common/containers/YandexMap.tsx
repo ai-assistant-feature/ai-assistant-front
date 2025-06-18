@@ -2,6 +2,7 @@ import { FC, useEffect, useRef, useState } from 'react'
 
 interface IProps {
   address?: string
+  coordinates?: [number, number] | [number, number][]
 }
 
 declare global {
@@ -10,7 +11,7 @@ declare global {
   }
 }
 
-const YandexMap: FC<IProps> = ({ address }) => {
+const YandexMap: FC<IProps> = ({ address, coordinates }) => {
   const mapRef = useRef<HTMLDivElement>(null)
   const map = useRef<any>(null)
   const defaultAddress = 'Dubai Mall, Dubai, UAE'
@@ -31,39 +32,33 @@ const YandexMap: FC<IProps> = ({ address }) => {
       ymaps.ready(() => {
         try {
           const searchAddress = address || defaultAddress
+          let centerCoords: [number, number]
+          let coordsArray: [number, number][] = []
+          if (coordinates) {
+            if (Array.isArray(coordinates[0])) {
+              coordsArray = coordinates as [number, number][]
+              centerCoords = coordsArray[0] || [25.1971, 55.2796]
+            } else {
+              coordsArray = [coordinates as [number, number]]
+              centerCoords = coordsArray[0]
+            }
+          } else {
+            centerCoords = [25.1971, 55.2796]
+          }
 
           // Initialize the map if it hasn't been initialized yet
           if (!map.current) {
             map.current = new ymaps.Map(mapRef.current, {
-              center: [25.1971, 55.2796], // Default coordinates (Dubai Mall)
+              center: centerCoords,
               zoom: 15,
               controls: ['zoomControl', 'fullscreenControl', 'geolocationControl'],
             })
-
-            // Create a placemark
-            const placemark = new ymaps.Placemark(
-              map.current.getCenter(),
-              {
-                hintContent: searchAddress,
-                balloonContent: searchAddress,
-              },
-              {
-                preset: 'islands#redDotIcon',
-              },
-            )
-
-            map.current.geoObjects.add(placemark)
           }
 
-          // Search for the address and update map
-          ymaps.geocode(searchAddress).then((res: any) => {
-            const firstGeoObject = res.geoObjects.get(0)
-            if (firstGeoObject) {
-              const coords = firstGeoObject.geometry.getCoordinates()
-              map.current.setCenter(coords, 15)
-
-              // Update placemark position
-              map.current.geoObjects.removeAll()
+          map.current.setCenter(centerCoords, 15)
+          map.current.geoObjects.removeAll()
+          if (coordsArray.length > 0) {
+            coordsArray.forEach((coords) => {
               const placemark = new ymaps.Placemark(
                 coords,
                 {
@@ -75,8 +70,31 @@ const YandexMap: FC<IProps> = ({ address }) => {
                 },
               )
               map.current.geoObjects.add(placemark)
-            }
-          })
+            })
+          } else {
+            // Search for the address and update map
+            ymaps.geocode(searchAddress).then((res: any) => {
+              const firstGeoObject = res.geoObjects.get(0)
+              if (firstGeoObject) {
+                const coords = firstGeoObject.geometry.getCoordinates()
+                map.current.setCenter(coords, 15)
+
+                // Update placemark position
+                map.current.geoObjects.removeAll()
+                const placemark = new ymaps.Placemark(
+                  coords,
+                  {
+                    hintContent: searchAddress,
+                    balloonContent: searchAddress,
+                  },
+                  {
+                    preset: 'islands#redDotIcon',
+                  },
+                )
+                map.current.geoObjects.add(placemark)
+              }
+            })
+          }
 
           setIsLoading(false)
         } catch (err) {
@@ -108,7 +126,7 @@ const YandexMap: FC<IProps> = ({ address }) => {
         map.current = null
       }
     }
-  }, [address])
+  }, [address, coordinates])
 
   return (
     <div className='relative w-full h-[300px] rounded-lg overflow-hidden my-4 border border-gray-200'>

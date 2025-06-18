@@ -6,9 +6,23 @@ import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carouse
 import { Drawer } from '@/components/client/Drawer'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 
-export const TestListFlats = () => {
+export const TestListFlats = ({ results }: { results?: any[] }) => {
   const [selectedFlat, setSelectedFlat] = useState<Flat | null>(null)
   const isMobile = useMediaQuery('(max-width: 768px)')
+
+  // если results есть, преобразуем к Flat[]
+  const flats: Flat[] =
+    results && Array.isArray(results)
+      ? results.map((item) => ({
+          id: item.id,
+          title: item.name || item.title || '',
+          price: item.price || 0,
+          location: item.area || item.location || '',
+          rooms: item.rooms || 1,
+          area: item.area_size || item.area || 0,
+          image: item.image || '',
+        }))
+      : testFlats
 
   const FlatDetails = () => (
     <>
@@ -79,7 +93,7 @@ export const TestListFlats = () => {
           className='w-full'
         >
           <CarouselContent className='-ml-2 md:-ml-4'>
-            {testFlats.map((flat) => (
+            {flats.map((flat) => (
               <CarouselItem key={flat.id} className='pl-2 md:pl-4 basis-[85%] md:basis-[45%]'>
                 <div
                   onClick={() => setSelectedFlat(flat)}
