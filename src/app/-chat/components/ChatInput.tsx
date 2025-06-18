@@ -2,7 +2,7 @@ import { FC, useEffect, useRef } from 'react'
 import { Textarea } from '@/components/ui/textarea'
 import { useTranslation } from 'react-i18next'
 
-interface IChatInputProps {
+interface IProps {
   value: string
   onChange: (value: string) => void
   placeholder?: string
@@ -10,7 +10,7 @@ interface IChatInputProps {
   onHeightChange?: (height: number) => void
 }
 
-export const ChatInput: FC<IChatInputProps> = ({
+export const ChatInput: FC<IProps> = ({
   value,
   onChange,
   placeholder,

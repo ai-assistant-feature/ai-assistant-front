@@ -1,9 +1,12 @@
 import { FC, useState } from 'react'
 import { cn } from '@/lib/utils'
-import { ChatInput } from './ChatInput'
-import { ChatActions } from './ChatActions'
+// ui
 import { useSidebar } from '@/components/ui/sidebar'
-import { QuickQuestions } from './QuickQuestions'
+
+// components
+import { ChatInput } from '@app/-chat/components/ChatInput'
+import { ChatActions } from '@app/-chat/components/ChatActions'
+import { QuickQuestions } from '@app/-chat/components/QuickQuestions'
 
 interface IProps {
   isPending: boolean

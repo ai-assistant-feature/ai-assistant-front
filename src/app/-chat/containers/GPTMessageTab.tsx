@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next'
+// ui
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ChatMap } from './ChatMap'
+// components
+import { ChatMap } from '@app/-chat/components/ChatMap'
 import { TestListFlats } from '@app/-chat/components/flats/TestListFlats'
 
-export const ChatTabs = () => {
+export const GPTMessageTab = () => {
   const { t } = useTranslation()
   return (
     <Tabs defaultValue='list' className='w-full mt-4'>

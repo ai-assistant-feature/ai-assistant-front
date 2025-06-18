@@ -4,9 +4,10 @@ import { FC, useRef } from 'react'
 import { TMessage } from '@app/-chat/infra/chat.infra'
 import { useTranslation } from 'react-i18next'
 
-import { UserMessage } from './messages/UserMessage'
-import { GPTMessage } from './messages/GPTMessage'
-import { ChatLoading } from './ChatLoading'
+// components
+import { UserMessage } from '@app/-chat/components/UserMessage'
+import { GPTMessage } from '@app/-chat/containers/GPTMessage'
+import { ChatLoading } from '@app/-chat/components/ChatLoading'
 
 interface IProps {
   messages: TMessage[]
@@ -49,7 +50,6 @@ const MessageList = ({ messages }: { messages: TMessage[] }) => {
 const ChatMessages: FC<IProps> = ({ messages, isPending, isError, inputHeight = 0 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  console.log(inputHeight)
   return (
     <div className='flex-1 overflow-y-auto' style={{ marginBottom: `${inputHeight + 62}px` }}>
       {messages.length === 0 ? <EmptyState /> : <MessageList messages={messages} />}

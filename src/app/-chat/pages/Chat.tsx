@@ -1,5 +1,5 @@
-import { ChatTextArea } from '@app/-chat/components/ChatTextArea'
-import { ChatMessages } from '@app/-chat/components/ChatMessages'
+import { ChatTextArea } from '@app/-chat/containers/ChatTextArea'
+import { ChatMessages } from '@app/-chat/containers/ChatMessages'
 import { useChat } from '@app/-chat/hooks/useChat'
 import { useState } from 'react'
 
