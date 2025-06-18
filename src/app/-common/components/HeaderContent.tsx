@@ -1,12 +1,13 @@
 import { FC } from 'react'
-import { Sparkles } from 'lucide-react'
+import { Sparkles, X } from 'lucide-react'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 
 interface HeaderContentProps {
   onToggleDropdown: () => void
+  isDropdownOpen: boolean
 }
 
-export const HeaderContent: FC<HeaderContentProps> = ({ onToggleDropdown }) => {
+export const HeaderContent: FC<HeaderContentProps> = ({ onToggleDropdown, isDropdownOpen }) => {
   return (
     <header className='fixed top-0 left-0 right-0 z-50 w-full h-16 px-4 flex items-center border-b bg-background border-border'>
       <div className='z-10'>
@@ -22,7 +23,7 @@ export const HeaderContent: FC<HeaderContentProps> = ({ onToggleDropdown }) => {
           onClick={onToggleDropdown}
           className='p-2 rounded-full hover:bg-accent hover:text-accent-foreground transition'
         >
-          <Sparkles className='w-5 h-5' />
+          {isDropdownOpen ? <X className='w-5 h-5' /> : <Sparkles className='w-5 h-5' />}
         </button>
       </div>
     </header>

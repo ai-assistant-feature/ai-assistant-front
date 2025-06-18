@@ -13,7 +13,7 @@ const Header = () => {
 
   return (
     <>
-      <HeaderContent onToggleDropdown={toggleDropdown} />
+      <HeaderContent onToggleDropdown={toggleDropdown} isDropdownOpen={showDropdown} />
       {showDropdown && (
         <HeaderDropdown isLoading={isLoading} isFetching={isFetching} items={data?.items} />
       )}
