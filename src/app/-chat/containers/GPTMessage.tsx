@@ -8,6 +8,7 @@ interface IProps {
   content: string
 }
 
+// TODO: gpt должен отвечать списком квартир, а не текстом
 export const GPTMessage: FC<IProps> = ({ content }) => {
   return (
     <motion.div

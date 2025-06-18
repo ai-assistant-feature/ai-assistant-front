@@ -8,6 +8,7 @@ interface IProps {
   placeholder?: string
   className?: string
   onHeightChange?: (height: number) => void
+  onEnter?: () => void
 }
 
 export const ChatInput: FC<IProps> = ({
@@ -16,6 +17,7 @@ export const ChatInput: FC<IProps> = ({
   placeholder,
   className,
   onHeightChange,
+  onEnter,
 }) => {
   const { t } = useTranslation()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -52,6 +54,12 @@ export const ChatInput: FC<IProps> = ({
         pb-2
         ${className || ''}
       `}
+      onKeyDown={(e) => {
+        if (onEnter && e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault()
+          onEnter()
+        }
+      }}
     />
   )
 }

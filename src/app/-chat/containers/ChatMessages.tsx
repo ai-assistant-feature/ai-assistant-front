@@ -1,8 +1,9 @@
 import { MessageSquareMore } from 'lucide-react'
 import { AnimatePresence } from 'framer-motion'
-import { FC, useRef } from 'react'
+import { FC, useRef, useEffect } from 'react'
 import { TMessage } from '@app/-chat/infra/chat.infra'
 import { useTranslation } from 'react-i18next'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 // components
 import { UserMessage } from '@app/-chat/components/UserMessage'
@@ -49,9 +50,16 @@ const MessageList = ({ messages }: { messages: TMessage[] }) => {
 
 const ChatMessages: FC<IProps> = ({ messages, isPending, isError, inputHeight = 0 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const isMobile = useIsMobile()
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages, isPending])
+
+  const marginBottom = isMobile ? inputHeight + 62 : inputHeight + 100
 
   return (
-    <div className='flex-1 overflow-y-auto' style={{ marginBottom: `${inputHeight + 62}px` }}>
+    <div className='flex-1 overflow-y-auto' style={{ marginBottom: `${marginBottom}px` }}>
       {messages.length === 0 ? <EmptyState /> : <MessageList messages={messages} />}
       {isPending && <ChatLoading />}
       {isError && (
