@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion'
 import ReactMarkdown from 'react-markdown'
 import { cn } from '@/lib/utils'
+import { FC } from 'react'
 
-interface UserMessageProps {
+interface IProps {
   content: string
 }
 
-export const UserMessage = ({ content }: UserMessageProps) => {
+export const UserMessage: FC<IProps> = ({ content }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}

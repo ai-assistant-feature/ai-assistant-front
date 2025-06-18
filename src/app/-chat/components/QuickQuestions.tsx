@@ -2,11 +2,11 @@ import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { getQuickQuestions } from '../constants/quickQuestions'
 
-interface QuickQuestionsProps {
+interface IProps {
   handleSend: (value: string) => void
 }
 
-export const QuickQuestions: FC<QuickQuestionsProps> = ({ handleSend }) => {
+export const QuickQuestions: FC<IProps> = ({ handleSend }) => {
   const { t } = useTranslation()
   const quickQuestions = getQuickQuestions(t)
 

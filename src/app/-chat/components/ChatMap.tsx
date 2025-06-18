@@ -1,8 +1,9 @@
 import { FC } from 'react'
 // components
-import { YandexMap } from '@app/-chat/components/YandexMap'
+import { YandexMap } from '@app/-common/containers/YandexMap'
 
 export const ChatMap: FC = () => {
+  // TODO: get location from backend
   const firstLocation = 'Дубай Молл'
 
   return (

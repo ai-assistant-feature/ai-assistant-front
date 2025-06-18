@@ -1,13 +1,14 @@
 import { motion } from 'framer-motion'
 import ReactMarkdown from 'react-markdown'
 import { cn } from '@/lib/utils'
-import { ChatTabs } from '@app/-chat/components/ChatTabs'
+import { GPTMessageTab } from '@app/-chat/containers/GPTMessageTab'
+import { FC } from 'react'
 
-interface GPTMessageProps {
+interface IProps {
   content: string
 }
 
-export const GPTMessage = ({ content }: GPTMessageProps) => {
+export const GPTMessage: FC<IProps> = ({ content }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -25,7 +26,7 @@ export const GPTMessage = ({ content }: GPTMessageProps) => {
         учесть при подборе.
       </div>
       <div className='mb-4'>
-        <ChatTabs />
+        <GPTMessageTab />
       </div>
       <ReactMarkdown>{content}</ReactMarkdown>
     </motion.div>

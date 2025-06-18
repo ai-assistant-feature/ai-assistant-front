@@ -1,5 +1,5 @@
 // components
-import { Chat } from '@app/-chat/containers/Chat'
+import { Chat } from '@app/-chat/pages/Chat'
 
 const Main = () => {
   return (

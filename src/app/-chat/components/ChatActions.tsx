@@ -3,13 +3,13 @@ import { ArrowUp } from 'lucide-react'
 // components
 import { AgentDialog } from '@app/-chat/components/AgentDialog'
 
-interface IChatActionsProps {
+interface IProps {
   isPending: boolean
   isDisabled: boolean
   onSubmit: () => void
 }
 
-export const ChatActions: FC<IChatActionsProps> = ({ isPending, isDisabled, onSubmit }) => {
+export const ChatActions: FC<IProps> = ({ isPending, isDisabled, onSubmit }) => {
   return (
     <div className='flex items-center gap-2 left-3 right-3 bottom-2.5'>
       <div>

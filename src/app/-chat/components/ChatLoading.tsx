@@ -1,10 +1,6 @@
 import { motion } from 'framer-motion'
-
-const dotTransition = {
-  repeat: Infinity,
-  ease: 'easeInOut',
-  duration: 0.6,
-}
+// styled
+import { DOT_TRANSITION } from '@app/-chat/styled/DotTransition'
 
 const ChatLoading = () => {
   return (
@@ -12,17 +8,17 @@ const ChatLoading = () => {
       <motion.span
         className='block h-2 w-2 rounded-full bg-muted-foreground'
         animate={{ y: [0, -4, 0] }}
-        transition={{ ...dotTransition, delay: 0 }}
+        transition={{ ...DOT_TRANSITION, delay: 0 }}
       />
       <motion.span
         className='block h-2 w-2 rounded-full bg-muted-foreground'
         animate={{ y: [0, -4, 0] }}
-        transition={{ ...dotTransition, delay: 0.2 }}
+        transition={{ ...DOT_TRANSITION, delay: 0.2 }}
       />
       <motion.span
         className='block h-2 w-2 rounded-full bg-muted-foreground'
         animate={{ y: [0, -4, 0] }}
-        transition={{ ...dotTransition, delay: 0.4 }}
+        transition={{ ...DOT_TRANSITION, delay: 0.4 }}
       />
     </div>
   )
