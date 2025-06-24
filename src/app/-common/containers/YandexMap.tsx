@@ -1,7 +1,14 @@
 import { FC, useEffect, useRef, useState } from 'react'
 
+interface Marker {
+  name: string
+  coordinates: string
+}
+
 interface IProps {
   address?: string
+  coordinates?: string
+  markers?: Marker[]
 }
 
 declare global {
@@ -10,12 +17,23 @@ declare global {
   }
 }
 
-const YandexMap: FC<IProps> = ({ address }) => {
+const YandexMap: FC<IProps> = ({ address, coordinates, markers = [] }) => {
   const mapRef = useRef<HTMLDivElement>(null)
   const map = useRef<any>(null)
   const defaultAddress = 'Dubai Mall, Dubai, UAE'
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  // Функция для парсинга координат
+  const parseCoordinates = (coordString: string): [number, number] | null => {
+    try {
+      const [lat, lng] = coordString.split(',').map((coord) => parseFloat(coord.trim()))
+      if (isNaN(lat) || isNaN(lng)) return null
+      return [lat, lng]
+    } catch {
+      return null
+    }
+  }
 
   useEffect(() => {
     const initMap = () => {
@@ -30,53 +48,90 @@ const YandexMap: FC<IProps> = ({ address }) => {
 
       ymaps.ready(() => {
         try {
-          const searchAddress = address || defaultAddress
+          // Определяем начальные координаты
+          let initialCoords: [number, number] = [25.1971, 55.2796] // Default coordinates (Dubai Mall)
+
+          if (coordinates) {
+            const parsedCoords = parseCoordinates(coordinates)
+            if (parsedCoords) {
+              initialCoords = parsedCoords
+            }
+          }
 
           // Initialize the map if it hasn't been initialized yet
           if (!map.current) {
             map.current = new ymaps.Map(mapRef.current, {
-              center: [25.1971, 55.2796], // Default coordinates (Dubai Mall)
+              center: initialCoords,
               zoom: 15,
               controls: ['zoomControl', 'fullscreenControl', 'geolocationControl'],
             })
-
-            // Create a placemark
-            const placemark = new ymaps.Placemark(
-              map.current.getCenter(),
-              {
-                hintContent: searchAddress,
-                balloonContent: searchAddress,
-              },
-              {
-                preset: 'islands#redDotIcon',
-              },
-            )
-
-            map.current.geoObjects.add(placemark)
+          } else {
+            map.current.setCenter(initialCoords, 15)
           }
 
-          // Search for the address and update map
-          ymaps.geocode(searchAddress).then((res: any) => {
-            const firstGeoObject = res.geoObjects.get(0)
-            if (firstGeoObject) {
-              const coords = firstGeoObject.geometry.getCoordinates()
-              map.current.setCenter(coords, 15)
+          // Очищаем существующие маркеры
+          map.current.geoObjects.removeAll()
 
-              // Update placemark position
-              map.current.geoObjects.removeAll()
-              const placemark = new ymaps.Placemark(
-                coords,
-                {
-                  hintContent: searchAddress,
-                  balloonContent: searchAddress,
-                },
-                {
-                  preset: 'islands#redDotIcon',
-                },
-              )
-              map.current.geoObjects.add(placemark)
+          // Добавляем маркеры
+          if (markers && markers.length > 0) {
+            markers.forEach((marker) => {
+              const coords = parseCoordinates(marker.coordinates)
+              if (coords) {
+                const placemark = new ymaps.Placemark(
+                  coords,
+                  {
+                    hintContent: marker.name,
+                    balloonContent: marker.name,
+                  },
+                  {
+                    preset: 'islands#redDotIcon',
+                  },
+                )
+                map.current.geoObjects.add(placemark)
+              }
+            })
+          } else {
+            // Если нет маркеров, добавляем основной маркер по адресу или координатам
+            const searchAddress = address || defaultAddress
+
+            if (coordinates) {
+              const coords = parseCoordinates(coordinates)
+              if (coords) {
+                const placemark = new ymaps.Placemark(
+                  coords,
+                  {
+                    hintContent: searchAddress,
+                    balloonContent: searchAddress,
+                  },
+                  {
+                    preset: 'islands#redDotIcon',
+                  },
+                )
+                map.current.geoObjects.add(placemark)
+              }
+            } else {
+              // Поиск по адресу
+              ymaps.geocode(searchAddress).then((res: any) => {
+                const firstGeoObject = res.geoObjects.get(0)
+                if (firstGeoObject) {
+                  const coords = firstGeoObject.geometry.getCoordinates()
+                  map.current.setCenter(coords, 15)
+
+                  const placemark = new ymaps.Placemark(
+                    coords,
+                    {
+                      hintContent: searchAddress,
+                      balloonContent: searchAddress,
+                    },
+                    {
+                      preset: 'islands#redDotIcon',
+                    },
+                  )
+                  map.current.geoObjects.add(placemark)
+                }
+              })
             }
-          })
+          }
 
           setIsLoading(false)
         } catch (err) {
@@ -108,7 +163,7 @@ const YandexMap: FC<IProps> = ({ address }) => {
         map.current = null
       }
     }
-  }, [address])
+  }, [address, coordinates, markers])
 
   return (
     <div className='relative w-full h-[300px] rounded-lg overflow-hidden my-4 border border-gray-200'>
