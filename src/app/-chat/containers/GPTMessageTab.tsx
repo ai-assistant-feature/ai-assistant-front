@@ -4,8 +4,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 // components
 import { ChatMap } from '@app/-chat/components/ChatMap'
 import { TestListFlats } from '@app/-chat/components/flats/TestListFlats'
+import { Flat } from '@app/-chat/components/flats/types'
 
-export const GPTMessageTab = () => {
+interface GPTMessageTabProps {
+  flats?: Flat[]
+  locations?: Array<{
+    name: string
+    coordinates: string
+  }>
+}
+
+export const GPTMessageTab = ({ flats = [], locations = [] }: GPTMessageTabProps) => {
   const { t } = useTranslation()
   return (
     <Tabs defaultValue='list' className='w-full mt-4'>
@@ -15,12 +24,12 @@ export const GPTMessageTab = () => {
       </TabsList>
 
       <TabsContent value='list' className='w-full'>
-        <TestListFlats />
+        <TestListFlats flats={flats} />
       </TabsContent>
 
       <TabsContent value='map' className='w-full'>
         <div className='w-full bg-accent/50 rounded-lg'>
-          <ChatMap />
+          <ChatMap locations={locations} />
         </div>
       </TabsContent>
     </Tabs>

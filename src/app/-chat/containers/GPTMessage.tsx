@@ -1,15 +1,56 @@
 import { motion } from 'framer-motion'
-import ReactMarkdown from 'react-markdown'
 import { cn } from '@/lib/utils'
 import { GPTMessageTab } from '@app/-chat/containers/GPTMessageTab'
 import { FC } from 'react'
 
-interface IProps {
-  content: string
+interface PropertyResult {
+  id: number
+  name: string
+  developer: string
+  area: string
+  coordinates: string
+  image: string
+  status: string
+  sale_status: string
+  price_currency: string
+  post_handover: boolean
+  // Добавляем поля, которые нужны для TestListFlats
+  price?: number
+  rooms?: number
+  property_area?: number
 }
 
-// TODO: gpt должен отвечать списком квартир, а не текстом
+interface GPTResponse {
+  title: string
+  results: PropertyResult[]
+}
+
+interface IProps {
+  content: GPTResponse
+}
+
 export const GPTMessage: FC<IProps> = ({ content }) => {
+  console.log('GPT response:', content)
+
+  // Преобразуем данные от GPT в формат, который ожидает TestListFlats
+  const transformedFlats =
+    content.results?.map((property, index) => ({
+      id: property.id || index + 1,
+      title: property.name,
+      price: property.price || Math.floor(Math.random() * 5000000) + 1000000, // Временная цена, если не приходит
+      location: property.area,
+      rooms: property.rooms || Math.floor(Math.random() * 3) + 1, // Временное количество комнат
+      area: property.property_area || Math.floor(Math.random() * 100) + 50, // Временная площадь
+      image: property.image,
+    })) || []
+
+  // Преобразуем данные для карты
+  const locations =
+    content.results?.map((property) => ({
+      name: property.name,
+      coordinates: property.coordinates,
+    })) || []
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -21,15 +62,15 @@ export const GPTMessage: FC<IProps> = ({ content }) => {
         'bg-background text-foreground self-start text-left w-full',
       )}
     >
-      <div>
-        Вот несколько вариантов квартир в Дубае. Посмотри, пожалуйста — возможно, что-то стоит
-        уточнить или дополнить. Также дай знать, если есть дополнительные критерии, которые важно
-        учесть при подборе.
-      </div>
+      {/* Заголовок ответа */}
       <div className='mb-4'>
-        <GPTMessageTab />
+        <h3 className='font-medium'>{content.title}</h3>
       </div>
-      <ReactMarkdown>{content}</ReactMarkdown>
+
+      {/* Табы для дополнительных действий */}
+      <div className='mt-6'>
+        <GPTMessageTab flats={transformedFlats} locations={locations} />
+      </div>
     </motion.div>
   )
 }

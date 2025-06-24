@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Flat } from './types'
-import { testFlats } from './testData'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { Drawer } from '@/components/client/Drawer'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 
-export const TestListFlats = () => {
+interface TestListFlatsProps {
+  flats?: Flat[]
+}
+
+export const TestListFlats = ({ flats = [] }: TestListFlatsProps) => {
   const [selectedFlat, setSelectedFlat] = useState<Flat | null>(null)
   const isMobile = useMediaQuery('(max-width: 768px)')
 
@@ -68,6 +71,16 @@ export const TestListFlats = () => {
     </>
   )
 
+  // Если нет квартир, показываем сообщение
+  if (!flats || flats.length === 0) {
+    return (
+      <div className='text-center py-8 text-gray-500'>
+        <p>К сожалению, по заданным параметрам ничего не найдено.</p>
+        <p className='text-sm mt-2'>Попробуйте изменить критерии поиска.</p>
+      </div>
+    )
+  }
+
   return (
     <>
       <div>
@@ -79,7 +92,7 @@ export const TestListFlats = () => {
           className='w-full'
         >
           <CarouselContent className='-ml-2 md:-ml-4'>
-            {testFlats.map((flat) => (
+            {flats.map((flat) => (
               <CarouselItem key={flat.id} className='pl-2 md:pl-4 basis-[85%] md:basis-[45%]'>
                 <div
                   onClick={() => setSelectedFlat(flat)}
