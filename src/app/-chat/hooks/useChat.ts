@@ -26,7 +26,7 @@ export const useChat = () => {
             ...prev,
             {
               role: 'assistant',
-              content: res.answer,
+              content: res,
             },
           ])
         },

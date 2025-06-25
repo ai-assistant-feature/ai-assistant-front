@@ -14,15 +14,10 @@ const ResultItemSchema = z.object({
   post_handover: z.boolean(),
 })
 
-// Схема для содержимого answer
-const AnswerContentSchema = z.object({
-  title: z.string(),
-  results: z.array(ResultItemSchema),
-})
-
 // Основная схема ответа
 export const GptMessageResponseSchema = z.object({
-  answer: AnswerContentSchema,
+  title: z.string(),
+  results: z.array(ResultItemSchema),
 })
 
 // Тип для TypeScript

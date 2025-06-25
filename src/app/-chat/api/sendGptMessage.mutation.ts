@@ -1,9 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { IGPTResponse } from '@app/-chat/infra/gptResponce.infra'
-import {
-  validateGptMessageResponse,
-  safeValidateGptMessageResponse,
-} from '@app/-chat/infra/gptMessage.infra'
+import { validateGptMessageResponse } from '@app/-chat/infra/gptMessage.infra'
 
 type GptRequest = {
   question: string
@@ -27,7 +24,7 @@ const useGptAskMutation = () => {
       const data = await response.json()
 
       // Валидация ответа с помощью Zod
-      const validatedData = validateGptMessageResponse(data)
+      const validatedData = validateGptMessageResponse(data.answer)
 
       return validatedData
     },

@@ -4,6 +4,8 @@ import { GPTMessageTab } from '@app/-chat/containers/GPTMessageTab'
 import { FC } from 'react'
 // infra
 import { IGPTResponse } from '@app/-chat/infra/gptResponce.infra'
+import { IItem } from '@app/-chat/infra/item.infra'
+
 interface IProps {
   content: string | IGPTResponse
 }
@@ -32,7 +34,7 @@ export const GPTMessage: FC<IProps> = ({ content }) => {
 
   // Преобразуем данные от GPT в формат, который ожидает TestListFlats
   const transformedFlats =
-    content.results?.map((property, index) => ({
+    content.results?.map((property: IItem, index: number) => ({
       id: property.id || index + 1,
       title: property.name,
       location: property.area,
@@ -41,7 +43,7 @@ export const GPTMessage: FC<IProps> = ({ content }) => {
 
   // Преобразуем данные для карты
   const locations =
-    content.results?.map((property) => ({
+    content.results?.map((property: IItem) => ({
       name: property.name,
       coordinates: property.coordinates,
     })) || []

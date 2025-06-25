@@ -30,7 +30,7 @@ const EmptyState = () => {
 
 const MessageItem = ({ msg }: { msg: TMessage }) => {
   return msg.role === 'user' ? (
-    <UserMessage content={msg.content} />
+    <UserMessage content={typeof msg.content === 'string' ? msg.content : ''} />
   ) : (
     <GPTMessage content={msg.content} />
   )
