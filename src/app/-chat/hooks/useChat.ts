@@ -21,11 +21,12 @@ export const useChat = () => {
       { question: value },
       {
         onSuccess: (res) => {
+          console.log('res', res)
           setMessages((prev) => [
             ...prev,
             {
               role: 'assistant',
-              content: res?.answer,
+              content: res.answer,
             },
           ])
         },

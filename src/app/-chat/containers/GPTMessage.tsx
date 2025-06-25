@@ -2,34 +2,32 @@ import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { GPTMessageTab } from '@app/-chat/containers/GPTMessageTab'
 import { FC } from 'react'
-
-interface PropertyResult {
-  id: number
-  name: string
-  developer: string
-  area: string
-  coordinates: string
-  image: string
-  status: string
-  sale_status: string
-  price_currency: string
-  post_handover: boolean
-  // Добавляем поля, которые нужны для TestListFlats
-  price?: number
-  rooms?: number
-  property_area?: number
-}
-
-interface GPTResponse {
-  title: string
-  results: PropertyResult[]
-}
-
+// infra
+import { IGPTResponse } from '@app/-chat/infra/gptResponce.infra'
 interface IProps {
-  content: GPTResponse
+  content: string | IGPTResponse
 }
 
 export const GPTMessage: FC<IProps> = ({ content }) => {
+  // If content is a string, render it as simple text
+  if (typeof content === 'string') {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.3 }}
+        className={cn(
+          'py-2 text-sm whitespace-pre-wrap break-words rounded-lg',
+          'bg-background text-foreground self-start text-left w-full',
+        )}
+      >
+        <div className='px-4'>{content}</div>
+      </motion.div>
+    )
+  }
+
+  // If content is GPTResponse, render the structured data
   console.log('GPT response:', content)
 
   // Преобразуем данные от GPT в формат, который ожидает TestListFlats
@@ -37,10 +35,7 @@ export const GPTMessage: FC<IProps> = ({ content }) => {
     content.results?.map((property, index) => ({
       id: property.id || index + 1,
       title: property.name,
-      price: property.price || Math.floor(Math.random() * 5000000) + 1000000, // Временная цена, если не приходит
       location: property.area,
-      rooms: property.rooms || Math.floor(Math.random() * 3) + 1, // Временное количество комнат
-      area: property.property_area || Math.floor(Math.random() * 100) + 50, // Временная площадь
       image: property.image,
     })) || []
 

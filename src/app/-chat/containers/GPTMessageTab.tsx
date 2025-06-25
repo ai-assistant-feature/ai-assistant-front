@@ -3,11 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 // components
 import { ChatMap } from '@app/-chat/components/ChatMap'
-import { TestListFlats } from '@app/-chat/components/flats/TestListFlats'
-import { Flat } from '@app/-chat/components/flats/types'
+import { ChatListItem } from '../components/ChatListItem'
 
 interface GPTMessageTabProps {
-  flats?: Flat[]
+  flats?: any[]
   locations?: Array<{
     name: string
     coordinates: string
@@ -24,7 +23,7 @@ export const GPTMessageTab = ({ flats = [], locations = [] }: GPTMessageTabProps
       </TabsList>
 
       <TabsContent value='list' className='w-full'>
-        <TestListFlats flats={flats} />
+        <ChatListItem flats={flats} />
       </TabsContent>
 
       <TabsContent value='map' className='w-full'>
