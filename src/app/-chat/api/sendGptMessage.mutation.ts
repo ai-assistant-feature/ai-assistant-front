@@ -1,15 +1,13 @@
 import { useMutation } from '@tanstack/react-query'
+import { IGPTResponse } from '@app/-chat/infra/gptResponce.infra'
+import { validateGptMessageResponse } from '@app/-chat/infra/gptMessage.infra'
 
 type GptRequest = {
   question: string
 }
 
-type GptResponse = {
-  answer: string
-}
-
 const useGptAskMutation = () => {
-  return useMutation<GptResponse, Error, GptRequest>({
+  return useMutation<IGPTResponse, Error, GptRequest>({
     mutationFn: async ({ question }) => {
       const response = await fetch('https://nest-dubai.onrender.com/gpt/ask', {
         method: 'POST',
@@ -23,7 +21,12 @@ const useGptAskMutation = () => {
         throw new Error(`Ошибка запроса: ${response.statusText}`)
       }
 
-      return response.json()
+      const data = await response.json()
+
+      // Валидация ответа с помощью Zod
+      const validatedData = validateGptMessageResponse(data.answer)
+
+      return validatedData
     },
   })
 }

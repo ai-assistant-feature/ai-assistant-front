@@ -1,17 +1,16 @@
 import { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Flat } from './types'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { Drawer } from '@/components/client/Drawer'
-import { useMediaQuery } from '@/hooks/useMediaQuery'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 interface TestListFlatsProps {
-  flats?: Flat[]
+  flats?: any[]
 }
 
-export const TestListFlats = ({ flats = [] }: TestListFlatsProps) => {
-  const [selectedFlat, setSelectedFlat] = useState<Flat | null>(null)
-  const isMobile = useMediaQuery('(max-width: 768px)')
+const ChatListItem = ({ flats = [] }: TestListFlatsProps) => {
+  const [selectedFlat, setSelectedFlat] = useState<any | null>(null)
+  const isMobile = useIsMobile()
 
   const FlatDetails = () => (
     <>
@@ -44,23 +43,10 @@ export const TestListFlats = ({ flats = [] }: TestListFlatsProps) => {
 
         <div className='grid grid-cols-2 gap-4'>
           <div className='bg-accent p-3 rounded-lg'>
-            <div className='text-sm text-muted-foreground'>Комнаты</div>
-            <div className='text-lg font-semibold text-accent-foreground'>
-              {selectedFlat?.rooms}
-            </div>
-          </div>
-          <div className='bg-accent p-3 rounded-lg'>
             <div className='text-sm text-muted-foreground'>Площадь</div>
             <div className='text-lg font-semibold text-accent-foreground'>
               {selectedFlat?.area} м²
             </div>
-          </div>
-        </div>
-
-        <div className='bg-primary/10 p-4 rounded-lg'>
-          <div className='text-sm text-muted-foreground'>Стоимость аренды</div>
-          <div className='text-2xl font-bold text-primary'>
-            {selectedFlat?.price.toLocaleString()} ₽/мес
           </div>
         </div>
 
@@ -106,12 +92,7 @@ export const TestListFlats = ({ flats = [] }: TestListFlatsProps) => {
                       {flat.title}
                     </h3>
                     <div className='flex justify-between items-center'>
-                      <div className='text-sm text-muted-foreground'>
-                        {flat.rooms} комн. • {flat.area} м²
-                      </div>
-                      <div className='text-base font-bold text-accent-foreground'>
-                        {flat.price.toLocaleString()} ₽
-                      </div>
+                      <div className='text-sm text-muted-foreground'>{flat.area} м²</div>
                     </div>
                   </div>
                 </div>
@@ -148,3 +129,5 @@ export const TestListFlats = ({ flats = [] }: TestListFlatsProps) => {
     </>
   )
 }
+
+export { ChatListItem }
