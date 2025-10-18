@@ -41,7 +41,7 @@ export const ChatTextArea: FC<IProps> = ({ isPending, handleSend, onHeightChange
           } as React.CSSProperties
         }
       >
-        {showQuickQuestions && <QuickQuestions handleSend={sendMessage} />}
+        {/* {showQuickQuestions && <QuickQuestions handleSend={sendMessage} />} */}
         <form className='isolate z-[3] w-full flex flex-col md:border-transparent md:pt-0'>
           <div className='relative w-full'>
             <div className='relative border rounded-t-4xl md:rounded-4xl p-6 pt-2 bg-background border-border'>

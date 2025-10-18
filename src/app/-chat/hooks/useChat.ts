@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useGptAskMutation } from '@app/-chat/api/sendGptMessage.mutation'
 import { TMessage } from '@app/-chat/infra/chat.infra'
 
+//TODO: TMessage это массив сообещений юзера и ассистента
 export const useChat = () => {
   const [messages, setMessages] = useState<TMessage[]>([])
 
@@ -21,7 +22,6 @@ export const useChat = () => {
       { question: value },
       {
         onSuccess: (res) => {
-          console.log('res', res)
           setMessages((prev) => [
             ...prev,
             {

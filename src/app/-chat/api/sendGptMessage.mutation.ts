@@ -1,34 +1,39 @@
 import { useMutation } from '@tanstack/react-query'
-import { IGPTResponse } from '@app/-chat/infra/gptResponce.infra'
-import { validateGptMessageResponse } from '@app/-chat/infra/gptMessage.infra'
-
-type GptRequest = {
+import { getSessionId } from '@app/-common/helpers/getSessionId'
+import { TGPTApiResponse } from '../schemas/gptResponce.schema'
+import { toast } from 'sonner'
+import { httpService } from '@/helpers/api'
+interface AskVariables {
   question: string
+  metadata?: Record<string, unknown>
 }
 
-const useGptAskMutation = () => {
-  return useMutation<IGPTResponse, Error, GptRequest>({
-    mutationFn: async ({ question }) => {
-      const response = await fetch('https://nest-dubai.onrender.com/gpt/ask', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+export const useGptAskMutation = () => {
+  return useMutation<any, Error, AskVariables>({
+    mutationFn: async ({ question, metadata }) => {
+      const payload = {
+        message: question,
+        metadata: {
+          ...(metadata ?? {}),
+          sessionId: getSessionId(),
         },
-        body: JSON.stringify({ question }),
-      })
-
-      if (!response.ok) {
-        throw new Error(`Ошибка запроса: ${response.statusText}`)
       }
 
-      const data = await response.json()
+      const response = await httpService.post<TGPTApiResponse>('/chat/message', payload, {
+        headers: { 'Content-Type': 'application/json' },
+      })
 
-      // Валидация ответа с помощью Zod
-      const validatedData = validateGptMessageResponse(data.answer)
+      // mapper
 
-      return validatedData
+      return response.data.data
+    },
+
+    onError: (error) => {
+      toast.error('Ошибка при запросе к GPT:')
+      console.error('Ошибка при запросе к GPT:', error)
     },
   })
 }
 
-export { useGptAskMutation }
+//ВСЕ ДАННЫЕ получаем в таком ввиде
+// has_escrow

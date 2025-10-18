@@ -11,6 +11,7 @@ interface TestListFlatsProps {
 const ChatListItem = ({ flats = [] }: TestListFlatsProps) => {
   const [selectedFlat, setSelectedFlat] = useState<any | null>(null)
   const isMobile = useIsMobile()
+  console.log('flats', flats)
 
   const FlatDetails = () => (
     <>
