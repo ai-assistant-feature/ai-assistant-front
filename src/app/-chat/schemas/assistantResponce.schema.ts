@@ -14,7 +14,7 @@ export const ActionButtonSchema = z.object({
 
 export const AssistantResponseSchema = z.object({
   status: z.any(),
-  responceType: ResponseTypeEnum,
+  responseType: ResponseTypeEnum,
   //FIXME: добавить другие типы данных
   data: z
     .object({

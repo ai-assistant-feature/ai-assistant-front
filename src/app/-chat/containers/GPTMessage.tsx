@@ -1,5 +1,4 @@
 //FIXME:  полностью исправить функционал
-
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { GPTMessageTab } from '@app/-chat/containers/GPTMessageTab'
@@ -15,7 +14,7 @@ interface IProps {
 export const GPTMessage: FC<IProps> = ({ content }) => {
   const { message, data } = content
 
-  if (content.responceType === ResponseTypeEnum.enum.needMoreInfo) {
+  if (content.responseType === ResponseTypeEnum.enum.needMoreInfo) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 10 }}
