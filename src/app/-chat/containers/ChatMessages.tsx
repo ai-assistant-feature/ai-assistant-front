@@ -9,6 +9,7 @@ import { useIsMobile } from '@/hooks/use-mobile'
 import { UserMessage } from '@app/-chat/components/UserMessage'
 import { GPTMessage } from '@app/-chat/containers/GPTMessage'
 import { ChatLoading } from '@app/-chat/components/ChatLoading'
+import { TAssistantResponse } from '../schemas/assistantResponce.schema'
 
 interface IProps {
   messages: TMessage[]
@@ -32,7 +33,7 @@ const MessageItem = ({ msg }: { msg: TMessage }) => {
   return msg.role === 'user' ? (
     <UserMessage content={typeof msg.content === 'string' ? msg.content : ''} />
   ) : (
-    <GPTMessage content={msg.content} />
+    <GPTMessage content={msg.content as TAssistantResponse} />
   )
 }
 
