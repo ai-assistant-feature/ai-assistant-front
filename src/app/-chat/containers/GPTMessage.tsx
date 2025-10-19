@@ -5,17 +5,16 @@ import { cn } from '@/lib/utils'
 import { GPTMessageTab } from '@app/-chat/containers/GPTMessageTab'
 import { FC } from 'react'
 // infra
-import { ResponseTypeEnum, TGPTApiResponse } from '../schemas/gptResponce.schema'
-import { TApartment } from '@app/-common/schemas/apartments.schema'
+import { ResponseTypeEnum, TAssistantResponse } from '../schemas/assistantResponce.schema'
+import { TDeveloperComplexes } from '@app/-common/schemas/developerComplexes.schema'
 
 interface IProps {
-  content: TGPTApiResponse
+  content: TAssistantResponse
 }
 
 export const GPTMessage: FC<IProps> = ({ content }) => {
   const { message, data } = content
 
-  console.log('content', content)
   if (content.responceType === ResponseTypeEnum.enum.needMoreInfo) {
     return (
       <motion.div
@@ -33,21 +32,9 @@ export const GPTMessage: FC<IProps> = ({ content }) => {
     )
   }
 
-  const transformedFlats =
-    data?.items?.map((property: any, index: number) => {
-      const img = JSON.parse(property.cover_image_url)
-      return {
-        id: property.id || index + 1,
-        title: property.developer,
-        location: property.area,
-        image: img.url,
-      }
-    }) || []
-
-  console.log('transformedFlats', transformedFlats)
   // Преобразуем данные для карты
   const locations =
-    data?.items?.map((property: TApartment) => ({
+    data?.items?.map((property: TDeveloperComplexes) => ({
       name: property.developer,
       coordinates: property.coordinates,
     })) || []
@@ -65,7 +52,7 @@ export const GPTMessage: FC<IProps> = ({ content }) => {
     >
       {/* Табы для дополнительных действий */}
       <div className='mt-6'>
-        <GPTMessageTab flats={transformedFlats} locations={locations} />
+        <GPTMessageTab flats={data?.items || []} locations={locations} />
       </div>
     </motion.div>
   )

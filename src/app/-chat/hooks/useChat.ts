@@ -1,12 +1,15 @@
 import { useState } from 'react'
-import { useGptAskMutation } from '@app/-chat/api/sendGptMessage.mutation'
+// api
+import { useAssistantMessageMutation } from '@app/-chat/api/assistantMessage.mutation'
 import { TMessage } from '@app/-chat/infra/chat.infra'
+// schemas
+import { TAssistantResponse } from '@app/-chat/schemas/assistantResponce.schema'
 
 //TODO: TMessage это массив сообещений юзера и ассистента
 export const useChat = () => {
   const [messages, setMessages] = useState<TMessage[]>([])
 
-  const { mutate, isPending, isError } = useGptAskMutation()
+  const { mutate, isPending, isError } = useAssistantMessageMutation()
 
   const handleSend = (value: string) => {
     if (!value.trim()) return
@@ -21,7 +24,7 @@ export const useChat = () => {
     mutate(
       { question: value },
       {
-        onSuccess: (res) => {
+        onSuccess: (res: TAssistantResponse) => {
           setMessages((prev) => [
             ...prev,
             {

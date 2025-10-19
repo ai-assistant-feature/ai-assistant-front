@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 // components
 import { ChatMap } from '@app/-chat/components/ChatMap'
-import { ChatListItem } from '../components/ChatListItem'
+import { DeveloperComplexesWidget } from '@app/-common/widgets/developerComplexes/DeveloperComplexes.schema'
 
 interface GPTMessageTabProps {
   flats?: any[]
@@ -23,7 +23,7 @@ export const GPTMessageTab = ({ flats = [], locations = [] }: GPTMessageTabProps
       </TabsList>
 
       <TabsContent value='list' className='w-full'>
-        <ChatListItem flats={flats} />
+        <DeveloperComplexesWidget flats={flats} />
       </TabsContent>
 
       <TabsContent value='map' className='w-full'>

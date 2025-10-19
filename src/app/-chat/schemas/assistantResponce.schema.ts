@@ -1,5 +1,6 @@
-import { ApartmentSchema } from '@app/-common/schemas/apartments.schema'
 import { z } from 'zod'
+// schemas
+import { DeveloperComplexesSchema } from '@app/-common/schemas/developerComplexes.schema'
 
 export const ResponseTypeEnum = z.enum(['apartmentsList', 'needMoreInfo', 'smallTalk'])
 export type ResponseType = z.infer<typeof ResponseTypeEnum>
@@ -11,13 +12,13 @@ export const ActionButtonSchema = z.object({
   payload: z.record(z.any()).optional(), // дополнительная информация (например {usage: 'investment'})
 })
 
-export const ApiResponseSchema = z.object({
+export const AssistantResponseSchema = z.object({
   status: z.any(),
   responceType: ResponseTypeEnum,
   //FIXME: добавить другие типы данных
   data: z
     .object({
-      items: z.array(ApartmentSchema).default([]),
+      items: z.array(DeveloperComplexesSchema).default([]),
     })
     .nullable(),
   //
@@ -26,4 +27,4 @@ export const ApiResponseSchema = z.object({
   actionButtons: z.array(ActionButtonSchema).default([]),
 })
 
-export type TGPTApiResponse = z.infer<typeof ApiResponseSchema>
+export type TAssistantResponse = z.infer<typeof AssistantResponseSchema>

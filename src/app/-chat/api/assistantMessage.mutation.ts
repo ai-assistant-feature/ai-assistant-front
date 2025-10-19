@@ -1,14 +1,15 @@
 import { useMutation } from '@tanstack/react-query'
 import { getSessionId } from '@app/-common/helpers/getSessionId'
-import { TGPTApiResponse } from '../schemas/gptResponce.schema'
 import { toast } from 'sonner'
 import { httpService } from '@/helpers/api'
+// schemas
+import { TAssistantResponse } from '@app/-chat/schemas/assistantResponce.schema'
 interface AskVariables {
   question: string
   metadata?: Record<string, unknown>
 }
 
-export const useGptAskMutation = () => {
+export const useAssistantMessageMutation = () => {
   return useMutation<any, Error, AskVariables>({
     mutationFn: async ({ question, metadata }) => {
       const payload = {
@@ -19,7 +20,7 @@ export const useGptAskMutation = () => {
         },
       }
 
-      const response = await httpService.post<TGPTApiResponse>('/chat/message', payload, {
+      const response = await httpService.post<TAssistantResponse>('/chat/message', payload, {
         headers: { 'Content-Type': 'application/json' },
       })
 

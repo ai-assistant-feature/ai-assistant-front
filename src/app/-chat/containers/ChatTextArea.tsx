@@ -6,7 +6,6 @@ import { useSidebar } from '@/components/ui/sidebar'
 // components
 import { ChatInput } from '@app/-chat/components/ChatInput'
 import { ChatActions } from '@app/-chat/components/ChatActions'
-import { QuickQuestions } from '@app/-chat/components/QuickQuestions'
 
 interface IProps {
   isPending: boolean
@@ -25,6 +24,7 @@ export const ChatTextArea: FC<IProps> = ({ isPending, handleSend, onHeightChange
     setInput('')
   }
 
+  console.log('showQuickQuestions', showQuickQuestions)
   return (
     <div className='fixed bottom-0 left-0 right-0 w-full bg-background'>
       <div
