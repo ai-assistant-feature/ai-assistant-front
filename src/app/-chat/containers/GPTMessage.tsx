@@ -14,7 +14,10 @@ interface IProps {
 export const GPTMessage: FC<IProps> = ({ content }) => {
   const { message, data } = content
 
-  if (content.responseType === ResponseTypeEnum.enum.needMoreInfo) {
+  if (
+    content.responseType === ResponseTypeEnum.enum.needMoreInfo ||
+    content.responseType === ResponseTypeEnum.enum.smallTalk
+  ) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 10 }}
