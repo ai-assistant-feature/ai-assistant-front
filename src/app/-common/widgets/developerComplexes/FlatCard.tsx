@@ -1,11 +1,13 @@
 import { DateTime } from 'luxon'
+import { useTranslation } from 'react-i18next'
 
 interface FlatCardProps {
   flat: any
-  onSelect: (flat: any) => void
+  setDeveloperId: any
 }
 
-const FlatCard = ({ flat, onSelect }: FlatCardProps) => {
+const FlatCard = ({ flat, setDeveloperId }: FlatCardProps) => {
+  const { t } = useTranslation()
   //FIXME: вынести ru-RU или en-AE в конфиг
   const formatted = new Intl.NumberFormat('ru-RU', {
     style: 'currency',
@@ -17,9 +19,11 @@ const FlatCard = ({ flat, onSelect }: FlatCardProps) => {
   // Формат: "декабрь 2027" (только месяц и год)
   const formattedCompletionDate = completionDate.toLocaleString({ month: 'long', year: 'numeric' })
 
+  console.log('flat.id', flat.id)
+  // должны открывать по ID
   return (
     <div
-      onClick={() => onSelect(flat)}
+      onClick={() => setDeveloperId(flat.id)}
       className='bg-background overflow-hidden cursor-pointer rounded-lg border border-border'
     >
       <div className='relative h-40'>
@@ -29,11 +33,24 @@ const FlatCard = ({ flat, onSelect }: FlatCardProps) => {
           className='w-full h-full object-cover'
         />
       </div>
-      <div className='p-3 bg-accent'>
-        <h3 className='text-lg font-semibold text-primary truncate'>{flat.name}</h3>
-        <div>{flat.area}</div>
-        <div className='text-sm text-muted-foreground'>Срок сдачи: {formattedCompletionDate}</div>
-        <div className='text-sm text-muted-foreground'>{formatted}</div>
+      <div className='p-3 bg-accent flex flex-col gap-1.5'>
+        <h3 className='text-base font-semibold text-primary line-clamp-1'>{flat.name}</h3>
+
+        <div className='text-sm'>
+          <span className='block'>{flat.area}</span>
+        </div>
+
+        <div className='text-sm text-muted-foreground'>
+          <span className='block font-medium'>{t('property.developer')}:</span>
+          <span className='block'>{flat.developer}</span>
+        </div>
+
+        <div className='text-sm text-muted-foreground'>
+          <span className='block font-medium'>{t('property.completionDate')}:</span>
+          <span className='block capitalize'>{formattedCompletionDate}</span>
+        </div>
+
+        <div className='pt-2 text-sm font-semibold text-foreground'>{formatted}</div>
       </div>
     </div>
   )

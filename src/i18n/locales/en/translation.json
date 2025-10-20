@@ -9,7 +9,9 @@
     "loading": "Loading...",
     "delete": "Delete",
     "edit": "Edit",
-    "create": "Create"
+    "create": "Create",
+    "showMore": "Show more",
+    "showLess": "Show less"
   },
   "sidebar": {
     "settings": "Settings",
@@ -70,7 +72,13 @@
       "perfectPlace": "Perfect place",
       "popularChoice": "Popular choice",
       "bestChoice": "Best choice"
-    }
+    },
+    "completionDate": "Completion date",
+    "developer": "Developer",
+    "layouts": "Layouts",
+    "area": "Area",
+    "architecture": "Architecture",
+    "interior": "Interior"
   },
   "tabs": {
     "subscriptions": "Subscriptions",
@@ -79,5 +87,8 @@
   "map": {
     "locationTitle": "Location",
     "showOnMap": "Show on map"
+  },
+  "cta": {
+    "contactAgent": "Contact agent"
   }
 }

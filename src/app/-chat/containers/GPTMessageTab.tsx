@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 // components
 import { ChatMap } from '@app/-chat/components/ChatMap'
-import { DeveloperComplexesWidget } from '@app/-common/widgets/developerComplexes/DeveloperComplexes.schema'
+import { DeveloperComplexesWidget } from '@app/-common/widgets/developerComplexes/DeveloperComplexes.widget'
 
 interface GPTMessageTabProps {
   flats?: any[]
