@@ -1,24 +1,39 @@
 import { useQuery } from '@tanstack/react-query'
+import {
+  DeveloperComplexSchema,
+  TDeveloperComplex,
+} from '@app/-common/schemas/developerComplex.schema'
 
-//FIXME:
-const usePropertiesQuery = (searchQuery?: string) => {
-  return useQuery({
-    queryKey: ['properties', searchQuery],
+// Запрос одного объекта недвижимости по ID через новый API
+const usePropertyByIdQuery = (propertyId: string | null) => {
+  return useQuery<TDeveloperComplex, Error>({
+    queryKey: ['property', propertyId],
     queryFn: async () => {
-      const baseUrl = `https://nest-dubai.onrender.com/reelly/properties?page=2`
-      const url = searchQuery
-        ? `${baseUrl}?search_query=${encodeURIComponent(searchQuery)}`
-        : baseUrl
+      if (!propertyId) {
+        throw new Error('Не указан propertyId')
+      }
 
-      const response = await fetch(url)
+      const url = `https://search-listings-production.up.railway.app/v1/properties/${propertyId}`
+
+      const apiKey = import.meta.env.VITE_REELLY_API_KEY
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'X-API-Key': apiKey,
+          'accept': 'application/json',
+        },
+      })
 
       if (!response.ok) {
         throw new Error(`Ошибка запроса: ${response.status}`)
       }
 
-      return response.json()
+      const json = await response.json()
+      return DeveloperComplexSchema.parse(json)
     },
+    enabled: !!propertyId,
   })
 }
 
-export { usePropertiesQuery }
+export { usePropertyByIdQuery }
