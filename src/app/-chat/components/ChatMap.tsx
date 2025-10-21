@@ -1,6 +1,6 @@
 import { FC } from 'react'
 // components
-import { YandexMap } from '@app/-common/containers/YandexMap'
+import { GoogleMap } from '@app/-common/containers/GoogleMap'
 
 interface Location {
   name: string
@@ -16,7 +16,7 @@ export const ChatMap: FC<ChatMapProps> = ({ locations = [] }) => {
   if (!locations || locations.length === 0) {
     return (
       <div className='w-full h-full'>
-        <YandexMap address='Дубай Молл' />
+        <GoogleMap address='Дубай Молл' />
       </div>
     )
   }
@@ -26,7 +26,7 @@ export const ChatMap: FC<ChatMapProps> = ({ locations = [] }) => {
 
   return (
     <div className='w-full h-full'>
-      <YandexMap
+      <GoogleMap
         address={firstLocation.name}
         coordinates={firstLocation.coordinates}
         markers={locations.map((location) => ({

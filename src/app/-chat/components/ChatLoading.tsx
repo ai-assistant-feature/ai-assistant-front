@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 // styled
-import { DOT_TRANSITION } from '@app/-chat/styled/DotTransition'
+import { DOT_TRANSITION } from '@app/-common/styled/DotTransition'
 
 const ChatLoading = () => {
   return (

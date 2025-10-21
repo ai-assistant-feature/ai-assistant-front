@@ -24,8 +24,6 @@ export const useAssistantMessageMutation = () => {
         headers: { 'Content-Type': 'application/json' },
       })
 
-      // mapper
-
       return response.data.data
     },
 
