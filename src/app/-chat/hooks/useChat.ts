@@ -17,6 +17,7 @@ export const useChat = () => {
     const userMessage: TMessage = {
       role: 'user',
       content: value,
+      timestamp: Date.now(),
     }
 
     setMessages((prev) => [...prev, userMessage])
@@ -30,6 +31,7 @@ export const useChat = () => {
             {
               role: 'assistant',
               content: res,
+              timestamp: Date.now(),
             },
           ])
         },

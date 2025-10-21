@@ -6,12 +6,13 @@ import { FC } from 'react'
 // infra
 import { ResponseTypeEnum, TAssistantResponse } from '../schemas/assistantResponce.schema'
 import { TDeveloperComplexes } from '@app/-common/schemas/developerComplexes.schema'
+import ReactMarkdown from 'react-markdown'
 
 interface IProps {
   content: TAssistantResponse
 }
 
-export const GPTMessage: FC<IProps> = ({ content }) => {
+const AssistantMessageContainer: FC<IProps> = ({ content }) => {
   const { message, data } = content
 
   if (
@@ -29,7 +30,7 @@ export const GPTMessage: FC<IProps> = ({ content }) => {
           'bg-background text-foreground self-start text-left w-full',
         )}
       >
-        <div className='px-4'>{message}</div>
+        <ReactMarkdown>{message}</ReactMarkdown>
       </motion.div>
     )
   }
@@ -59,3 +60,5 @@ export const GPTMessage: FC<IProps> = ({ content }) => {
     </motion.div>
   )
 }
+
+export { AssistantMessageContainer }

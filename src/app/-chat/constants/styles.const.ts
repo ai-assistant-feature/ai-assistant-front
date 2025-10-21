@@ -1,0 +1,2 @@
+export const MOBILE_BOTTOM_OFFSET = 62
+export const DESKTOP_BOTTOM_OFFSET = 100

@@ -16,15 +16,14 @@ interface IProps {
 export const ChatTextArea: FC<IProps> = ({ isPending, handleSend, onHeightChange }) => {
   const { state } = useSidebar()
   const [input, setInput] = useState('')
-  const [showQuickQuestions, setShowQuickQuestions] = useState(true)
+  // const [showQuickQuestions, setShowQuickQuestions] = useState(true)
 
   const sendMessage = (value: string) => {
     handleSend(value)
-    setShowQuickQuestions(false)
+    // setShowQuickQuestions(false)
     setInput('')
   }
 
-  console.log('showQuickQuestions', showQuickQuestions)
   return (
     <div className='fixed bottom-0 left-0 right-0 w-full bg-background'>
       <div
