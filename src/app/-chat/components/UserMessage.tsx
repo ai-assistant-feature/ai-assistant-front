@@ -15,7 +15,7 @@ export const UserMessage: FC<IProps> = ({ content }) => {
       transition={{ duration: 0.3 }}
       className='w-full flex justify-end'
     >
-      <div className='text-sm whitespace-pre-wrap break-words rounded-lg py-2 w-full max-w-[75%] self-end text-right px-4 bg-accent text-accent-foreground self-end text-right '>
+      <div className='text-sm whitespace-pre-wrap break-words rounded-lg py-2  self-end text-right px-4 bg-accent text-accent-foreground self-end text-right '>
         <ReactMarkdown>{content}</ReactMarkdown>
       </div>
     </motion.div>
