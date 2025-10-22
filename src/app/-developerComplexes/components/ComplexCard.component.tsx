@@ -19,8 +19,6 @@ const ComplexCardComponent = ({ flat, setDeveloperId }: FlatCardProps) => {
   // Формат: "декабрь 2027" (только месяц и год)
   const formattedCompletionDate = completionDate.toLocaleString({ month: 'long', year: 'numeric' })
 
-  console.log('flat.id', flat.id)
-  // должны открывать по ID
   return (
     <div
       onClick={() => setDeveloperId(flat.id)}

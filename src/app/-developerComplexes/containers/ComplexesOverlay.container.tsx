@@ -25,7 +25,7 @@ const ComplexesOverlayContainer = ({
 
   return isMobile ? (
     <Drawer isOpen={isOpen} onOpenChange={() => onClose()}>
-      <div className='max-h-[85vh] overflow-y-auto'>
+      <div className='max-h-[85vh] overflow-y-auto scrollbar-hide'>
         <DetailsContainer
           developerObjectData={developerObjectData}
           isLoadingDeveloperObject={isLoadingDeveloperObject}
@@ -34,7 +34,7 @@ const ComplexesOverlayContainer = ({
     </Drawer>
   ) : (
     <Dialog open={isOpen} onOpenChange={() => onClose()}>
-      <DialogContent className='max-w-2xl p-0 sm:p-6 md:max-h-[90vh] sm:max-h-[85vh] max-h-[100vh] w-[95vw] sm:w-full overflow-y-auto'>
+      <DialogContent className='max-w-2xl p-0 sm:p-6 md:max-h-[90vh] sm:max-h-[85vh] max-h-[100vh] w-[95vw] sm:w-full overflow-y-auto scrollbar-hide'>
         <>
           <DialogHeader className='p-4 sm:p-0'>
             <DialogTitle className='text-2xl font-bold text-foreground'>

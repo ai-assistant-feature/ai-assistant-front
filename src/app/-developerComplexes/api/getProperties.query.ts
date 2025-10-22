@@ -1,3 +1,4 @@
+// FIXME: потом удалим
 import { useQuery } from '@tanstack/react-query'
 import {
   DeveloperComplexSchema,

@@ -47,7 +47,7 @@ const mapPointSchema = z.object({
 
 // Buildings
 const buildingSchema = z.object({
-  Building_ID: z.string().optional(),
+  Building_ID: z.string().nullable().optional(),
   Building_image: z.array(vaultFileSchema).optional(),
   Completion_date: z.any().nullable().optional(),
   Description: z.string().optional(),
@@ -100,15 +100,15 @@ const developerDataSchema = z.object({
 const unitBlockSchema = z.object({
   area_unit: z.string(),
   id: z.number(),
-  name: z.string(),
+  name: z.string().nullable().optional(),
   normalized_type: z.string(),
   price_currency: z.string(),
   typical_unit_image_url: jsonStringToObject(z.array(vaultFileSchema)).optional(),
   unit_type: z.string(),
   units_area_from: z.number().nullable().optional(),
-  units_area_from_m2: z.string().nullable().optional(),
+  units_area_from_m2: z.union([z.string(), z.number()]).nullable().optional(),
   units_area_to: z.number().nullable().optional(),
-  units_area_to_m2: z.string().nullable().optional(),
+  units_area_to_m2: z.union([z.string(), z.number()]).nullable().optional(),
   units_price_from: z.number().nullable().optional(),
   units_price_from_aed: z.number().nullable().optional(),
   units_price_to: z.number().nullable().optional(),
