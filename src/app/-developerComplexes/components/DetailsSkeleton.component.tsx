@@ -1,6 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton'
 
-const ApartmentDetailsSkeleton = () => {
+const DetailsSkeletonComponent = () => {
   return (
     <>
       <div className='mb-4'>
@@ -63,4 +63,4 @@ const ApartmentDetailsSkeleton = () => {
   )
 }
 
-export { ApartmentDetailsSkeleton }
+export { DetailsSkeletonComponent }

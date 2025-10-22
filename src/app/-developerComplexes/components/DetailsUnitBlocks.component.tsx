@@ -17,7 +17,7 @@ const roundAreaM2 = (value?: string | null) => {
   return Math.round(num)
 }
 
-const UnitBlocks = ({ developerObjectData }: UnitBlocksProps) => {
+const DetailsUnitBlocksComponent = ({ developerObjectData }: UnitBlocksProps) => {
   const { t } = useTranslation()
   const blocks = developerObjectData.unit_blocks
   if (!blocks || blocks.length === 0) return null
@@ -74,4 +74,4 @@ const UnitBlocks = ({ developerObjectData }: UnitBlocksProps) => {
   )
 }
 
-export { UnitBlocks }
+export { DetailsUnitBlocksComponent }

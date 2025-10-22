@@ -1,14 +1,17 @@
 import { useState } from 'react'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
-import { FlatCard } from './FlatCard'
-import { FlatDetailsOverlay } from './FlatDetailsOverlay'
+
 import { usePropertyByIdQuery } from '@app/-common/-api/getProperties.query'
+// components
+import { ComplexCardComponent } from '@app/-developerComplexes/components/ComplexCard.component'
+// containers
+import { ComplexesOverlayContainer } from '@app/-developerComplexes/containers/ComplexesOverlay.container'
 
 interface TestListFlatsProps {
   flats?: any[]
 }
 
-const DeveloperComplexesWidget = ({ flats = [] }: TestListFlatsProps) => {
+const DeveloperComplexesContainer = ({ flats = [] }: TestListFlatsProps) => {
   const [developerId, setDeveloperId] = useState<string | null>(null)
   const { data: developerObjectData, isFetching, isLoading } = usePropertyByIdQuery(developerId)
   const isLoadingDeveloperObject = isFetching || isLoading
@@ -37,14 +40,14 @@ const DeveloperComplexesWidget = ({ flats = [] }: TestListFlatsProps) => {
           <CarouselContent className='-ml-2 md:-ml-4'>
             {flats.map((flat) => (
               <CarouselItem key={flat.id} className='pl-2 md:pl-4 basis-[85%] md:basis-[45%]'>
-                <FlatCard flat={flat} setDeveloperId={setDeveloperId} />
+                <ComplexCardComponent flat={flat} setDeveloperId={setDeveloperId} />
               </CarouselItem>
             ))}
           </CarouselContent>
         </Carousel>
       </div>
 
-      <FlatDetailsOverlay
+      <ComplexesOverlayContainer
         developerObjectData={developerObjectData}
         isLoadingDeveloperObject={isLoadingDeveloperObject}
         developerId={developerId}
@@ -54,4 +57,4 @@ const DeveloperComplexesWidget = ({ flats = [] }: TestListFlatsProps) => {
   )
 }
 
-export { DeveloperComplexesWidget }
+export { DeveloperComplexesContainer }
