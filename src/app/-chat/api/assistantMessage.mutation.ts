@@ -21,7 +21,7 @@ export const useAssistantMessageMutation = () => {
         headers: { 'Content-Type': 'application/json' },
       })
 
-      return response.data.data
+      return response.data
     },
 
     onError: (error) => {
