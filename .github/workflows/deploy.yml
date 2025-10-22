@@ -1,0 +1,89 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+  deploy:
+    name: Deploy to server
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev'
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Install sshpass and rsync
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sshpass rsync
+
+      - name: Set environment variables for branch
+        run: |
+          if [ "${GITHUB_REF}" = "refs/heads/main" ]; then
+            echo "HOST=${{ secrets.SSH_HOST_PROD }}" >> $GITHUB_ENV
+            echo "USER=${{ secrets.SSH_USER_PROD }}" >> $GITHUB_ENV
+            echo "PASSWORD=${{ secrets.SSH_PASSWORD_PROD }}" >> $GITHUB_ENV
+            echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_PROD }}" >> $GITHUB_ENV
+          else
+            echo "HOST=${{ secrets.SSH_HOST_DEV }}" >> $GITHUB_ENV
+            echo "USER=${{ secrets.SSH_USER_DEV }}" >> $GITHUB_ENV
+            echo "PASSWORD=${{ secrets.SSH_PASSWORD_DEV }}" >> $GITHUB_ENV
+            echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_DEV }}" >> $GITHUB_ENV
+          fi
+
+      - name: Add host to known_hosts (to avoid prompt)
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts
+
+      - name: Rsync dist to remote server
+        run: |
+          echo ">>> Deploying to ${USER}@${HOST}:${DEPLOY_PATH}"
+          sshpass -p "$PASSWORD" \
+            rsync -avz --delete -e "ssh -o StrictHostKeyChecking=yes" \
+            dist/ ${USER}@${HOST}:${DEPLOY_PATH}
+
+      - name: Run optional post-deploy command
+        if: ${{ always() }}
+        run: |
+          if [ "${GITHUB_REF}" = "refs/heads/main" ]; then
+            CMD="${{ secrets.POST_DEPLOY_CMD_PROD }}"
+          else
+            CMD="${{ secrets.POST_DEPLOY_CMD_DEV }}"
+          fi
+          if [ -n "$CMD" ]; then
+            echo "Running remote post-deploy command..."
+            sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=yes ${USER}@${HOST} "$CMD"
+          fi
