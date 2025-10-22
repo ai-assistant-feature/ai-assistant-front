@@ -4,6 +4,7 @@ import './index.css'
 import { router } from './router'
 import { RouterProvider } from '@tanstack/react-router'
 import '@/i18n' // <-- добавь это
+import './pwa'
 
 declare module '@tanstack/react-router' {
   interface Register {
