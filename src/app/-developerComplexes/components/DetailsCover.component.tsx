@@ -1,4 +1,4 @@
-import { TDeveloperComplex } from '@app/-common/schemas/developerComplex.schema'
+import { TDeveloperComplex } from '@app/-developerComplexes/schemas/developerComplex.schema'
 
 interface IProps {
   developerObjectData: TDeveloperComplex

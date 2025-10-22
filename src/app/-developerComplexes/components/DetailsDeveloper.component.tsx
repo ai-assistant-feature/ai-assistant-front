@@ -1,4 +1,4 @@
-import { TDeveloperComplex } from '@app/-common/schemas/developerComplex.schema'
+import { TDeveloperComplex } from '@app/-developerComplexes/schemas/developerComplex.schema'
 import ReactMarkdown from 'react-markdown'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'

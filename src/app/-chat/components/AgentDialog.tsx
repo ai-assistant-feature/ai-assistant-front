@@ -34,13 +34,8 @@ const AgentDialog: FC<IProps> = ({ isPending }) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>{t('common.close')}</AlertDialogCancel>
-          <AlertDialogAction asChild className='w-full'>
-            <a
-              href='https://t.me/ilnarshan'
-              target='_blank'
-              rel='noopener noreferrer'
-              className='w-full'
-            >
+          <AlertDialogAction asChild>
+            <a href='https://t.me/ilnarshan' target='_blank' rel='noopener noreferrer'>
               {t('chat.goToAgent')}
             </a>
           </AlertDialogAction>

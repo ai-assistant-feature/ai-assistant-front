@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Drawer } from '@/components/client/Drawer'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { TDeveloperComplex } from '@app/-common/schemas/developerComplex.schema'
+import { TDeveloperComplex } from '@app/-developerComplexes/schemas/developerComplex.schema'
 // containers
 import { DetailsContainer } from '@app/-developerComplexes/containers/Details.container'
 

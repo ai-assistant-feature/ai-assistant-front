@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 // components
 import { ChatMap } from '@app/-chat/components/ChatMap'
 // schemas
-import { TDeveloperComplexes } from '@app/-common/schemas/developerComplexes.schema'
+import { TDeveloperComplexes } from '@app/-developerComplexes/schemas/developerComplexes.schema'
 // containers
 import { DeveloperComplexesContainer } from '@app/-developerComplexes/containers/DeveloperComplexes.container'
 

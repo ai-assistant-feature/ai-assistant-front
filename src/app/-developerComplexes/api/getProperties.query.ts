@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import {
   DeveloperComplexSchema,
   TDeveloperComplex,
-} from '@app/-common/schemas/developerComplex.schema'
+} from '@app/-developerComplexes/schemas/developerComplex.schema'
 
 // Запрос одного объекта недвижимости по ID через новый API
 const usePropertyByIdQuery = (propertyId: string | null) => {

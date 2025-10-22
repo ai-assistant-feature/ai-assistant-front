@@ -1,6 +1,6 @@
 import { z } from 'zod'
 // schemas
-import { DeveloperComplexesSchema } from '@app/-common/schemas/developerComplexes.schema'
+import { DeveloperComplexesSchema } from '@app/-developerComplexes/schemas/developerComplexes.schema'
 
 export const ResponseTypeEnum = z.enum(['apartmentsList', 'needMoreInfo', 'smallTalk'])
 export type ResponseType = z.infer<typeof ResponseTypeEnum>

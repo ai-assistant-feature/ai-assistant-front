@@ -1,4 +1,4 @@
-import { TDeveloperComplex } from '@app/-common/schemas/developerComplex.schema'
+import { TDeveloperComplex } from '@app/-developerComplexes/schemas/developerComplex.schema'
 import { useTranslation } from 'react-i18next'
 
 interface UnitBlocksProps {
