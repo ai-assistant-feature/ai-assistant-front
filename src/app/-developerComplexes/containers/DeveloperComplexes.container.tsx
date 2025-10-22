@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 
-import { usePropertyByIdQuery } from '@app/-common/-api/getProperties.query'
+import { usePropertyByIdQuery } from '@app/-developerComplexes/api/getProperties.query'
 // components
 import { ComplexCardComponent } from '@app/-developerComplexes/components/ComplexCard.component'
 // containers
