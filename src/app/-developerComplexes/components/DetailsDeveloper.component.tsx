@@ -3,11 +3,11 @@ import ReactMarkdown from 'react-markdown'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-interface DeveloperProps {
+interface IProps {
   developerObjectData: TDeveloperComplex
 }
 
-const Developer = ({ developerObjectData }: DeveloperProps) => {
+const DetailsDeveloperComponent = ({ developerObjectData }: IProps) => {
   const { t } = useTranslation()
   const developer = developerObjectData.developer_data
   if (!developer) return null
@@ -83,4 +83,4 @@ const Developer = ({ developerObjectData }: DeveloperProps) => {
   )
 }
 
-export { Developer }
+export { DetailsDeveloperComponent }

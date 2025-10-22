@@ -22,7 +22,7 @@ const AgentDialog: FC<IProps> = ({ isPending }) => {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
         <button type='button' disabled={isPending}>
           <UserPen className='w-6 h-6' />
         </button>
@@ -34,14 +34,16 @@ const AgentDialog: FC<IProps> = ({ isPending }) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>{t('common.close')}</AlertDialogCancel>
-          <a
-            href='https://t.me/ilnarshan'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='w-full'
-          >
-            <AlertDialogAction className='w-full'>{t('chat.goToAgent')}</AlertDialogAction>
-          </a>
+          <AlertDialogAction asChild className='w-full'>
+            <a
+              href='https://t.me/ilnarshan'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='w-full'
+            >
+              {t('chat.goToAgent')}
+            </a>
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

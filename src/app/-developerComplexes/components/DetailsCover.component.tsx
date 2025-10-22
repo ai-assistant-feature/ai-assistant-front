@@ -1,10 +1,10 @@
 import { TDeveloperComplex } from '@app/-common/schemas/developerComplex.schema'
 
-interface CoverProps {
+interface IProps {
   developerObjectData: TDeveloperComplex
 }
 
-const Cover = ({ developerObjectData }: CoverProps) => {
+const DetailsCoverComponent = ({ developerObjectData }: IProps) => {
   const coverUrl = developerObjectData.cover?.url || developerObjectData.cover_image_url?.url
   if (!coverUrl) return null
 
@@ -21,4 +21,4 @@ const Cover = ({ developerObjectData }: CoverProps) => {
   )
 }
 
-export { Cover }
+export { DetailsCoverComponent }

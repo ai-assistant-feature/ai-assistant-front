@@ -6,7 +6,7 @@ interface FlatCardProps {
   setDeveloperId: any
 }
 
-const FlatCard = ({ flat, setDeveloperId }: FlatCardProps) => {
+const ComplexCardComponent = ({ flat, setDeveloperId }: FlatCardProps) => {
   const { t } = useTranslation()
   //FIXME: вынести ru-RU или en-AE в конфиг
   const formatted = new Intl.NumberFormat('ru-RU', {
@@ -56,4 +56,4 @@ const FlatCard = ({ flat, setDeveloperId }: FlatCardProps) => {
   )
 }
 
-export { FlatCard }
+export { ComplexCardComponent }

@@ -1,11 +1,11 @@
 import { TDeveloperComplex } from '@app/-common/schemas/developerComplex.schema'
 import ReactMarkdown from 'react-markdown'
 
-interface OverviewProps {
+interface IProps {
   developerObjectData: TDeveloperComplex
 }
 
-const Overview = ({ developerObjectData }: OverviewProps) => {
+const DetailsOverviewComponent = ({ developerObjectData }: IProps) => {
   if (!developerObjectData.overview) return null
 
   return (
@@ -15,4 +15,4 @@ const Overview = ({ developerObjectData }: OverviewProps) => {
   )
 }
 
-export { Overview }
+export { DetailsOverviewComponent }

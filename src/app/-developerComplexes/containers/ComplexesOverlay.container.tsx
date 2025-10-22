@@ -1,8 +1,9 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Drawer } from '@/components/client/Drawer'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { FlatDetails } from './FlatDetails'
 import { TDeveloperComplex } from '@app/-common/schemas/developerComplex.schema'
+// containers
+import { DetailsContainer } from '@app/-developerComplexes/containers/Details.container'
 
 interface FlatDetailsOverlayProps {
   developerId: string | null
@@ -11,7 +12,7 @@ interface FlatDetailsOverlayProps {
   isLoadingDeveloperObject: boolean
 }
 
-const FlatDetailsOverlay = ({
+const ComplexesOverlayContainer = ({
   developerId,
   onClose,
   developerObjectData,
@@ -25,7 +26,7 @@ const FlatDetailsOverlay = ({
   return isMobile ? (
     <Drawer isOpen={isOpen} onOpenChange={() => onClose()}>
       <div className='max-h-[85vh] overflow-y-auto'>
-        <FlatDetails
+        <DetailsContainer
           developerObjectData={developerObjectData}
           isLoadingDeveloperObject={isLoadingDeveloperObject}
         />
@@ -40,7 +41,7 @@ const FlatDetailsOverlay = ({
               {developerObjectData?.name}
             </DialogTitle>
           </DialogHeader>
-          <FlatDetails
+          <DetailsContainer
             developerObjectData={developerObjectData}
             isLoadingDeveloperObject={isLoadingDeveloperObject}
           />
@@ -50,4 +51,4 @@ const FlatDetailsOverlay = ({
   )
 }
 
-export { FlatDetailsOverlay }
+export { ComplexesOverlayContainer }

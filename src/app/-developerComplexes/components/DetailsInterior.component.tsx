@@ -1,18 +1,18 @@
 import { TDeveloperComplex } from '@app/-common/schemas/developerComplex.schema'
 import { useTranslation } from 'react-i18next'
 
-interface ArchitectureProps {
+interface IProps {
   developerObjectData: TDeveloperComplex
 }
 
-const Architecture = ({ developerObjectData }: ArchitectureProps) => {
+const DetailsInteriorComponent = ({ developerObjectData }: IProps) => {
   const { t } = useTranslation()
-  const images = developerObjectData.architecture
+  const images = developerObjectData.interior
   if (!images || images.length === 0) return null
 
   return (
     <div className='mb-4'>
-      <h3 className='text-xl font-semibold mb-3'>{t('property.architecture')}</h3>
+      <h3 className='text-xl font-semibold mb-3'>{t('property.interior')}</h3>
       <div className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
         {images.map((image, index) => (
           <div
@@ -21,7 +21,7 @@ const Architecture = ({ developerObjectData }: ArchitectureProps) => {
           >
             <img
               src={image.url}
-              alt={`${t('property.architecture')} ${index + 1}`}
+              alt={`${t('property.interior')} ${index + 1}`}
               className='w-full h-full object-cover'
             />
           </div>
@@ -31,4 +31,4 @@ const Architecture = ({ developerObjectData }: ArchitectureProps) => {
   )
 }
 
-export { Architecture }
+export { DetailsInteriorComponent }
