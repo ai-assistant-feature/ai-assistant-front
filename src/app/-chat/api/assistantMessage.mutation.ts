@@ -11,16 +11,13 @@ interface AskVariables {
 
 export const useAssistantMessageMutation = () => {
   return useMutation<any, Error, AskVariables>({
-    mutationFn: async ({ question, metadata }) => {
+    mutationFn: async ({ question }) => {
       const payload = {
         message: question,
-        metadata: {
-          ...(metadata ?? {}),
-          sessionId: getSessionId(),
-        },
+        sessionId: getSessionId(),
       }
 
-      const response = await httpService.post<TAssistantResponse>('/chat/message', payload, {
+      const response = await httpService.post<TAssistantResponse>('/api/v1/chat/message', payload, {
         headers: { 'Content-Type': 'application/json' },
       })
 
