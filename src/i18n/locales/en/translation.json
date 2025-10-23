@@ -16,8 +16,10 @@
   "sidebar": {
     "settings": "Settings",
     "language": "Language",
+    "currency": "Currency",
     "newChat": "New Chat",
     "selectLanguage": "Select Language",
+    "selectCurrency": "Select Currency",
     "saveDescription": "Save your favorite items, share them with friends and come back to them anytime"
   },
   "settings": {

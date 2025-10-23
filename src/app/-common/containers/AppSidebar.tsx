@@ -17,12 +17,17 @@ import { LANGUAGES, SIDEBAR_ITEMS, SIDEBAR_ACTION_TYPES } from '@app/-common/con
 import { LanguageDrawer } from '@app/-common/components/LanguageDrawer'
 import { LanguagePopup } from '../components/LanguagePopup'
 import { SidebarMenuItems } from '@app/-common/components/SidebarMenuItems'
+import { useCurrency, CURRENCIES } from '@app/-common/context/CurrencyProvider'
+import { CurrencyDrawer } from '@app/-common/components/CurrencyDrawer'
+import { CurrencyPopup } from '@app/-common/components/CurrencyPopup'
 
 const AppSidebar = () => {
   const { setOpenMobile, isMobile } = useSidebar()
 
   const { t, i18n } = useTranslation()
   const [isLanguageDrawerOpen, setIsLanguageDrawerOpen] = useState(false)
+  const [isCurrencyDrawerOpen, setIsCurrencyDrawerOpen] = useState(false)
+  const { currency, setCurrency } = useCurrency()
 
   const currentLanguage = LANGUAGES[i18n.language as keyof typeof LANGUAGES] || i18n.language
 
@@ -31,10 +36,18 @@ const AppSidebar = () => {
     setIsLanguageDrawerOpen(false)
   }
 
+  const changeCurrency = (code: keyof typeof CURRENCIES) => {
+    setCurrency(code)
+    setIsCurrencyDrawerOpen(false)
+  }
+
   const handleAction = (actionType: (typeof SIDEBAR_ITEMS)[number]['actionType']) => {
     switch (actionType) {
       case SIDEBAR_ACTION_TYPES.OPEN_LANGUAGE_DRAWER:
         setIsLanguageDrawerOpen(true)
+        break
+      case SIDEBAR_ACTION_TYPES.OPEN_CURRENCY_DRAWER:
+        setIsCurrencyDrawerOpen(true)
         break
       case SIDEBAR_ACTION_TYPES.OPEN_NEW_CHAT:
         // TODO: Implement new chat functionality
@@ -67,7 +80,11 @@ const AppSidebar = () => {
             </SidebarGroupLabel>
 
             <SidebarGroupContent className='mt-6'>
-              <SidebarMenuItems items={items} currentLanguage={currentLanguage} />
+              <SidebarMenuItems
+                items={items}
+                currentLanguage={currentLanguage}
+                currentCurrencyLabel={CURRENCIES[currency]}
+              />
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
@@ -93,6 +110,22 @@ const AppSidebar = () => {
           onOpenChange={setIsLanguageDrawerOpen}
           currentLanguage={i18n.language}
           onLanguageChange={changeLanguage}
+        />
+      )}
+
+      {isMobile ? (
+        <CurrencyDrawer
+          isOpen={isCurrencyDrawerOpen}
+          onOpenChange={setIsCurrencyDrawerOpen}
+          onCurrencyChange={changeCurrency}
+          currentCurrency={currency}
+        />
+      ) : (
+        <CurrencyPopup
+          open={isCurrencyDrawerOpen}
+          onOpenChange={setIsCurrencyDrawerOpen}
+          currentCurrency={currency}
+          onCurrencyChange={changeCurrency}
         />
       )}
     </>

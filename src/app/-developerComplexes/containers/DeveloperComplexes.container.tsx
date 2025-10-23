@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
-
-import { usePropertyByIdQuery } from '@app/-developerComplexes/api/getProperties.query'
 // components
 import { ComplexCardComponent } from '@app/-developerComplexes/components/ComplexCard.component'
 // containers
 import { ComplexesOverlayContainer } from '@app/-developerComplexes/containers/ComplexesOverlay.container'
+import { useGetPropertyQuery } from '../api/getProperty.query'
 
 interface TestListFlatsProps {
   flats?: any[]
@@ -13,7 +12,11 @@ interface TestListFlatsProps {
 
 const DeveloperComplexesContainer = ({ flats = [] }: TestListFlatsProps) => {
   const [developerId, setDeveloperId] = useState<string | null>(null)
-  const { data: developerObjectData, isFetching, isLoading } = usePropertyByIdQuery(developerId)
+  const {
+    data: developerObjectData,
+    isFetching,
+    isLoading,
+  } = useGetPropertyQuery({ propertyId: developerId })
   const isLoadingDeveloperObject = isFetching || isLoading
   //тут запрос именно по этому виджету
 

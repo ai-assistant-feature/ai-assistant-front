@@ -1,4 +1,4 @@
-import { Globe, SquarePen } from 'lucide-react'
+import { Globe, SquarePen, CircleDollarSign } from 'lucide-react'
 
 export const LANGUAGES = {
   en: 'English',
@@ -7,6 +7,7 @@ export const LANGUAGES = {
 
 export const SIDEBAR_ACTION_TYPES = {
   OPEN_LANGUAGE_DRAWER: 'OPEN_LANGUAGE_DRAWER',
+  OPEN_CURRENCY_DRAWER: 'OPEN_CURRENCY_DRAWER',
   OPEN_NEW_CHAT: 'OPEN_NEW_CHAT',
 } as const
 
@@ -23,5 +24,11 @@ export const SIDEBAR_ITEMS = [
     icon: Globe,
     showLanguage: true,
     actionType: SIDEBAR_ACTION_TYPES.OPEN_LANGUAGE_DRAWER,
+  },
+  {
+    titleKey: 'sidebar.currency',
+    icon: CircleDollarSign,
+    showCurrency: true,
+    actionType: SIDEBAR_ACTION_TYPES.OPEN_CURRENCY_DRAWER,
   },
 ] as const

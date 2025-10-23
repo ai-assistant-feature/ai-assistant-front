@@ -1,27 +1,25 @@
 import { z } from 'zod'
+import { vaultFileSchema } from './developerComplex.schema'
 
 export const DeveloperComplexesSchema = z.object({
-  //  самые важные поля
+  // core fields
   id: z.number(),
   name: z.string(),
   area: z.string(),
   coordinates: z.string(),
   developer: z.string(),
-  completionDatetime: z.string(),
-  coverImageUrl: z.object({
-    url: z.string(),
-  }),
-  // дополнительные поля
-  areaUnit: z.string(),
-  hasEscrow: z.boolean(),
-  isPartnerProject: z.boolean(),
-  maxPrice: z.number().nullable(),
-  minPrice: z.number().nullable(),
-  minPriceAed: z.number().nullable(),
-  minPricePerAreaUnit: z.boolean(),
-  postHandover: z.boolean(),
-  priceCurrency: z.string(),
-  saleStatus: z.string(),
+  completion_datetime: z.string(),
+  cover_image_url: vaultFileSchema,
+  // additional fields
+  area_unit: z.string(),
+  has_escrow: z.boolean(),
+  is_partner_project: z.boolean(),
+  max_price: z.number(),
+  min_price: z.number(),
+  min_price_per_area_unit: z.number(),
+  post_handover: z.boolean(),
+  price_currency: z.string(),
+  sale_status: z.string(),
   status: z.string(),
 })
 

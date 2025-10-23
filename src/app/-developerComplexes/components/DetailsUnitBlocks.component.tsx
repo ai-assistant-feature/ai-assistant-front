@@ -1,15 +1,16 @@
 import { TDeveloperComplex } from '@app/-developerComplexes/schemas/developerComplex.schema'
 import { useTranslation } from 'react-i18next'
+import { useCurrency } from '@app/-common/context/CurrencyProvider'
 
 interface UnitBlocksProps {
   developerObjectData: TDeveloperComplex
 }
 
-const formatCurrencyAED = (value?: number | string | null) => {
+const toNumber = (value?: number | string | null) => {
   if (value === null || value === undefined) return undefined
   const num = typeof value === 'number' ? value : parseFloat(value)
   if (Number.isNaN(num)) return undefined
-  return new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'AED' }).format(num)
+  return num
 }
 
 const roundAreaM2 = (value?: string | number | null) => {
@@ -21,6 +22,7 @@ const roundAreaM2 = (value?: string | number | null) => {
 
 const DetailsUnitBlocksComponent = ({ developerObjectData }: UnitBlocksProps) => {
   const { t } = useTranslation()
+  const { format } = useCurrency()
   const blocks = developerObjectData.unit_blocks
   if (!blocks || blocks.length === 0) return null
 
@@ -35,8 +37,8 @@ const DetailsUnitBlocksComponent = ({ developerObjectData }: UnitBlocksProps) =>
 
           const areaFrom = roundAreaM2(block.units_area_from_m2)
           const areaTo = roundAreaM2(block.units_area_to_m2)
-          const priceFrom = formatCurrencyAED(block.units_price_from_aed)
-          const priceTo = formatCurrencyAED(block.units_price_to_aed)
+          const priceFrom = toNumber(block.units_price_from_aed)
+          const priceTo = toNumber(block.units_price_to_aed)
 
           return (
             <div
@@ -64,11 +66,11 @@ const DetailsUnitBlocksComponent = ({ developerObjectData }: UnitBlocksProps) =>
                       : `${areaFrom || areaTo} м²`}
                   </div>
                 )}
-                {(priceFrom || priceTo) && (
+                {(priceFrom !== undefined || priceTo !== undefined) && (
                   <div className='text-sm text-muted-foreground'>
-                    {priceFrom && priceTo && priceFrom !== priceTo
-                      ? `${priceFrom} – ${priceTo}`
-                      : `от ${priceFrom || priceTo}`}
+                    {priceFrom !== undefined && priceTo !== undefined && priceFrom !== priceTo
+                      ? `${format(priceFrom)} – ${format(priceTo)}`
+                      : `от ${format((priceFrom ?? priceTo) as number)}`}
                   </div>
                 )}
               </div>

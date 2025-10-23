@@ -6,15 +6,21 @@ interface MenuItem {
   titleKey: string
   icon?: LucideIcon
   showLanguage?: boolean
+  showCurrency?: boolean
   onClick: () => void
 }
 
 interface SidebarMenuItemsProps {
   items: MenuItem[]
   currentLanguage?: string
+  currentCurrencyLabel?: string
 }
 
-export function SidebarMenuItems({ items, currentLanguage }: SidebarMenuItemsProps) {
+export function SidebarMenuItems({
+  items,
+  currentLanguage,
+  currentCurrencyLabel,
+}: SidebarMenuItemsProps) {
   const { t } = useTranslation()
 
   return (
@@ -30,6 +36,11 @@ export function SidebarMenuItems({ items, currentLanguage }: SidebarMenuItemsPro
               <span className='text-foreground'>{t(item.titleKey)}</span>
               {item.showLanguage && (
                 <span className='ml-auto text-sm text-muted-foreground'>{currentLanguage}</span>
+              )}
+              {item.showCurrency && (
+                <span className='ml-auto text-sm text-muted-foreground'>
+                  {currentCurrencyLabel}
+                </span>
               )}
             </div>
           </SidebarMenuButton>

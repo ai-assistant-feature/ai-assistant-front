@@ -30,6 +30,3 @@ export const useAssistantMessageMutation = () => {
     },
   })
 }
-
-//ВСЕ ДАННЫЕ получаем в таком ввиде
-// has_escrow
