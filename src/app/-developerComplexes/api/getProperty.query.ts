@@ -1,18 +1,23 @@
 import { httpService } from '@/helpers/api'
 import { useQuery } from '@tanstack/react-query'
 
-const propertyId = '2930'
 export const PropertyQueryKey = ['property'] as const
 
-export const fetchProperty = async (): Promise<any> => {
+export const fetchProperty = async ({
+  propertyId,
+}: {
+  propertyId: string | null
+}): Promise<any> => {
+  if (!propertyId) return null
   const response = await httpService.get(`/api/v1/properties/${propertyId}`)
-  return response.data
+  return response.data.property
 }
 
-const useGetPropertyQuery = () => {
+const useGetPropertyQuery = ({ propertyId }: { propertyId: string | null }) => {
   return useQuery({
     queryKey: PropertyQueryKey,
-    queryFn: fetchProperty,
+    queryFn: () => fetchProperty({ propertyId }),
+    enabled: !!propertyId,
   })
 }
 

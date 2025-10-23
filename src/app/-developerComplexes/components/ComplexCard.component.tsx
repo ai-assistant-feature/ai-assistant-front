@@ -1,20 +1,19 @@
 import { DateTime } from 'luxon'
 import { useTranslation } from 'react-i18next'
+import { useCurrency } from '@app/-common/context/CurrencyProvider'
 
 interface FlatCardProps {
   flat: any
   setDeveloperId: any
 }
 
+//FIXME: flat.price_currency на это поле не будет ориентироваться
 const ComplexCardComponent = ({ flat, setDeveloperId }: FlatCardProps) => {
   const { t } = useTranslation()
-  //FIXME: вынести ru-RU или en-AE в конфиг
-  const formatted = new Intl.NumberFormat('ru-RU', {
-    style: 'currency',
-    currency: 'AED',
-  }).format(flat.minPrice)
+  const { format, currency } = useCurrency()
+  const formatted = format(flat.min_price, { currency: (flat.price_currency as any) || currency })
 
-  const completionDate = DateTime.fromISO(flat.completionDatetime, { zone: 'local' })
+  const completionDate = DateTime.fromISO(flat.completion_datetime, { zone: 'local' })
 
   // Формат: "декабрь 2027" (только месяц и год)
   const formattedCompletionDate = completionDate.toLocaleString({ month: 'long', year: 'numeric' })
@@ -26,7 +25,7 @@ const ComplexCardComponent = ({ flat, setDeveloperId }: FlatCardProps) => {
     >
       <div className='relative h-40'>
         <img
-          src={flat.coverImageUrl?.url}
+          src={flat.cover_image_url?.url}
           alt={flat.title}
           className='w-full h-full object-cover'
         />

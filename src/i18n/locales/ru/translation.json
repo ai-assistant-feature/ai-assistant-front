@@ -16,8 +16,10 @@
   "sidebar": {
     "settings": "Настройки",
     "language": "Язык",
+    "currency": "Валюта",
     "newChat": "Новый чат",
     "selectLanguage": "Выберите язык",
+    "selectCurrency": "Выберите валюту",
     "saveDescription": "Сохраняйте понравившиеся объекты, делитесь ими с друзьями и возвращайтесь к ним в любое время"
   },
   "settings": {
