@@ -80,7 +80,8 @@
     "layouts": "Планировки",
     "area": "Площадь",
     "architecture": "Архитектура",
-    "interior": "Интерьер"
+    "interior": "Интерьер",
+    "priceFrom": "Цена от"
   },
   "tabs": {
     "subscriptions": "Подписки",
