@@ -14,8 +14,6 @@ const ComplexCardComponent = ({ flat, setDeveloperId }: FlatCardProps) => {
   const formatted = format(flat.min_price, { currency: (flat.price_currency as any) || currency })
 
   const completionDate = DateTime.fromISO(flat.completion_datetime, { zone: 'local' })
-
-  // Формат: "декабрь 2027" (только месяц и год)
   const formattedCompletionDate = completionDate.toLocaleString({ month: 'long', year: 'numeric' })
 
   return (
@@ -29,25 +27,42 @@ const ComplexCardComponent = ({ flat, setDeveloperId }: FlatCardProps) => {
           alt={flat.title}
           className='w-full h-full object-cover'
         />
+        <div className='absolute inset-0 p-2 flex items-start justify-between pointer-events-none'>
+          <div className='flex gap-2 flex-wrap'>
+            {flat.sale_status && (
+              <span className='pointer-events-auto bg-background/80 text-foreground text-[10px] px-2 py-1 rounded-md border border-border'>
+                {flat.sale_status}
+              </span>
+            )}
+            {formattedCompletionDate && (
+              <span className='pointer-events-auto bg-background/80 text-foreground text-[10px] px-2 py-1 rounded-md border border-border'>
+                {formattedCompletionDate}
+              </span>
+            )}
+            {flat.has_escrow && (
+              <span className='pointer-events-auto bg-background/80 text-foreground text-[10px] px-2 py-1 rounded-md border border-border'>
+                Escrow
+              </span>
+            )}
+          </div>
+        </div>
       </div>
       <div className='p-3 bg-accent flex flex-col gap-1.5'>
-        <h3 className='text-base font-semibold text-primary line-clamp-1'>{flat.name}</h3>
+        <h3 className='text-xl font-semibold text-primary line-clamp-1'>{flat.name}</h3>
 
         <div className='text-sm'>
           <span className='block'>{flat.area}</span>
         </div>
 
-        <div className='text-sm text-muted-foreground'>
-          <span className='block font-medium'>{t('property.developer')}:</span>
-          <span className='block'>{flat.developer}</span>
+        <div className='text-sm'>
+          <span className='block text-muted-foreground'>{t('property.developer')}:</span>
+          <span className='block font-semibold'>{flat.developer}</span>
         </div>
 
-        <div className='text-sm text-muted-foreground'>
-          <span className='block font-medium'>{t('property.completionDate')}:</span>
-          <span className='block capitalize'>{formattedCompletionDate}</span>
+        <div>
+          <div className='text-sm text-muted-foreground'>Price from</div>
+          <div className='text-sm font-semibold text-foreground'>{formatted}</div>
         </div>
-
-        <div className='pt-2 text-sm font-semibold text-foreground'>{formatted}</div>
       </div>
     </div>
   )
