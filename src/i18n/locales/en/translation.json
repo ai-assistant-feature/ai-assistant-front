@@ -80,7 +80,8 @@
     "layouts": "Layouts",
     "area": "Area",
     "architecture": "Architecture",
-    "interior": "Interior"
+    "interior": "Interior",
+    "priceFrom": "Price from"
   },
   "tabs": {
     "subscriptions": "Subscriptions",

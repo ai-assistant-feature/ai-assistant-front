@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 // components
 import { ComplexCardComponent } from '@app/-developerComplexes/components/ComplexCard.component'
 // containers
@@ -33,21 +32,18 @@ const DeveloperComplexesContainer = ({ flats = [] }: TestListFlatsProps) => {
   return (
     <>
       <div>
-        <Carousel
-          opts={{
-            align: 'start',
-            containScroll: 'trimSnaps',
-          }}
-          className='w-full'
+        <div
+          className='w-full overflow-x-auto scrollbar-hide'
+          style={{ WebkitOverflowScrolling: 'touch' }}
         >
-          <CarouselContent className='-ml-2 md:-ml-4'>
+          <div className='flex -ml-2 md:-ml-4'>
             {flats.map((flat) => (
-              <CarouselItem key={flat.id} className='pl-2 md:pl-4 basis-[85%] md:basis-[45%]'>
+              <div key={flat.id} className='pl-2 md:pl-4 basis-[85%] md:basis-[45%] shrink-0'>
                 <ComplexCardComponent flat={flat} setDeveloperId={setDeveloperId} />
-              </CarouselItem>
+              </div>
             ))}
-          </CarouselContent>
-        </Carousel>
+          </div>
+        </div>
       </div>
 
       <ComplexesOverlayContainer

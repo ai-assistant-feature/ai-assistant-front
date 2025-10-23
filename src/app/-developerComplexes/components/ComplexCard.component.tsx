@@ -60,7 +60,7 @@ const ComplexCardComponent = ({ flat, setDeveloperId }: FlatCardProps) => {
         </div>
 
         <div>
-          <div className='text-sm text-muted-foreground'>Price from</div>
+          <div className='text-sm text-muted-foreground'>{t('property.priceFrom')}</div>
           <div className='text-sm font-semibold text-foreground'>{formatted}</div>
         </div>
       </div>
