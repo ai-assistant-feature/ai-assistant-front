@@ -4,12 +4,14 @@ import { ComplexCardComponent } from '@app/-developerComplexes/components/Comple
 // containers
 import { ComplexesOverlayContainer } from '@app/-developerComplexes/containers/ComplexesOverlay.container'
 import { useGetPropertyQuery } from '../api/getProperty.query'
+import { FilterDebugContainer } from '@app/-common/containers/FilterDebug.container'
+import { FiltersAppliedContainer } from '@app/-common/containers/FiltersApplied.container'
 
-interface TestListFlatsProps {
-  flats?: any[]
+interface IProps {
+  data: any
 }
 
-const DeveloperComplexesContainer = ({ flats = [] }: TestListFlatsProps) => {
+const DeveloperComplexesContainer = ({ data }: IProps) => {
   const [developerId, setDeveloperId] = useState<string | null>(null)
   const {
     data: developerObjectData,
@@ -20,7 +22,7 @@ const DeveloperComplexesContainer = ({ flats = [] }: TestListFlatsProps) => {
   //тут запрос именно по этому виджету
 
   // Если нет квартир, показываем сообщение
-  if (!flats || flats.length === 0) {
+  if (!data?.items || data?.items?.length === 0) {
     return (
       <div className='text-center py-8 text-gray-500'>
         <p>К сожалению, по заданным параметрам ничего не найдено.</p>
@@ -28,6 +30,8 @@ const DeveloperComplexesContainer = ({ flats = [] }: TestListFlatsProps) => {
       </div>
     )
   }
+
+  console.log('data', data?.ai_filter_debug)
 
   return (
     <>
@@ -37,14 +41,17 @@ const DeveloperComplexesContainer = ({ flats = [] }: TestListFlatsProps) => {
           style={{ WebkitOverflowScrolling: 'touch' }}
         >
           <div className='flex -ml-2 md:-ml-4'>
-            {flats.map((flat) => (
-              <div key={flat.id} className='pl-2 md:pl-4 basis-[85%] md:basis-[45%] shrink-0'>
-                <ComplexCardComponent flat={flat} setDeveloperId={setDeveloperId} />
+            {data?.items?.map((item: any) => (
+              <div key={item.id} className='pl-2 md:pl-4 basis-[85%] md:basis-[45%] shrink-0'>
+                <ComplexCardComponent flat={item} setDeveloperId={setDeveloperId} />
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {data?.ai_filter_debug && <FilterDebugContainer data={data?.ai_filter_debug} />}
+      {data?.filters_applied && <FiltersAppliedContainer data={data?.filters_applied} />}
 
       <ComplexesOverlayContainer
         developerObjectData={developerObjectData}

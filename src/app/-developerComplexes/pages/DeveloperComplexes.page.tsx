@@ -10,15 +10,15 @@ import { TDeveloperComplexes } from '@app/-developerComplexes/schemas/developerC
 // containers
 import { DeveloperComplexesContainer } from '@app/-developerComplexes/containers/DeveloperComplexes.container'
 
-interface GPTMessageTabProps {
-  data?: any[]
+interface IProps {
+  data: any
 }
 
-const DeveloperComplexesPage = ({ data = [] }: GPTMessageTabProps) => {
+const DeveloperComplexesPage = ({ data }: IProps) => {
   const { t } = useTranslation()
 
   const locations =
-    data.map((property: TDeveloperComplexes) => ({
+    data?.items?.map((property: TDeveloperComplexes) => ({
       name: property.developer,
       coordinates: property.coordinates,
     })) || []
@@ -41,7 +41,7 @@ const DeveloperComplexesPage = ({ data = [] }: GPTMessageTabProps) => {
         </TabsList>
 
         <TabsContent value='list' className='w-full'>
-          <DeveloperComplexesContainer flats={data} />
+          <DeveloperComplexesContainer data={data} />
         </TabsContent>
 
         <TabsContent value='map' className='w-full'>

@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { useTranslation } from 'react-i18next'
 import { useCurrency } from '@app/-common/context/CurrencyProvider'
+import { useGetExchangeRatesQuery } from '@app/-common/api/getExchangeRates.query'
 
 interface FlatCardProps {
   flat: any
@@ -11,7 +12,13 @@ interface FlatCardProps {
 const ComplexCardComponent = ({ flat, setDeveloperId }: FlatCardProps) => {
   const { t } = useTranslation()
   const { format, currency } = useCurrency()
-  const formatted = format(flat.min_price, { currency: (flat.price_currency as any) || currency })
+  const { data: exchangeRates } = useGetExchangeRatesQuery()
+
+  const exchangeRate = exchangeRates[currency] || 1
+
+  const formatted = format(flat.min_price / exchangeRate, {
+    currency: exchangeRate?.currency,
+  })
 
   const completionDate = DateTime.fromISO(flat.completion_datetime, { zone: 'local' })
   const formattedCompletionDate = completionDate.toLocaleString({ month: 'long', year: 'numeric' })
@@ -37,11 +44,6 @@ const ComplexCardComponent = ({ flat, setDeveloperId }: FlatCardProps) => {
             {formattedCompletionDate && (
               <span className='pointer-events-auto bg-background/80 text-foreground text-[10px] px-2 py-1 rounded-md border border-border'>
                 {formattedCompletionDate}
-              </span>
-            )}
-            {flat.has_escrow && (
-              <span className='pointer-events-auto bg-background/80 text-foreground text-[10px] px-2 py-1 rounded-md border border-border'>
-                Escrow
               </span>
             )}
           </div>
