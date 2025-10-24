@@ -6,6 +6,7 @@ import { ThemeProvider } from '@app/-common/context/ThemeProvider'
 import { CurrencyProvider } from '@app/-common/context/CurrencyProvider'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { MainLayout } from '@app/-common/layouts/MainLayout'
+import { ExchangeRatesBootstrapper } from '@app/-common/api/ExchangeRatesBootstrapper'
 
 function RootPage() {
   return (
@@ -13,6 +14,7 @@ function RootPage() {
       <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
         <CurrencyProvider>
           <SidebarProvider>
+            <ExchangeRatesBootstrapper />
             <App>
               <MainLayout />
             </App>

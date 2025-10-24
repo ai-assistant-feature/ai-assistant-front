@@ -37,7 +37,7 @@ const AssistantMessageContainer: FC<IProps> = ({ content }) => {
   }
 
   // TODO: тут будет много разных страниц ()
-  return <DeveloperComplexesPage data={data?.items || []} />
+  return <DeveloperComplexesPage data={data} />
 }
 
 export { AssistantMessageContainer }
