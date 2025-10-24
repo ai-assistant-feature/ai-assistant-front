@@ -6,6 +6,7 @@ import { useSidebar } from '@/components/ui/sidebar'
 // components
 import { ChatInput } from '@app/-chat/components/ChatInput'
 import { ChatActions } from '@app/-chat/components/ChatActions'
+import { QuickQuestions } from '../components/QuickQuestions'
 
 interface IProps {
   isPending: boolean
@@ -16,11 +17,11 @@ interface IProps {
 export const ChatTextArea: FC<IProps> = ({ isPending, handleSend, onHeightChange }) => {
   const { state } = useSidebar()
   const [input, setInput] = useState('')
-  // const [showQuickQuestions, setShowQuickQuestions] = useState(true)
+  const [showQuickQuestions, setShowQuickQuestions] = useState(true)
 
   const sendMessage = (value: string) => {
     handleSend(value)
-    // setShowQuickQuestions(false)
+    setShowQuickQuestions(false)
     setInput('')
   }
 
@@ -40,7 +41,7 @@ export const ChatTextArea: FC<IProps> = ({ isPending, handleSend, onHeightChange
           } as React.CSSProperties
         }
       >
-        {/* {showQuickQuestions && <QuickQuestions handleSend={sendMessage} />} */}
+        {showQuickQuestions && <QuickQuestions handleSend={sendMessage} />}
         <form className='isolate z-[3] w-full flex flex-col md:border-transparent md:pt-0'>
           <div className='relative w-full'>
             <div className='relative border rounded-t-4xl md:rounded-4xl p-6 pt-2 bg-background border-border'>
