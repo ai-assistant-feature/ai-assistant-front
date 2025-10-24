@@ -32,6 +32,10 @@ const AppSidebar = () => {
   const currentLanguage = LANGUAGES[i18n.language as keyof typeof LANGUAGES] || i18n.language
 
   const changeLanguage = (lang: keyof typeof LANGUAGES) => {
+    // persist language choice
+    try {
+      localStorage.setItem('i18nextLng', lang)
+    } catch {}
     i18n.changeLanguage(lang)
     setIsLanguageDrawerOpen(false)
   }

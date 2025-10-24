@@ -14,13 +14,14 @@ i18n
       en: { translation: en },
       ru: { translation: ru },
     },
-    lng: 'ru', // устанавливаем русский язык по умолчанию
+    lng: 'en', // устанавливаем английский язык по умолчанию
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false, // не экранируем HTML
     },
     detection: {
-      order: ['localStorage', 'navigator'],
+      // используем только localStorage, чтобы по умолчанию всегда был английский
+      order: ['localStorage'],
       caches: ['localStorage'],
     },
     debug: true, // включаем отладку
