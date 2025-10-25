@@ -1,6 +1,7 @@
 import { TDeveloperComplex } from '@app/-developerComplexes/schemas/developerComplex.schema'
 import { useTranslation } from 'react-i18next'
 import { useCurrency } from '@app/-common/context/CurrencyProvider'
+import { useGetExchangeRatesQuery } from '@app/-common/api/getExchangeRates.query'
 
 interface UnitBlocksProps {
   developerObjectData: TDeveloperComplex
@@ -13,16 +14,11 @@ const toNumber = (value?: number | string | null) => {
   return num
 }
 
-const roundAreaM2 = (value?: string | number | null) => {
-  if (value === null || value === undefined) return undefined
-  const num = typeof value === 'number' ? value : parseFloat(value)
-  if (Number.isNaN(num)) return undefined
-  return Math.round(num)
-}
-
 const DetailsUnitBlocksComponent = ({ developerObjectData }: UnitBlocksProps) => {
   const { t } = useTranslation()
-  const { format } = useCurrency()
+  const { format, currency } = useCurrency()
+  const { data: exchangeRates } = useGetExchangeRatesQuery()
+  const exchangeRate = exchangeRates[currency] || 1
   const blocks = developerObjectData.unit_blocks
   if (!blocks || blocks.length === 0) return null
 
@@ -35,10 +31,12 @@ const DetailsUnitBlocksComponent = ({ developerObjectData }: UnitBlocksProps) =>
             ? block.typical_unit_image_url[0]?.url
             : undefined
 
-          const areaFrom = roundAreaM2(block.units_area_from_m2)
-          const areaTo = roundAreaM2(block.units_area_to_m2)
-          const priceFrom = toNumber(block.units_price_from_aed)
-          const priceTo = toNumber(block.units_price_to_aed)
+          const formattedPriceForm = format(
+            (toNumber(block.units_price_from) ?? 0) / exchangeRate,
+            {
+              currency: exchangeRate?.currency,
+            },
+          )
 
           return (
             <div
@@ -58,21 +56,8 @@ const DetailsUnitBlocksComponent = ({ developerObjectData }: UnitBlocksProps) =>
                 <div className='text-base font-semibold text-primary line-clamp-2'>
                   {block.name}
                 </div>
-                {(areaFrom || areaTo) && (
-                  <div className='text-sm text-muted-foreground'>
-                    <span className='font-medium'>{t('property.area')}: </span>
-                    {areaFrom && areaTo && areaFrom !== areaTo
-                      ? `${areaFrom}–${areaTo} м²`
-                      : `${areaFrom || areaTo} м²`}
-                  </div>
-                )}
-                {(priceFrom !== undefined || priceTo !== undefined) && (
-                  <div className='text-sm text-muted-foreground'>
-                    {priceFrom !== undefined && priceTo !== undefined && priceFrom !== priceTo
-                      ? `${format(priceFrom)} – ${format(priceTo)}`
-                      : `от ${format((priceFrom ?? priceTo) as number)}`}
-                  </div>
-                )}
+
+                {formattedPriceForm}
               </div>
             </div>
           )

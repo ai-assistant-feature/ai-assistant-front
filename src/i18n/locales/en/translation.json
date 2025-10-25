@@ -54,17 +54,41 @@
       "map": "Map"
     },
     "quickQuestions": [
-      { "title": "Choose an apartment", "subtitle": "list top 5 best apartments" },
-      { "title": "Park view", "subtitle": "show new buildings with park view" },
-      { "title": "Maximum silence", "subtitle": "choose apartments in the quietest areas" },
-      { "title": "For families with children", "subtitle": "find housing near kindergarten and school" },
-      { "title": "Walking distance to metro", "subtitle": "looking for an apartment 10 minutes from the metro" },
-      { "title": "With good finishing", "subtitle": "show apartments with finishing" },
-      { "title": "Up to 10 million", "subtitle": "what options are there up to 10 million rubles" },
-      { "title": "At the start of sales", "subtitle": "looking for apartments in new buildings at the start of sales" },
-      { "title": "For investment", "subtitle": "what is better to buy for renting out" },
-      { "title": "Near the park", "subtitle": "show apartments near parks or squares" },
-      { "title": "With panoramic windows", "subtitle": "find apartments with panoramic windows" }
+      {
+        "id": "x-btn-case-top-3-developers",
+        "title": "Top 3 developers",
+        "subtitle": "show top 3 developers"
+      },
+      {
+        "id": "x-btn-case-top-5-developers",
+        "title": "Top 5 developers",
+        "subtitle": "show top 5 developers"
+      },
+      {
+        "id": "x-btn-case-luxe-developers",
+        "title": "Luxury developers",
+        "subtitle": "show luxury segment developers"
+      },
+      {
+        "id": "x-btn-case-new-properties",
+        "title": "New properties",
+        "subtitle": "show new properties on the market"
+      },
+      {
+        "id": "x-btn-case-long-loan",
+        "title": "Long-term mortgage",
+        "subtitle": "find projects with long-term payment plan"
+      },
+      {
+        "id": "x-btn-case-one-percent-payment",
+        "title": "1% down payment",
+        "subtitle": "find projects with 1% initial payment"
+      },
+      {
+        "id": "x-btn-case-2000-usd-payment",
+        "title": "$2,000 monthly payment",
+        "subtitle": "find projects with ~$2,000 per month plans"
+      }
     ]
   },
   "property": {

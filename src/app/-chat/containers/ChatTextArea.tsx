@@ -6,7 +6,8 @@ import { useSidebar } from '@/components/ui/sidebar'
 // components
 import { ChatInput } from '@app/-chat/components/ChatInput'
 import { ChatActions } from '@app/-chat/components/ChatActions'
-import { QuickQuestions } from '../components/QuickQuestions'
+// containers
+import { QuickQuestions } from './QuickQuestions.container'
 
 interface IProps {
   isPending: boolean
