@@ -1,5 +1,7 @@
 import { TDeveloperComplex } from '@app/-developerComplexes/schemas/developerComplex.schema'
 import { useTranslation } from 'react-i18next'
+// containers
+import DeveloperChartContainer from './DeveloperChart.container'
 // components
 import { DetailsCoverComponent } from '@app/-developerComplexes/components/DetailsCover.component'
 import { DetailsDeveloperComponent } from '@app/-developerComplexes/components/DetailsDeveloper.component'
@@ -23,6 +25,7 @@ const DetailsContainer = ({ developerObjectData, isLoadingDeveloperObject }: IPr
   return (
     <>
       <DetailsCoverComponent developerObjectData={developerObjectData} />
+      <DeveloperChartContainer />
       <DetailsDeveloperComponent developerObjectData={developerObjectData} />
       <DetailsUnitBlocksComponent developerObjectData={developerObjectData} />
       <DetailsArchitectureComponent developerObjectData={developerObjectData} />
