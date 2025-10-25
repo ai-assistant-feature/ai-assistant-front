@@ -4,8 +4,9 @@ import { App } from '@app/-common/App'
 import { queryClient } from '../../queryClient'
 import { ThemeProvider } from '@app/-common/context/ThemeProvider'
 import { CurrencyProvider } from '@app/-common/context/CurrencyProvider'
+import { AuthProvider } from '@app/-common/context/AuthProvider'
 import { SidebarProvider } from '@/components/ui/sidebar'
-import { MainLayout } from '@app/-common/layouts/MainLayout'
+import { Outlet } from '@tanstack/react-router'
 import { ExchangeRatesBootstrapper } from '@app/-common/api/ExchangeRatesBootstrapper'
 
 function RootPage() {
@@ -13,12 +14,14 @@ function RootPage() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
         <CurrencyProvider>
-          <SidebarProvider>
-            <ExchangeRatesBootstrapper />
-            <App>
-              <MainLayout />
-            </App>
-          </SidebarProvider>
+          <AuthProvider>
+            <SidebarProvider>
+              <ExchangeRatesBootstrapper />
+              <App>
+                <Outlet />
+              </App>
+            </SidebarProvider>
+          </AuthProvider>
         </CurrencyProvider>
       </ThemeProvider>
     </QueryClientProvider>
