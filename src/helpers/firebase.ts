@@ -1,5 +1,5 @@
 import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app'
-import { getAuth, GoogleAuthProvider, type Auth } from 'firebase/auth'
+import { getAuth, GoogleAuthProvider, type Auth, useDeviceLanguage } from 'firebase/auth'
 
 let firebaseApp: FirebaseApp | undefined
 let authInstance: Auth | undefined
@@ -47,6 +47,11 @@ export function getFirebaseApp(): FirebaseApp {
 export function getFirebaseAuth(): Auth {
   if (!authInstance) {
     authInstance = getAuth(getFirebaseApp())
+    try {
+      // Localize Auth UIs and SMS to the device/browser language
+      // Falls back to default if device language cannot be determined
+      useDeviceLanguage(authInstance)
+    } catch {}
   }
   return authInstance
 }
