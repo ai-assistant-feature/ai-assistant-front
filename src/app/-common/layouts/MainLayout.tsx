@@ -1,19 +1,34 @@
-import { Outlet } from '@tanstack/react-router'
+import { Outlet, useNavigate } from '@tanstack/react-router'
 import { Toaster } from '@/components/ui/sonner'
 // containers
 import { Header } from '@app/-common/containers/Header'
 import { AppSidebar } from '@app/-common/containers/AppSidebar'
+import { ReactNode, useEffect } from 'react'
+import { useAuth } from '@app/-common/context/AuthProvider'
 
-export function MainLayout() {
+export function MainLayout({ children }: { children?: ReactNode }) {
+  const { user, loading } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate({ to: '/login' })
+    }
+  }, [loading, user, navigate])
+
+  if (loading) {
+    return <div className='flex h-screen items-center justify-center'>Загрузка…</div>
+  }
+
+  if (!user) return null
+
   return (
     <>
       <div id='dialog-root' />
       <div className='flex h-screen w-full'>
         <Header />
         <AppSidebar />
-        <main className='flex-1 overflow-auto'>
-          <Outlet />
-        </main>
+        <main className='flex-1 overflow-auto'>{children ?? <Outlet />}</main>
         <Toaster />
       </div>
     </>

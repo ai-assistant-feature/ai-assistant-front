@@ -134,3 +134,23 @@ npm run lint       # Проверка кода линтером
 ## 📄 Лицензия
 
 [Укажите вашу лицензию]
+
+---
+
+## 🔑 Настройка Firebase Auth
+
+Создайте файл `.env` в корне проекта и добавьте ключи Firebase Web App:
+
+```bash
+VITE_FIREBASE_API_KEY=...
+VITE_FIREBASE_AUTH_DOMAIN=...
+VITE_FIREBASE_PROJECT_ID=...
+VITE_FIREBASE_STORAGE_BUCKET=...
+VITE_FIREBASE_MESSAGING_SENDER_ID=...
+VITE_FIREBASE_APP_ID=...
+```
+
+Маршруты:
+
+- `/login` — страница входа (Google sign-in)
+- `/` — защищенный дашборд (редирект на `/login`, если не авторизован)
