@@ -6,11 +6,12 @@ import { useSidebar } from '@/components/ui/sidebar'
 // components
 import { ChatInput } from '@app/-chat/components/ChatInput'
 import { ChatActions } from '@app/-chat/components/ChatActions'
-import { QuickQuestions } from '../components/QuickQuestions'
+// containers
+import { QuickQuestions } from './QuickQuestions.container'
 
 interface IProps {
   isPending: boolean
-  handleSend: (value: string) => void
+  handleSend: (value: string, options?: { buttonId?: string }) => void
   onHeightChange?: (height: number) => void
 }
 
@@ -19,8 +20,8 @@ export const ChatTextArea: FC<IProps> = ({ isPending, handleSend, onHeightChange
   const [input, setInput] = useState('')
   const [showQuickQuestions, setShowQuickQuestions] = useState(true)
 
-  const sendMessage = (value: string) => {
-    handleSend(value)
+  const sendMessage = (value: string, options?: { buttonId?: string }) => {
+    handleSend(value, options)
     setShowQuickQuestions(false)
     setInput('')
   }

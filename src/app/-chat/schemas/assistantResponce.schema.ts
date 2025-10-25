@@ -31,6 +31,9 @@ export const AssistantResponseSchema = z.object({
           max_price_aed: z.string().optional(),
           unit_bedrooms_extracted: z.array(z.any()).optional(),
           sale_statuses: z.array(z.any()).optional(),
+          developers: z.array(z.any()).optional(),
+          posthandover: z.boolean().optional(),
+          property_areas: z.array(z.any()).optional(),
         })
         .optional(),
     })

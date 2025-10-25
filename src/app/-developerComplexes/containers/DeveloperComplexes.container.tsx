@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { FC, useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 // components
 import { ComplexCardComponent } from '@app/-developerComplexes/components/ComplexCard.component'
 // containers
@@ -9,9 +10,10 @@ import { FiltersAppliedContainer } from '@app/-common/containers/FiltersApplied.
 
 interface IProps {
   data: any
+  message: string | null
 }
 
-const DeveloperComplexesContainer = ({ data }: IProps) => {
+const DeveloperComplexesContainer: FC<IProps> = ({ data, message }) => {
   const [developerId, setDeveloperId] = useState<string | null>(null)
   const {
     data: developerObjectData,
@@ -31,8 +33,6 @@ const DeveloperComplexesContainer = ({ data }: IProps) => {
     )
   }
 
-  console.log('data', data?.ai_filter_debug)
-
   return (
     <>
       <div>
@@ -48,6 +48,10 @@ const DeveloperComplexesContainer = ({ data }: IProps) => {
             ))}
           </div>
         </div>
+      </div>
+
+      <div className='mt-6'>
+        <ReactMarkdown>{message}</ReactMarkdown>
       </div>
 
       {data?.ai_filter_debug && <FilterDebugContainer data={data?.ai_filter_debug} />}

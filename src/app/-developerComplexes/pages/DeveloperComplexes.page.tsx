@@ -9,12 +9,14 @@ import { ChatMap } from '@app/-chat/components/ChatMap'
 import { TDeveloperComplexes } from '@app/-developerComplexes/schemas/developerComplexes.schema'
 // containers
 import { DeveloperComplexesContainer } from '@app/-developerComplexes/containers/DeveloperComplexes.container'
+import { FC } from 'react'
 
 interface IProps {
   data: any
+  message: string | null
 }
 
-const DeveloperComplexesPage = ({ data }: IProps) => {
+const DeveloperComplexesPage: FC<IProps> = ({ data, message }) => {
   const { t } = useTranslation()
 
   const locations =
@@ -41,7 +43,7 @@ const DeveloperComplexesPage = ({ data }: IProps) => {
         </TabsList>
 
         <TabsContent value='list' className='w-full'>
-          <DeveloperComplexesContainer data={data} />
+          <DeveloperComplexesContainer data={data} message={message} />
         </TabsContent>
 
         <TabsContent value='map' className='w-full'>

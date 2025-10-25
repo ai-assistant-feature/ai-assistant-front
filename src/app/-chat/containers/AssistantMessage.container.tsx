@@ -15,11 +15,7 @@ interface IProps {
 const AssistantMessageContainer: FC<IProps> = ({ content }) => {
   const { message, data } = content
 
-  // ВСЕГДА РЕНДЕРИТСЯ ЭТОТ КОМПОНЕНТ
-  if (
-    content.responseType === ResponseTypeEnum.enum.needMoreInfo ||
-    content.responseType === ResponseTypeEnum.enum.smallTalk
-  ) {
+  if (content.responseType === ResponseTypeEnum.enum.smallTalk) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -36,8 +32,7 @@ const AssistantMessageContainer: FC<IProps> = ({ content }) => {
     )
   }
 
-  // TODO: тут будет много разных страниц ()
-  return <DeveloperComplexesPage data={data} />
+  return <DeveloperComplexesPage data={data} message={message} />
 }
 
 export { AssistantMessageContainer }
