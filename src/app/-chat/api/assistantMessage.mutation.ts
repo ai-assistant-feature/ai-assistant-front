@@ -7,18 +7,22 @@ import { TAssistantResponse } from '@app/-chat/schemas/assistantResponce.schema'
 interface AskVariables {
   question: string
   metadata?: Record<string, unknown>
+  buttonId?: string
 }
 
 export const useAssistantMessageMutation = () => {
   return useMutation<any, Error, AskVariables>({
-    mutationFn: async ({ question }) => {
+    mutationFn: async ({ question, buttonId }) => {
       const payload = {
         message: question,
         sessionId: getSessionId(),
       }
 
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+      if (buttonId) headers['X-Button'] = buttonId
+
       const response = await httpService.post<TAssistantResponse>('/api/v1/chat/message', payload, {
-        headers: { 'Content-Type': 'application/json' },
+        headers,
       })
 
       return response.data

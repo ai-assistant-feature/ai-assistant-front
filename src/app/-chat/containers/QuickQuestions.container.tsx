@@ -4,7 +4,7 @@ import { getQuickQuestions } from '../constants/quickQuestions'
 import { useGetSupportedBtnsQuery } from '../api/getSupportedBtns.query'
 
 interface IProps {
-  handleSend: (value: string) => void
+  handleSend: (value: string, options?: { buttonId?: string }) => void
 }
 
 export const QuickQuestions: FC<IProps> = ({ handleSend }) => {
@@ -26,7 +26,7 @@ export const QuickQuestions: FC<IProps> = ({ handleSend }) => {
             key={q.id}
             type='button'
             className='flex flex-col px-4 py-2 rounded-2xl bg-accent hover:bg-accent/80 transition w-auto max-w-[200px]'
-            onClick={() => handleSend(q.value)}
+            onClick={() => handleSend(q.value, { buttonId: q.id })}
           >
             <div className='text-sm font-bold truncate self-start text-accent-foreground'>
               {q.title}

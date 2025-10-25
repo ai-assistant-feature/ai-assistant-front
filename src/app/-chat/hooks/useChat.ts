@@ -11,7 +11,7 @@ export const useChat = () => {
 
   const { mutate, isPending, isError } = useAssistantMessageMutation()
 
-  const handleSend = (value: string) => {
+  const handleSend = (value: string, options?: { buttonId?: string }) => {
     if (!value.trim()) return
 
     const userMessage: TMessage = {
@@ -23,7 +23,7 @@ export const useChat = () => {
     setMessages((prev) => [...prev, userMessage])
 
     mutate(
-      { question: value },
+      { question: value, buttonId: options?.buttonId },
       {
         onSuccess: (res: TAssistantResponse) => {
           setMessages((prev) => [
