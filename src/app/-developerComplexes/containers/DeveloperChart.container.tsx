@@ -2,7 +2,7 @@ import {
   BarChart,
   Bar,
   XAxis,
-  YAxis,
+  // YAxis,
   Tooltip,
   CartesianGrid,
   Legend,
@@ -13,6 +13,8 @@ import { ChartConfig, ChartContainer } from '@/components/ui/chart'
 import { useGetPriceGraphQuery } from '../api/getPriceGraph.query'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useCurrency } from '@app/-common/context/CurrencyProvider'
+import { useGetExchangeRatesQuery } from '@app/-common/api/getExchangeRates.query'
 
 const parseWeekDate = (week: string) => {
   const [d, m, y] = week.split('.')
@@ -39,13 +41,14 @@ type CustomTooltipProps = {
 
 const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   const { t } = useTranslation()
+  const { format, currency } = useCurrency()
   if (!active || !payload || payload.length === 0) return null
   return (
     <div className='bg-white/95 p-3 rounded-lg shadow-md text-sm'>
       <div className='font-medium mb-1'>{label}</div>
       {payload.map((p) => (
         <div key={p.name}>
-          {p.name}: {Number(p.value).toLocaleString()} {t('developerChart.valueUnit')}
+          {p.name}: {format(Number(p.value), { currency })} {t('developerChart.perSquareMeter')}
         </div>
       ))}
     </div>
@@ -55,6 +58,10 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
 const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
   const { t } = useTranslation()
   const { data: priceGraph, isLoading } = useGetPriceGraphQuery({ propertyId })
+
+  const { currency } = useCurrency()
+  const { data: exchangeRates } = useGetExchangeRatesQuery()
+  const exchangeRate: number = (exchangeRates?.[currency] as number) || 1
 
   const chartData = useMemo<ChartData>(() => {
     const byArea = priceGraph?.by_area ?? []
@@ -96,10 +103,31 @@ const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
     return { data: sampled, onlyGlobal: false }
   }, [priceGraph])
 
+  const displayData = useMemo<ChartData>(() => {
+    if (!chartData.data.length) return chartData
+    if (chartData.onlyGlobal) {
+      return {
+        onlyGlobal: true,
+        data: chartData.data.map((d) => ({ week: d.week, global: d.global / exchangeRate })),
+      }
+    }
+    return {
+      onlyGlobal: false,
+      data: chartData.data.map((d) => ({
+        week: d.week,
+        byArea: d.byArea / exchangeRate,
+        global: d.global / exchangeRate,
+      })),
+    }
+  }, [chartData, exchangeRate])
+
   const avg = useMemo(() => {
-    if (chartData.onlyGlobal || !chartData.data.length) return 0
-    return chartData.data.reduce((s, d) => s + d.byArea, 0) / chartData.data.length
-  }, [chartData])
+    if (displayData.onlyGlobal || !displayData.data.length) return 0
+    return (
+      displayData.data.reduce((sum, d) => sum + (d as { byArea: number }).byArea, 0) /
+      displayData.data.length
+    )
+  }, [displayData])
 
   if (isLoading) return <div className='text-gray-500'>{t('developerChart.loading')}</div>
   if (!chartData.data?.length)
@@ -118,7 +146,7 @@ const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
         className='w-full h-[340px] md:h-[400px] aspect-auto overflow-hidden'
       >
         <ResponsiveContainer width='100%' height='100%'>
-          <BarChart data={chartData.data} margin={{ top: 16, right: 16, left: 0, bottom: 8 }}>
+          <BarChart data={displayData.data} margin={{ top: 16, right: 16, left: 0, bottom: 8 }}>
             <defs>
               <linearGradient id='byAreaGradient' x1='0' y1='0' x2='0' y2='1'>
                 <stop offset='0%' stopColor='#2563eb' stopOpacity={0.9} />
@@ -137,15 +165,15 @@ const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
               tickMargin={8}
               tickFormatter={(val) => val.slice(0, 5)}
             />
-            <YAxis
-              tickFormatter={(val) => `${Number(val).toFixed(0)}`}
-              width={50}
+            {/* <YAxis
+              tickFormatter={(val) => `${formatPrice(Number(val))}`}
+              width={80}
               tick={{ fontSize: 12 }}
               domain={['dataMin - 2', 'dataMax + 4']}
-            />
+            /> */}
             <Tooltip content={<CustomTooltip />} />
             <Legend />
-            {!chartData.onlyGlobal && (
+            {!displayData.onlyGlobal && (
               <ReferenceLine
                 y={avg}
                 stroke='rgba(0,0,0,0.08)'
@@ -158,7 +186,7 @@ const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
                 }}
               />
             )}
-            {!chartData.onlyGlobal && (
+            {!displayData.onlyGlobal && (
               <Bar
                 dataKey='byArea'
                 name={t('developerChart.byArea')}

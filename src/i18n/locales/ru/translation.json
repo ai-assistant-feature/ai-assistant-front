@@ -126,6 +126,7 @@
     "byArea": "По району",
     "global": "По всему Дубаю",
     "avgByArea": "Среднее (по району)",
-    "valueUnit": "AED/м²"
+    "valueUnit": "AED/м²",
+    "perSquareMeter": "/м²"
   }
 }

@@ -126,6 +126,7 @@
     "byArea": "By area",
     "global": "All Dubai",
     "avgByArea": "Average (by area)",
-    "valueUnit": "AED/m²"
+    "valueUnit": "AED/m²",
+    "perSquareMeter": "/m²"
   }
 }
