@@ -2,7 +2,7 @@ import {
   BarChart,
   Bar,
   XAxis,
-  YAxis,
+  // YAxis,
   Tooltip,
   CartesianGrid,
   Legend,
@@ -12,183 +12,194 @@ import {
 import { ChartConfig, ChartContainer } from '@/components/ui/chart'
 import { useGetPriceGraphQuery } from '../api/getPriceGraph.query'
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useCurrency } from '@app/-common/context/CurrencyProvider'
+import { useGetExchangeRatesQuery } from '@app/-common/api/getExchangeRates.query'
 
-/**
- * Преобразует строку недели вида "06.01.2025" (ДД.ММ.ГГГГ)
- * в числовое значение времени (timestamp), чтобы можно было корректно сортировать по дате.
- */
 const parseWeekDate = (week: string) => {
   const [d, m, y] = week.split('.')
-  const year = Number(y)
-  const month = Number(m) - 1
-  const day = Number(d)
-  return new Date(year, month, day).getTime()
+  return new Date(Number(y), Number(m) - 1, Number(d)).getTime()
 }
 
-/**
- * Конфигурация для визуализации графика (используется в ChartContainer).
- */
 const chartConfig = {
-  avg: {
-    label: 'Цена/м²',
-    color: '#2563eb',
-  },
+  byArea: { label: 'developerChart.byArea', color: '#2563eb' },
+  global: { label: 'developerChart.global', color: '#94a3b8' },
 } satisfies ChartConfig
 
-/**
- * Форматирует изменение в процентах между текущей и предыдущей неделей.
- */
-const formatPctChange = (current: number | undefined, prev: number | undefined) => {
-  if (current == null || prev == null) return ''
-  const diff = ((current - prev) / prev) * 100
-  const sign = diff > 0 ? '+' : ''
-  return `${sign}${diff.toFixed(1)}%`
-}
+type ChartData =
+  | { data: Array<{ week: string; global: number }>; onlyGlobal: true }
+  | {
+      data: Array<{ week: string; byArea: number; global: number }>
+      onlyGlobal: false
+    }
 
-/**
- * Кастомный тултип для показа детальной информации при наведении.
- */
 type CustomTooltipProps = {
   active?: boolean
-  payload?: Array<{ value: number }>
+  payload?: Array<{ value: number; name: string }>
   label?: string
-  data: Array<{ week: string; avg: number }>
 }
 
-const CustomTooltip = ({ active, payload, label, data }: CustomTooltipProps) => {
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+  const { t } = useTranslation()
+  const { format, currency } = useCurrency()
   if (!active || !payload || payload.length === 0) return null
-  const cur = payload[0].value
-  const idx = data.findIndex((d) => d.week === label)
-  const prev = idx > 0 ? data[idx - 1].avg : undefined
-
   return (
     <div className='bg-white/95 p-3 rounded-lg shadow-md text-sm'>
-      <div className='font-medium'>{label}</div>
-      <div>Цена/м²: {Number(cur).toLocaleString()} AED</div>
-      {prev !== undefined && (
-        <div className='text-xs text-slate-600'>Изменение: {formatPctChange(cur, prev)}</div>
-      )}
+      <div className='font-medium mb-1'>{label}</div>
+      {payload.map((p) => (
+        <div key={p.name}>
+          {p.name}: {format(Number(p.value), { currency })} {t('developerChart.perSquareMeter')}
+        </div>
+      ))}
     </div>
   )
 }
 
-/**
- * Основной компонент графика изменения цены за м².
- */
 const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
-  // Запрашиваем данные по графику цен
-  const { data: priceGraph } = useGetPriceGraphQuery({ propertyId })
+  const { t } = useTranslation()
+  const { data: priceGraph, isLoading } = useGetPriceGraphQuery({ propertyId })
 
-  /**
-   * Формируем данные для графика:
-   * 1. Берём массив `by_area` из API.
-   * 2. Сортируем по дате недели.
-   * 3. Берём последние 46 записей (чтобы не перегружать график).
-   * 4. Если данных больше 10 — оставляем только 10 равномерно распределённых точек.
-   */
-  const chartData = useMemo(() => {
-    const source = priceGraph?.by_area ?? []
-    if (!source.length) return [] as Array<{ week: string; avg: number }>
+  const { currency } = useCurrency()
+  const { data: exchangeRates } = useGetExchangeRatesQuery()
+  const exchangeRate: number = (exchangeRates?.[currency] as number) || 1
 
-    // Сортируем по дате (от старых к новым)
-    const sorted = [...source].sort((a, b) => parseWeekDate(a.week) - parseWeekDate(b.week))
+  const chartData = useMemo<ChartData>(() => {
+    const byArea = priceGraph?.by_area ?? []
+    const global = priceGraph?.global ?? []
 
-    // Берём последние 46 недель (если меньше — берём всё)
-    const limited = sorted.slice(-46)
-
-    // Если данных 10 или меньше — просто возвращаем всё
-    if (limited.length <= 10) {
-      return limited.map((p) => ({
-        week: p.week,
-        avg: p.avg_trans_value_per_area,
-      }))
+    if (!byArea.length && !global.length) return { data: [], onlyGlobal: false }
+    if (!byArea.length && global.length) {
+      const sortedGlobal = [...global].sort((a, b) => parseWeekDate(a.week) - parseWeekDate(b.week))
+      const limitedGlobal = sortedGlobal.slice(-46)
+      const step = (limitedGlobal.length - 1) / 9
+      const sampled = []
+      for (let i = 0; i < 10; i++) {
+        const index = Math.round(i * step)
+        const g = limitedGlobal[index]
+        if (g) sampled.push({ week: g.week, global: g.avg_trans_value_per_area })
+      }
+      return { data: sampled, onlyGlobal: true }
     }
 
-    // === Новый алгоритм ===
-    // Рассчитываем шаг (равномерное распределение)
-    const step = (limited.length - 1) / 9 // хотим 10 точек → 9 промежутков
-    const sampled: typeof limited = []
-
-    // Берём 10 точек: первую, последнюю и промежуточные
+    // Обычный вариант — объединяем by_area и global
+    const sortedByArea = [...byArea].sort((a, b) => parseWeekDate(a.week) - parseWeekDate(b.week))
+    const sortedGlobal = [...global].sort((a, b) => parseWeekDate(a.week) - parseWeekDate(b.week))
+    const limitedByArea = sortedByArea.slice(-46)
+    const limitedGlobal = sortedGlobal.slice(-46)
+    const step = (limitedByArea.length - 1) / 9
+    const sampled = []
     for (let i = 0; i < 10; i++) {
       const index = Math.round(i * step)
-      sampled.push(limited[index])
+      const byAreaItem = limitedByArea[index]
+      const globalItem = limitedGlobal.find((g) => g.week === byAreaItem.week)
+      if (byAreaItem && globalItem) {
+        sampled.push({
+          week: byAreaItem.week,
+          byArea: byAreaItem.avg_trans_value_per_area,
+          global: globalItem.avg_trans_value_per_area,
+        })
+      }
     }
-
-    // Формируем итоговую структуру данных для графика
-    return sampled.map((p) => ({
-      week: p.week,
-      avg: p.avg_trans_value_per_area,
-    }))
+    return { data: sampled, onlyGlobal: false }
   }, [priceGraph])
 
-  /**
-   * Вычисляем среднюю цену (для линии ReferenceLine)
-   */
+  const displayData = useMemo<ChartData>(() => {
+    if (!chartData.data.length) return chartData
+    if (chartData.onlyGlobal) {
+      return {
+        onlyGlobal: true,
+        data: chartData.data.map((d) => ({ week: d.week, global: d.global / exchangeRate })),
+      }
+    }
+    return {
+      onlyGlobal: false,
+      data: chartData.data.map((d) => ({
+        week: d.week,
+        byArea: d.byArea / exchangeRate,
+        global: d.global / exchangeRate,
+      })),
+    }
+  }, [chartData, exchangeRate])
+
   const avg = useMemo(() => {
-    if (!chartData.length) return 0
-    return chartData.reduce((s, d) => s + d.avg, 0) / chartData.length
-  }, [chartData])
+    if (displayData.onlyGlobal || !displayData.data.length) return 0
+    return (
+      displayData.data.reduce((sum, d) => sum + (d as { byArea: number }).byArea, 0) /
+      displayData.data.length
+    )
+  }, [displayData])
+
+  if (isLoading) return <div className='text-gray-500'>{t('developerChart.loading')}</div>
+  if (!chartData.data?.length)
+    return <div className='text-gray-500'>{t('developerChart.noData')}</div>
 
   return (
     <div>
-      <h3>График изменения цены за м²</h3>
+      <h3 className='mb-2 font-semibold'>{t('developerChart.title')}</h3>
+
+      {chartData.onlyGlobal && (
+        <div className='mb-2 text-gray-500'>{t('developerChart.onlyGlobalNote')}</div>
+      )}
+
       <ChartContainer
         config={chartConfig}
         className='w-full h-[340px] md:h-[400px] aspect-auto overflow-hidden'
       >
         <ResponsiveContainer width='100%' height='100%'>
-          <BarChart data={chartData} margin={{ top: 16, right: 16, left: 0, bottom: 8 }}>
-            {/* Градиент для заливки столбцов */}
+          <BarChart data={displayData.data} margin={{ top: 16, right: 16, left: 0, bottom: 8 }}>
             <defs>
-              <linearGradient id='rentBarGradient' x1='0' y1='0' x2='0' y2='1'>
-                <stop offset='0%' stopColor='var(--color-rent, #2563eb)' stopOpacity={0.9} />
-                <stop offset='100%' stopColor='var(--color-rent, #2563eb)' stopOpacity={0.1} />
+              <linearGradient id='byAreaGradient' x1='0' y1='0' x2='0' y2='1'>
+                <stop offset='0%' stopColor='#2563eb' stopOpacity={0.9} />
+                <stop offset='100%' stopColor='#2563eb' stopOpacity={0.1} />
+              </linearGradient>
+              <linearGradient id='globalGradient' x1='0' y1='0' x2='0' y2='1'>
+                <stop offset='0%' stopColor='#94a3b8' stopOpacity={0.8} />
+                <stop offset='100%' stopColor='#94a3b8' stopOpacity={0.2} />
               </linearGradient>
             </defs>
 
-            {/* Сетка */}
             <CartesianGrid strokeDasharray='4 8' strokeOpacity={0.08} />
-
-            {/* Ось X — короткий формат даты */}
             <XAxis
               dataKey='week'
               tick={{ fontSize: 12 }}
               tickMargin={8}
-              tickFormatter={(val) => val.slice(0, 5)} // "ДД.ММ"
+              tickFormatter={(val) => val.slice(0, 5)}
             />
-
-            {/* Ось Y — форматируем число и добавляем единицы */}
-            <YAxis
-              tickFormatter={(val) => `${Number(val).toFixed(0)}`}
-              width={50}
+            {/* <YAxis
+              tickFormatter={(val) => `${formatPrice(Number(val))}`}
+              width={80}
               tick={{ fontSize: 12 }}
               domain={['dataMin - 2', 'dataMax + 4']}
-            />
-
-            {/* Тултип с кастомным контентом */}
-            <Tooltip content={<CustomTooltip data={chartData} />} />
-
-            {/* Легенда */}
+            /> */}
+            <Tooltip content={<CustomTooltip />} />
             <Legend />
-
-            {/* Линия среднего значения */}
-            <ReferenceLine
-              y={avg}
-              stroke='rgba(0,0,0,0.08)'
-              strokeDasharray='3 3'
-              label={{
-                value: 'Среднее',
-                position: 'top',
-                fill: '#6b7280',
-                fontSize: 11,
-              }}
-            />
-
-            {/* Основные столбцы графика */}
+            {!displayData.onlyGlobal && (
+              <ReferenceLine
+                y={avg}
+                stroke='rgba(0,0,0,0.08)'
+                strokeDasharray='3 3'
+                label={{
+                  value: t('developerChart.avgByArea'),
+                  position: 'top',
+                  fill: '#6b7280',
+                  fontSize: 11,
+                }}
+              />
+            )}
+            {!displayData.onlyGlobal && (
+              <Bar
+                dataKey='byArea'
+                name={t('developerChart.byArea')}
+                fill='url(#byAreaGradient)'
+                radius={[4, 4, 0, 0]}
+                isAnimationActive
+                animationDuration={1000}
+              />
+            )}
             <Bar
-              dataKey='avg'
-              fill='url(#rentBarGradient)'
+              dataKey='global'
+              name={t('developerChart.global')}
+              fill='url(#globalGradient)'
               radius={[4, 4, 0, 0]}
               isAnimationActive
               animationDuration={1000}

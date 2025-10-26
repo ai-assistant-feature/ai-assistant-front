@@ -117,5 +117,16 @@
   },
   "cta": {
     "contactAgent": "Contact agent"
+  },
+  "developerChart": {
+    "title": "Price per m² dynamics",
+    "loading": "Loading data...",
+    "noData": "No data to display.",
+    "onlyGlobalNote": "No data for the selected area — only Dubai total is available.",
+    "byArea": "By area",
+    "global": "All Dubai",
+    "avgByArea": "Average (by area)",
+    "valueUnit": "AED/m²",
+    "perSquareMeter": "/m²"
   }
 }
