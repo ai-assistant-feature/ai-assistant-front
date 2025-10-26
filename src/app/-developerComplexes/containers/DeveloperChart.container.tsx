@@ -12,6 +12,7 @@ import {
 import { ChartConfig, ChartContainer } from '@/components/ui/chart'
 import { useGetPriceGraphQuery } from '../api/getPriceGraph.query'
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const parseWeekDate = (week: string) => {
   const [d, m, y] = week.split('.')
@@ -19,9 +20,16 @@ const parseWeekDate = (week: string) => {
 }
 
 const chartConfig = {
-  byArea: { label: 'По району', color: '#2563eb' },
-  global: { label: 'По всему Дубаю', color: '#94a3b8' },
+  byArea: { label: 'developerChart.byArea', color: '#2563eb' },
+  global: { label: 'developerChart.global', color: '#94a3b8' },
 } satisfies ChartConfig
+
+type ChartData =
+  | { data: Array<{ week: string; global: number }>; onlyGlobal: true }
+  | {
+      data: Array<{ week: string; byArea: number; global: number }>
+      onlyGlobal: false
+    }
 
 type CustomTooltipProps = {
   active?: boolean
@@ -30,13 +38,14 @@ type CustomTooltipProps = {
 }
 
 const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+  const { t } = useTranslation()
   if (!active || !payload || payload.length === 0) return null
   return (
     <div className='bg-white/95 p-3 rounded-lg shadow-md text-sm'>
       <div className='font-medium mb-1'>{label}</div>
       {payload.map((p) => (
         <div key={p.name}>
-          {p.name}: {Number(p.value).toLocaleString()} AED/м²
+          {p.name}: {Number(p.value).toLocaleString()} {t('developerChart.valueUnit')}
         </div>
       ))}
     </div>
@@ -44,9 +53,10 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
 }
 
 const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
+  const { t } = useTranslation()
   const { data: priceGraph, isLoading } = useGetPriceGraphQuery({ propertyId })
 
-  const chartData = useMemo(() => {
+  const chartData = useMemo<ChartData>(() => {
     const byArea = priceGraph?.by_area ?? []
     const global = priceGraph?.global ?? []
 
@@ -87,23 +97,20 @@ const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
   }, [priceGraph])
 
   const avg = useMemo(() => {
-    if (!chartData.data?.length) return 0
-    return chartData.data[0].byArea
-      ? chartData.data.reduce((s, d) => s + d.byArea, 0) / chartData.data.length
-      : 0
+    if (chartData.onlyGlobal || !chartData.data.length) return 0
+    return chartData.data.reduce((s, d) => s + d.byArea, 0) / chartData.data.length
   }, [chartData])
 
-  if (isLoading) return <div className='text-gray-500'>Загрузка данных...</div>
-  if (!chartData.data?.length) return <div className='text-gray-500'>Нет данных для отображения.</div>
+  if (isLoading) return <div className='text-gray-500'>{t('developerChart.loading')}</div>
+  if (!chartData.data?.length)
+    return <div className='text-gray-500'>{t('developerChart.noData')}</div>
 
   return (
     <div>
-      <h3 className='mb-2 font-semibold'>График изменения цены за м²</h3>
+      <h3 className='mb-2 font-semibold'>{t('developerChart.title')}</h3>
 
       {chartData.onlyGlobal && (
-        <div className='mb-2 text-gray-500'>
-          Нет данных по выбранному району — отображение возможно только для всего Дубая.
-        </div>
+        <div className='mb-2 text-gray-500'>{t('developerChart.onlyGlobalNote')}</div>
       )}
 
       <ChartContainer
@@ -138,23 +145,23 @@ const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
             />
             <Tooltip content={<CustomTooltip />} />
             <Legend />
-            {chartData.data[0].byArea && (
+            {!chartData.onlyGlobal && (
               <ReferenceLine
                 y={avg}
                 stroke='rgba(0,0,0,0.08)'
                 strokeDasharray='3 3'
                 label={{
-                  value: 'Среднее (по району)',
+                  value: t('developerChart.avgByArea'),
                   position: 'top',
                   fill: '#6b7280',
                   fontSize: 11,
                 }}
               />
             )}
-            {chartData.data[0].byArea && (
+            {!chartData.onlyGlobal && (
               <Bar
                 dataKey='byArea'
-                name='По району'
+                name={t('developerChart.byArea')}
                 fill='url(#byAreaGradient)'
                 radius={[4, 4, 0, 0]}
                 isAnimationActive
@@ -163,7 +170,7 @@ const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
             )}
             <Bar
               dataKey='global'
-              name='По всему Дубаю'
+              name={t('developerChart.global')}
               fill='url(#globalGradient)'
               radius={[4, 4, 0, 0]}
               isAnimationActive
