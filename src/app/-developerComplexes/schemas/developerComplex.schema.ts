@@ -104,7 +104,7 @@ const unitBlockSchema = z.object({
   normalized_type: z.string(),
   price_currency: z.string(),
   typical_unit_image_url: jsonStringToObject(z.array(vaultFileSchema)).optional(),
-  unit_type: z.string(),
+  unit_type: z.string().optional(),
   units_area_from: z.number().nullable().optional(),
   units_area_from_m2: z.union([z.string(), z.number()]).nullable().optional(),
   units_area_to: z.number().nullable().optional(),
@@ -113,6 +113,7 @@ const unitBlockSchema = z.object({
   units_price_from_aed: z.number().nullable().optional(),
   units_price_to: z.number().nullable().optional(),
   units_price_to_aed: z.number().nullable().optional(),
+  unit_bedrooms: z.string().optional(),
 })
 
 // Root schema for a single developer complex/project

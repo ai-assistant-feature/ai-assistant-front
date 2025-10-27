@@ -130,12 +130,11 @@ const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
   }, [displayData])
 
   if (isLoading) return <div className='text-gray-500'>{t('developerChart.loading')}</div>
-  if (!chartData.data?.length)
-    return <div className='text-gray-500'>{t('developerChart.noData')}</div>
+  if (!chartData.data?.length) return null
 
   return (
     <div>
-      <h3 className='mb-2 font-semibold'>{t('developerChart.title')}</h3>
+      <h3 className='mb-2 text-2xl font-semibold mt-12 '>{t('developerChart.title')}</h3>
 
       {chartData.onlyGlobal && (
         <div className='mb-2 text-gray-500'>{t('developerChart.onlyGlobalNote')}</div>

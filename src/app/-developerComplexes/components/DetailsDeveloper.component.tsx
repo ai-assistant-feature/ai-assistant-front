@@ -17,22 +17,22 @@ const DetailsDeveloperComponent = ({ developerObjectData }: IProps) => {
       {developer && (
         <div className='flex items-start gap-3 p-2'>
           <div className='rounded-md bg-muted text-muted-foreground p-2'>
-            <Building2 className='h-5 w-5' />
+            <Building2 className='h-6 w-6' />
           </div>
           <div className='flex flex-col'>
             <span className='text-xs text-muted-foreground'>{t('property.developer')}</span>
-            <span className='text-sm font-medium'>{developer}</span>
+            <span className='text-base font-medium'>{developer}</span>
           </div>
         </div>
       )}
       {area && (
         <div className='flex items-start gap-3 p-2'>
           <div className='rounded-md bg-muted text-muted-foreground p-2'>
-            <MapPin className='h-5 w-5' />
+            <MapPin className='h-6 w-6' />
           </div>
           <div className='flex flex-col'>
             <span className='text-xs text-muted-foreground'>{t('map.locationTitle')}</span>
-            <span className='text-sm font-medium'>{area}</span>
+            <span className='text-base font-medium'>{area}</span>
           </div>
         </div>
       )}
