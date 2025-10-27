@@ -20,6 +20,7 @@ import { SidebarMenuItems } from '@app/-common/components/SidebarMenuItems'
 import { useCurrency, CURRENCIES } from '@app/-common/context/CurrencyProvider'
 import { CurrencyDrawer } from '@app/-common/components/CurrencyDrawer'
 import { CurrencyPopup } from '@app/-common/components/CurrencyPopup'
+import { useAuth } from '@app/-common/context/AuthProvider'
 
 const AppSidebar = () => {
   const { setOpenMobile, isMobile } = useSidebar()
@@ -28,14 +29,12 @@ const AppSidebar = () => {
   const [isLanguageDrawerOpen, setIsLanguageDrawerOpen] = useState(false)
   const [isCurrencyDrawerOpen, setIsCurrencyDrawerOpen] = useState(false)
   const { currency, setCurrency } = useCurrency()
+  const { logout } = useAuth()
 
   const currentLanguage = LANGUAGES[i18n.language as keyof typeof LANGUAGES] || i18n.language
 
   const changeLanguage = (lang: keyof typeof LANGUAGES) => {
-    // persist language choice
-    try {
-      localStorage.setItem('i18nextLng', lang)
-    } catch {}
+    localStorage.setItem('i18nextLng', lang)
     i18n.changeLanguage(lang)
     setIsLanguageDrawerOpen(false)
   }
@@ -94,9 +93,8 @@ const AppSidebar = () => {
         </SidebarContent>
 
         <SidebarFooter className='p-4 mb-8'>
-          <p className='mb-4 text-xs text-muted-foreground'>{t('sidebar.saveDescription')}</p>
-          <Button disabled className='w-full'>
-            {t('login')}
+          <Button className='w-full' variant='secondary' onClick={logout}>
+            {t('auth.logout')}
           </Button>
         </SidebarFooter>
       </Sidebar>

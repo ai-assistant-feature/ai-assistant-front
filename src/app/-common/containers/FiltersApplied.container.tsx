@@ -24,7 +24,6 @@ interface IProps {
 
 const FiltersAppliedContainer: FC<IProps> = ({ data }) => {
   const [open, setOpen] = useState<boolean>(false)
-  console.log('data', data)
   const _data = (data ?? {}) as Record<string, unknown>
   const bedrooms = toSimpleArray(_data?.unit_bedrooms_extracted)
   const saleStatuses = toSimpleArray(_data?.sale_statuses)
@@ -49,6 +48,13 @@ const FiltersAppliedContainer: FC<IProps> = ({ data }) => {
                 <span className='text-sm text-muted-foreground'>Макс. цена (AED)</span>
                 <span className='font-medium'>
                   {(_data?.max_price_aed as string | number | undefined) ?? '—'}
+                </span>
+              </div>
+              <Separator />
+              <div className='flex items-center justify-between'>
+                <span className='text-sm text-muted-foreground'>Мин. цена (AED)</span>
+                <span className='font-medium'>
+                  {(_data?.min_price_aed as string | number | undefined) ?? '—'}
                 </span>
               </div>
               <Separator />
