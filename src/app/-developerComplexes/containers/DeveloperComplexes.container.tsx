@@ -5,7 +5,7 @@ import { ComplexCardComponent } from '@app/-developerComplexes/components/Comple
 // containers
 import { ComplexesOverlayContainer } from '@app/-developerComplexes/containers/ComplexesOverlay.container'
 import { useGetPropertyQuery } from '../api/getProperty.query'
-import { FilterDebugContainer } from '@app/-common/containers/FilterDebug.container'
+// containers
 import { FiltersAppliedContainer } from '@app/-common/containers/FiltersApplied.container'
 
 interface IProps {
@@ -54,7 +54,6 @@ const DeveloperComplexesContainer: FC<IProps> = ({ data, message }) => {
         <ReactMarkdown>{message}</ReactMarkdown>
       </div>
 
-      {data?.ai_filter_debug && <FilterDebugContainer data={data?.ai_filter_debug} />}
       {data?.filters_applied && <FiltersAppliedContainer data={data?.filters_applied} />}
 
       <ComplexesOverlayContainer

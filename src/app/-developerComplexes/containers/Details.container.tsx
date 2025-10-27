@@ -25,9 +25,10 @@ const DetailsContainer = ({ developerObjectData, isLoadingDeveloperObject }: IPr
   return (
     <>
       <DetailsCoverComponent developerObjectData={developerObjectData} />
-      <DeveloperChartContainer propertyId={String(developerObjectData.id)} />
       <DetailsDeveloperComponent developerObjectData={developerObjectData} />
       <DetailsUnitBlocksComponent developerObjectData={developerObjectData} />
+      <DeveloperChartContainer propertyId={String(developerObjectData.id)} />
+
       <DetailsArchitectureComponent developerObjectData={developerObjectData} />
       <DetailsInteriorComponent developerObjectData={developerObjectData} />
       <DetailsOverviewComponent developerObjectData={developerObjectData} />

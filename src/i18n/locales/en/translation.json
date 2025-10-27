@@ -101,7 +101,7 @@
     },
     "completionDate": "Completion date",
     "developer": "Developer",
-    "layouts": "Layouts",
+    "layouts": "Apartment layouts",
     "area": "Area",
     "architecture": "Architecture",
     "interior": "Interior",
@@ -128,5 +128,10 @@
     "avgByArea": "Average (by area)",
     "valueUnit": "AED/m²",
     "perSquareMeter": "/m²"
+  },
+  "login": {
+    "title": "Sign in",
+    "google": "Continue with Google",
+    "subtitle": "Use our chat to find your perfect apartment in Dubai. Your personal assistant is ready to help!"
   }
 }

@@ -29,6 +29,7 @@ export const AssistantResponseSchema = z.object({
       filters_applied: z
         .object({
           max_price_aed: z.string().optional(),
+          min_price_aed: z.string().optional(),
           unit_bedrooms_extracted: z.array(z.any()).optional(),
           sale_statuses: z.array(z.any()).optional(),
           developers: z.array(z.any()).optional(),
