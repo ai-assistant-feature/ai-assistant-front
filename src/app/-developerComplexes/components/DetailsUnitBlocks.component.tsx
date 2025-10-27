@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { useCurrency } from '@app/-common/context/CurrencyProvider'
 import { useGetExchangeRatesQuery } from '@app/-common/api/getExchangeRates.query'
 import { Separator } from '@/components/ui/separator'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 
 interface UnitBlocksProps {
   developerObjectData: TDeveloperComplex
@@ -45,12 +47,14 @@ const DetailsUnitBlocksComponent = ({ developerObjectData }: UnitBlocksProps) =>
               className='rounded-md border border-border overflow-hidden bg-accent flex-shrink-0 snap-start min-w-[260px] max-w-[280px]'
             >
               {imageUrl && (
-                <div className='relative w-full h-36 sm:h-40 md:h-44 border-b border-border'>
-                  <img
-                    src={imageUrl}
-                    alt={block.name ?? ''}
-                    className='w-full h-full object-cover'
-                  />
+                <div className='relative w-full  border-b border-border'>
+                  <Zoom>
+                    <img
+                      src={imageUrl}
+                      alt={block.name ?? ''}
+                      className='w-full h-full object-cover cursor-zoom-in'
+                    />
+                  </Zoom>
                 </div>
               )}
               <div className='p-3 flex flex-col gap-1.5'>
