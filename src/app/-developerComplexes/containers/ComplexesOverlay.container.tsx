@@ -24,7 +24,7 @@ const ComplexesOverlayContainer = ({
   if (!isOpen) return null
 
   return isMobile ? (
-    <Drawer isOpen={isOpen} onOpenChange={() => onClose()}>
+    <Drawer isOpen={isOpen} onOpenChange={() => onClose()} title={developerObjectData?.name}>
       <div className='max-h-[85vh] overflow-y-auto scrollbar-hide'>
         <DetailsContainer
           developerObjectData={developerObjectData}

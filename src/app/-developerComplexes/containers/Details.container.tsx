@@ -10,6 +10,7 @@ import { DetailsInteriorComponent } from '@app/-developerComplexes/components/De
 import { DetailsUnitBlocksComponent } from '@app/-developerComplexes/components/DetailsUnitBlocks.component'
 import { DetailsSkeletonComponent } from '@app/-developerComplexes/components/DetailsSkeleton.component'
 import { DetailsOverviewComponent } from '@app/-developerComplexes/components/DetailsOverview.component'
+import { PaymentsPlanComponent } from '../components/PaymentsPlan.Component'
 
 interface IProps {
   developerObjectData: TDeveloperComplex | null | undefined
@@ -28,6 +29,7 @@ const DetailsContainer = ({ developerObjectData, isLoadingDeveloperObject }: IPr
       <DetailsDeveloperComponent developerObjectData={developerObjectData} />
       <DetailsUnitBlocksComponent developerObjectData={developerObjectData} />
       <DeveloperChartContainer propertyId={String(developerObjectData.id)} />
+      <PaymentsPlanComponent developerObjectData={developerObjectData} />
 
       <DetailsArchitectureComponent developerObjectData={developerObjectData} />
       <DetailsInteriorComponent developerObjectData={developerObjectData} />
