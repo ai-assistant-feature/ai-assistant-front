@@ -2,6 +2,7 @@ import { TDeveloperComplex } from '@app/-developerComplexes/schemas/developerCom
 import { useTranslation } from 'react-i18next'
 import { useCurrency } from '@app/-common/context/CurrencyProvider'
 import { useGetExchangeRatesQuery } from '@app/-common/api/getExchangeRates.query'
+import { Separator } from '@/components/ui/separator'
 
 interface UnitBlocksProps {
   developerObjectData: TDeveloperComplex
@@ -57,7 +58,26 @@ const DetailsUnitBlocksComponent = ({ developerObjectData }: UnitBlocksProps) =>
                   {block.name}
                 </div>
 
-                {formattedPriceForm}
+                <div className='flex flex-wrap gap-1.5'>
+                  {block?.unit_bedrooms && (
+                    <span className='inline-flex items-center rounded-md bg-white px-2 py-0.5 text-xs text-muted-foreground'>
+                      {block.unit_bedrooms}
+                    </span>
+                  )}
+                  {block?.unit_type && (
+                    <span className='inline-flex items-center rounded-md bg-white px-2 py-0.5 text-xs text-muted-foreground'>
+                      {block.unit_type}
+                    </span>
+                  )}
+                </div>
+
+                <Separator className='my-2' />
+                <div className=' py-3 flex items-center justify-between'>
+                  <span className='text-sm text-muted-foreground'>{t('property.priceFrom')}</span>
+                  <span className='text-sm font-semibold text-primary'>
+                    {formattedPriceForm ?? '—'}
+                  </span>
+                </div>
               </div>
             </div>
           )
