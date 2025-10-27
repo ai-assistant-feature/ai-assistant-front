@@ -21,6 +21,7 @@ import { useCurrency, CURRENCIES } from '@app/-common/context/CurrencyProvider'
 import { CurrencyDrawer } from '@app/-common/components/CurrencyDrawer'
 import { CurrencyPopup } from '@app/-common/components/CurrencyPopup'
 import { useAuth } from '@app/-common/context/AuthProvider'
+import { useChatContext } from '@app/-chat/context/ChatProvider'
 
 const AppSidebar = () => {
   const { setOpenMobile, isMobile } = useSidebar()
@@ -30,6 +31,7 @@ const AppSidebar = () => {
   const [isCurrencyDrawerOpen, setIsCurrencyDrawerOpen] = useState(false)
   const { currency, setCurrency } = useCurrency()
   const { logout } = useAuth()
+  const { startNewChat } = useChatContext()
 
   const currentLanguage = LANGUAGES[i18n.language as keyof typeof LANGUAGES] || i18n.language
 
@@ -53,8 +55,7 @@ const AppSidebar = () => {
         setIsCurrencyDrawerOpen(true)
         break
       case SIDEBAR_ACTION_TYPES.OPEN_NEW_CHAT:
-        // TODO: Implement new chat functionality
-        console.log('Open new chat')
+        startNewChat()
         break
       default:
         console.warn('Unknown action type:', actionType)

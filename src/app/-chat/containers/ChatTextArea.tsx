@@ -8,6 +8,7 @@ import { ChatInput } from '@app/-chat/components/ChatInput'
 import { ChatActions } from '@app/-chat/components/ChatActions'
 // containers
 import { QuickQuestions } from './QuickQuestions.container'
+import { useChatContext } from '@app/-chat/context/ChatProvider'
 
 interface IProps {
   isPending: boolean
@@ -18,11 +19,10 @@ interface IProps {
 export const ChatTextArea: FC<IProps> = ({ isPending, handleSend, onHeightChange }) => {
   const { state } = useSidebar()
   const [input, setInput] = useState('')
-  const [showQuickQuestions, setShowQuickQuestions] = useState(true)
+  const { shouldShowQuickQuestions } = useChatContext()
 
   const sendMessage = (value: string, options?: { buttonId?: string }) => {
     handleSend(value, options)
-    setShowQuickQuestions(false)
     setInput('')
   }
 
@@ -42,7 +42,7 @@ export const ChatTextArea: FC<IProps> = ({ isPending, handleSend, onHeightChange
           } as React.CSSProperties
         }
       >
-        {showQuickQuestions && <QuickQuestions handleSend={sendMessage} />}
+        {shouldShowQuickQuestions && <QuickQuestions handleSend={sendMessage} />}
         <form className='isolate z-[3] w-full flex flex-col md:border-transparent md:pt-0'>
           <div className='relative w-full'>
             <div className='relative border rounded-t-4xl md:rounded-4xl p-6 pt-2 bg-background border-border'>
