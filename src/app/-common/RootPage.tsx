@@ -8,6 +8,7 @@ import { AuthProvider } from '@app/-common/context/AuthProvider'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { Outlet } from '@tanstack/react-router'
 import { ExchangeRatesBootstrapper } from '@app/-common/api/ExchangeRatesBootstrapper'
+import { ChatProvider } from '@app/-chat/context/ChatProvider'
 
 function RootPage() {
   return (
@@ -16,10 +17,12 @@ function RootPage() {
         <CurrencyProvider>
           <AuthProvider>
             <SidebarProvider>
-              <ExchangeRatesBootstrapper />
-              <App>
-                <Outlet />
-              </App>
+              <ChatProvider>
+                <ExchangeRatesBootstrapper />
+                <App>
+                  <Outlet />
+                </App>
+              </ChatProvider>
             </SidebarProvider>
           </AuthProvider>
         </CurrencyProvider>

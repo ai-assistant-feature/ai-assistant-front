@@ -8,14 +8,16 @@ interface AskVariables {
   question: string
   metadata?: Record<string, unknown>
   buttonId?: string
+  chatId: string
 }
 
 export const useAssistantMessageMutation = () => {
   return useMutation<any, Error, AskVariables>({
-    mutationFn: async ({ question, buttonId }) => {
+    mutationFn: async ({ question, buttonId, chatId }) => {
       const payload = {
         message: question,
         sessionId: getSessionId(),
+        chatId,
       }
 
       const headers: Record<string, string> = { 'Content-Type': 'application/json' }
