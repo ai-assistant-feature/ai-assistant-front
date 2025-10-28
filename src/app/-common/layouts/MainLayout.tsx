@@ -16,9 +16,8 @@ export function MainLayout({ children }: { children?: ReactNode }) {
     }
   }, [loading, user, navigate])
 
-  if (loading) {
-    return <div className='flex h-screen items-center justify-center'>Загрузка…</div>
-  }
+  //TODO: возможно нужно будет добавить LOADER
+  if (loading) return null
 
   if (!user) return null
 

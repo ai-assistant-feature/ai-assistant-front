@@ -11,6 +11,7 @@ import { DetailsUnitBlocksComponent } from '@app/-developerComplexes/components/
 import { DetailsSkeletonComponent } from '@app/-developerComplexes/components/DetailsSkeleton.component'
 import { DetailsOverviewComponent } from '@app/-developerComplexes/components/DetailsOverview.component'
 import { PaymentsPlanComponent } from '../components/PaymentsPlan.Component'
+import DetailsMasterPlanContainer from './DetailsMasterPlan.container'
 
 interface IProps {
   developerObjectData: TDeveloperComplex | null | undefined
@@ -30,6 +31,7 @@ const DetailsContainer = ({ developerObjectData, isLoadingDeveloperObject }: IPr
       <DetailsUnitBlocksComponent developerObjectData={developerObjectData} />
       <DeveloperChartContainer propertyId={String(developerObjectData.id)} />
       <PaymentsPlanComponent developerObjectData={developerObjectData} />
+      <DetailsMasterPlanContainer developerObjectData={developerObjectData} />
 
       <DetailsArchitectureComponent developerObjectData={developerObjectData} />
       <DetailsInteriorComponent developerObjectData={developerObjectData} />
