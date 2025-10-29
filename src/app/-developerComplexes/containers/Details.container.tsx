@@ -12,6 +12,7 @@ import { DetailsSkeletonComponent } from '@app/-developerComplexes/components/De
 import { DetailsOverviewComponent } from '@app/-developerComplexes/components/DetailsOverview.component'
 import { PaymentsPlanComponent } from '../components/PaymentsPlan.Component'
 import DetailsMasterPlanContainer from './DetailsMasterPlan.container'
+import { Link } from '@tanstack/react-router'
 
 interface IProps {
   developerObjectData: TDeveloperComplex | null | undefined
@@ -28,6 +29,17 @@ const DetailsContainer = ({ developerObjectData, isLoadingDeveloperObject }: IPr
     <>
       <DetailsCoverComponent developerObjectData={developerObjectData} />
       <DetailsDeveloperComponent developerObjectData={developerObjectData} />
+      {developerObjectData?.id && (
+        <div className='px-2 pb-2'>
+          <Link
+            to={'/developer-complex/$id'}
+            params={{ id: String(developerObjectData.id) }}
+            className='text-sm text-primary underline'
+          >
+            Открыть страницу
+          </Link>
+        </div>
+      )}
       <DetailsUnitBlocksComponent developerObjectData={developerObjectData} />
       <DeveloperChartContainer propertyId={String(developerObjectData.id)} />
       <PaymentsPlanComponent developerObjectData={developerObjectData} />

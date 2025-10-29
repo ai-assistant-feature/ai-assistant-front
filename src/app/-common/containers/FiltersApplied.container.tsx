@@ -31,7 +31,7 @@ const FiltersAppliedContainer: FC<IProps> = ({ data, filterDebug }) => {
   const unitTypes = toSimpleArray(_data?.unit_types_extracted)
   const saleStatuses = toSimpleArray(_data?.sale_statuses)
   const developers = toSimpleArray(_data?.developers)
-  const propertyAreas = toSimpleArray(_data?.property_areas)
+  const areas = toSimpleArray(_data?.areas_extracted)
   const posthandover = _data?.posthandover as boolean | undefined
 
   return (
@@ -117,6 +117,23 @@ const FiltersAppliedContainer: FC<IProps> = ({ data, filterDebug }) => {
               )}
               <Separator />
               <div className='flex items-center justify-between'>
+                <span className='text-sm text-muted-foreground'>Районы(areas_extracted )</span>
+                <span className='font-medium'>{Array.isArray(areas) ? areas.length : 0}</span>
+              </div>
+              {Array.isArray(areas) && areas.length > 0 && (
+                <div className='flex flex-wrap gap-2'>
+                  {areas.map((a, idx: number) => (
+                    <span
+                      key={a?.id ?? a?.name ?? idx}
+                      className='rounded-md bg-muted px-2 py-1 text-xs'
+                    >
+                      {a?.name ?? String(a?.id ?? idx)}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <Separator />
+              <div className='flex items-center justify-between'>
                 <span className='text-sm text-muted-foreground'>Застройщики</span>
                 <span className='font-medium'>
                   {Array.isArray(developers) ? developers.length : 0}
@@ -142,24 +159,6 @@ const FiltersAppliedContainer: FC<IProps> = ({ data, filterDebug }) => {
                 </span>
               </div>
               <Separator />
-              <div className='flex items-center justify-between'>
-                <span className='text-sm text-muted-foreground'>Районы</span>
-                <span className='font-medium'>
-                  {Array.isArray(propertyAreas) ? propertyAreas.length : 0}
-                </span>
-              </div>
-              {Array.isArray(propertyAreas) && propertyAreas.length > 0 && (
-                <div className='flex flex-wrap gap-2'>
-                  {propertyAreas.map((a, idx: number) => (
-                    <span
-                      key={a?.id ?? a?.name ?? idx}
-                      className='rounded-md bg-muted px-2 py-1 text-xs'
-                    >
-                      {a?.name ?? String(a?.id ?? idx)}
-                    </span>
-                  ))}
-                </div>
-              )}
             </div>
           </CardContent>
         </Card>

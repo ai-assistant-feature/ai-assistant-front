@@ -27,7 +27,12 @@ const FilterDebugContainer: FC<IProps> = ({ data }) => {
             <div className='space-y-3'>
               <div className='flex items-center justify-between'>
                 <span className='text-sm text-muted-foreground'>Валюта</span>
-                <span className='font-medium'>{data?.currency_original ?? '—'}</span>
+                <span className='font-medium'>{data?.base_currency ?? '—'}</span>
+              </div>
+              <Separator />
+              <div className='flex items-center justify-between'>
+                <span className='text-sm text-muted-foreground'>Макс. цена (ориг.)</span>
+                <span className='font-medium'>{data?.base_max_price ?? '—'}</span>
               </div>
               <Separator />
               <div className='flex items-center justify-between'>

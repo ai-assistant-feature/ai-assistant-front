@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import {
   onAuthStateChanged,
+  onIdTokenChanged,
   signInWithPopup,
   signOut,
   type User,
@@ -10,6 +11,8 @@ import {
   type UserCredential,
 } from 'firebase/auth'
 import { auth, googleProvider } from '@/helpers/firebase'
+import { httpService } from '@/helpers/api'
+import { useSessionMutation } from '@/app/(auth)/-api/session.mutate'
 
 type AuthProviderProps = {
   children: React.ReactNode
@@ -57,6 +60,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [phoneAuthError, setPhoneAuthError] = useState<string | null>(null)
   const confirmationResultRef = useRef<ConfirmationResult | null>(null)
   const recaptchaVerifierRef = useRef<RecaptchaVerifier | null>(null)
+  const { mutateAsync: setBackendSession } = useSessionMutation()
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
@@ -66,6 +70,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return () => unsub()
   }, [])
 
+  // Keep backend HttpOnly session cookie in sync with Firebase ID token
+  useEffect(() => {
+    const unsub = onIdTokenChanged(auth, async (u) => {
+      if (u) {
+        try {
+          const idToken = await u.getIdToken()
+          await setBackendSession(idToken)
+        } catch {}
+      }
+    })
+    return () => unsub()
+  }, [setBackendSession])
+
   const signInWithGoogle = async () => {
     const result = await signInWithPopup(auth, googleProvider)
     const idToken = await result.user.getIdToken()
@@ -74,6 +91,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     console.log('User:', result.user)
     // eslint-disable-next-line no-console
     console.log('Firebase ID Token:', idToken)
+    // Establish HttpOnly session cookie on backend
+    try {
+      await setBackendSession(idToken)
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn('Failed to establish backend session cookie:', error)
+    }
   }
 
   const ensureRecaptchaVerifier = (
@@ -157,6 +181,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   const logout = async () => {
+    try {
+      await httpService.post('/api/auth/logout', {}, { withCredentials: true })
+    } catch {}
     await signOut(auth)
   }
 

@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './app/__root'
 import { Route as dashboardIndexImport } from './app/(dashboard)/index'
 import { Route as authLoginImport } from './app/(auth)/login'
+import { Route as dashboardDeveloperComplexIdImport } from './app/(dashboard)/developer-complex/$id'
 
 // Create/Update Routes
 
@@ -27,6 +28,13 @@ const authLoginRoute = authLoginImport.update({
   path: '/login',
   getParentRoute: () => rootRoute,
 } as any)
+
+const dashboardDeveloperComplexIdRoute =
+  dashboardDeveloperComplexIdImport.update({
+    id: '/(dashboard)/developer-complex/$id',
+    path: '/developer-complex/$id',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -46,6 +54,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof dashboardIndexImport
       parentRoute: typeof rootRoute
     }
+    '/(dashboard)/developer-complex/$id': {
+      id: '/(dashboard)/developer-complex/$id'
+      path: '/developer-complex/$id'
+      fullPath: '/developer-complex/$id'
+      preLoaderRoute: typeof dashboardDeveloperComplexIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -54,36 +69,45 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/login': typeof authLoginRoute
   '/': typeof dashboardIndexRoute
+  '/developer-complex/$id': typeof dashboardDeveloperComplexIdRoute
 }
 
 export interface FileRoutesByTo {
   '/login': typeof authLoginRoute
   '/': typeof dashboardIndexRoute
+  '/developer-complex/$id': typeof dashboardDeveloperComplexIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/(auth)/login': typeof authLoginRoute
   '/(dashboard)/': typeof dashboardIndexRoute
+  '/(dashboard)/developer-complex/$id': typeof dashboardDeveloperComplexIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/'
+  fullPaths: '/login' | '/' | '/developer-complex/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/'
-  id: '__root__' | '/(auth)/login' | '/(dashboard)/'
+  to: '/login' | '/' | '/developer-complex/$id'
+  id:
+    | '__root__'
+    | '/(auth)/login'
+    | '/(dashboard)/'
+    | '/(dashboard)/developer-complex/$id'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   authLoginRoute: typeof authLoginRoute
   dashboardIndexRoute: typeof dashboardIndexRoute
+  dashboardDeveloperComplexIdRoute: typeof dashboardDeveloperComplexIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   authLoginRoute: authLoginRoute,
   dashboardIndexRoute: dashboardIndexRoute,
+  dashboardDeveloperComplexIdRoute: dashboardDeveloperComplexIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,7 +121,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/(auth)/login",
-        "/(dashboard)/"
+        "/(dashboard)/",
+        "/(dashboard)/developer-complex/$id"
       ]
     },
     "/(auth)/login": {
@@ -105,6 +130,9 @@ export const routeTree = rootRoute
     },
     "/(dashboard)/": {
       "filePath": "(dashboard)/index.tsx"
+    },
+    "/(dashboard)/developer-complex/$id": {
+      "filePath": "(dashboard)/developer-complex/$id.tsx"
     }
   }
 }

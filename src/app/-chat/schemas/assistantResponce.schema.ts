@@ -21,9 +21,10 @@ export const AssistantResponseSchema = z.object({
       items: z.array(DeveloperComplexesSchema).default([]),
       ai_filter_debug: z
         .object({
-          currency_original: z.string().optional(),
+          base_currency: z.string().optional(),
+          base_max_price: z.number().optional(),
           max_price_aed: z.number().optional(),
-          max_price_original: z.number().optional(),
+          min_price_aed: z.number().optional(),
         })
         .optional(),
       filters_applied: z
@@ -34,8 +35,8 @@ export const AssistantResponseSchema = z.object({
           sale_statuses: z.array(z.any()).optional(),
           developers: z.array(z.any()).optional(),
           posthandover: z.boolean().optional(),
-          property_areas: z.array(z.any()).optional(),
           unit_types_extracted: z.array(z.any()).optional(),
+          areas_extracted: z.array(z.any()).optional(),
         })
         .optional(),
     })
