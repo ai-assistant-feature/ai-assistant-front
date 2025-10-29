@@ -54,7 +54,7 @@ const DeveloperComplexesContainer: FC<IProps> = ({ data, message }) => {
         <ReactMarkdown>{message}</ReactMarkdown>
       </div>
 
-      {data?.filters_applied && <FiltersAppliedContainer data={data?.filters_applied} />}
+      {data?.filters_applied && <FiltersAppliedContainer data={data?.filters_applied}  filterDebug={data?.ai_filter_debug}/>}
 
       <ComplexesOverlayContainer
         developerObjectData={developerObjectData}

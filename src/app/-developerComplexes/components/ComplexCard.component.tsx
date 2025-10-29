@@ -23,6 +23,10 @@ const ComplexCardComponent = ({ flat, setDeveloperId }: FlatCardProps) => {
   const completionDate = DateTime.fromISO(flat.completion_datetime, { zone: 'local' })
   const formattedCompletionDate = completionDate.toLocaleString({ month: 'long', year: 'numeric' })
 
+  const fromPriceText = flat.min_price_bedroom_type
+    ? `${flat.min_price_bedroom_type} from`
+    : t('property.priceFrom')
+
   return (
     <div
       onClick={() => setDeveloperId(flat.id)}
@@ -62,14 +66,9 @@ const ComplexCardComponent = ({ flat, setDeveloperId }: FlatCardProps) => {
         </div>
 
         <div>
-          <div className='text-sm text-muted-foreground'>{t('property.priceFrom')}</div>
+          <div className='text-sm text-muted-foreground'>{fromPriceText}</div>
           <div className='text-sm font-semibold text-foreground'>{formatted}</div>
         </div>
-        {(flat.min_price_bedroom_type || flat.max_price_bedroom_type) && (
-          <div className='text-xs text-muted-foreground mt-0.5'>
-            {flat.min_price_bedroom_type || flat.max_price_bedroom_type}
-          </div>
-        )}
       </div>
     </div>
   )

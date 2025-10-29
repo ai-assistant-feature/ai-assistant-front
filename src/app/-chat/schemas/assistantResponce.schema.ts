@@ -35,6 +35,7 @@ export const AssistantResponseSchema = z.object({
           developers: z.array(z.any()).optional(),
           posthandover: z.boolean().optional(),
           property_areas: z.array(z.any()).optional(),
+          unit_types_extracted: z.array(z.any()).optional(),
         })
         .optional(),
     })

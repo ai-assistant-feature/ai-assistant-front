@@ -4,6 +4,7 @@ import { FC, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { FilterDebugContainer } from './FilterDebug.container'
 type SimpleItem = { id?: string | number; name?: string }
 
 const toSimpleArray = (input: unknown): SimpleItem[] => {
@@ -20,12 +21,14 @@ const toSimpleArray = (input: unknown): SimpleItem[] => {
 
 interface IProps {
   data: unknown
+  filterDebug: any
 }
 
-const FiltersAppliedContainer: FC<IProps> = ({ data }) => {
+const FiltersAppliedContainer: FC<IProps> = ({ data, filterDebug }) => {
   const [open, setOpen] = useState<boolean>(false)
   const _data = (data ?? {}) as Record<string, unknown>
   const bedrooms = toSimpleArray(_data?.unit_bedrooms_extracted)
+  const unitTypes = toSimpleArray(_data?.unit_types_extracted)
   const saleStatuses = toSimpleArray(_data?.sale_statuses)
   const developers = toSimpleArray(_data?.developers)
   const propertyAreas = toSimpleArray(_data?.property_areas)
@@ -43,6 +46,10 @@ const FiltersAppliedContainer: FC<IProps> = ({ data }) => {
             <CardDescription>Результаты текущих параметров</CardDescription>
           </CardHeader>
           <CardContent>
+            <div className='mb-4'>
+              <FilterDebugContainer data={filterDebug} />
+            </div>
+            <Separator />
             <div className='space-y-3'>
               <div className='flex items-center justify-between'>
                 <span className='text-sm text-muted-foreground'>Макс. цена (AED)</span>
@@ -57,6 +64,23 @@ const FiltersAppliedContainer: FC<IProps> = ({ data }) => {
                   {(_data?.min_price_aed as string | number | undefined) ?? '—'}
                 </span>
               </div>
+              <Separator />
+              <div className='flex items-center justify-between'>
+                <span className='text-sm text-muted-foreground'>Типы квартир</span>
+                <span className='font-medium'>{unitTypes?.length ?? 0}</span>
+              </div>
+              {unitTypes?.length > 0 && (
+                <div className='flex flex-wrap gap-2'>
+                  {unitTypes.map((item, idx) => (
+                    <span
+                      key={item?.id ?? item?.name ?? idx}
+                      className='rounded-md bg-muted px-2 py-1 text-xs'
+                    >
+                      {item?.name ?? String(item?.id ?? idx)}
+                    </span>
+                  ))}
+                </div>
+              )}
               <Separator />
               <div className='flex items-center justify-between'>
                 <span className='text-sm text-muted-foreground'>Количество спален</span>
