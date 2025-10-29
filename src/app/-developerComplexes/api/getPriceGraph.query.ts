@@ -13,7 +13,7 @@ export const fetchGetPriceGraph = async ({
   propertyId: string | null
 }): Promise<TPriceGraphResponse | null> => {
   if (!propertyId) return null
-  const response = await httpService.get(`/api/v1/price_graph?property_id=${propertyId}`)
+  const response = await httpService.get(`/api/v1/price_graph_2?property_id=${propertyId}`)
   return PriceGraphResponseSchema.parse(response.data)
 }
 
