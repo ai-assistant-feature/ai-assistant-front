@@ -21,6 +21,8 @@ export const DeveloperComplexesSchema = z.object({
   price_currency: z.string(),
   sale_status: z.string(),
   status: z.string(),
+  max_price_bedroom_type: z.string(),
+  min_price_bedroom_type: z.string(),
 })
 
 export type TDeveloperComplexes = z.infer<typeof DeveloperComplexesSchema>

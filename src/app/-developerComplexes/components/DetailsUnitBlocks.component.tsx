@@ -34,12 +34,13 @@ const DetailsUnitBlocksComponent = ({ developerObjectData }: UnitBlocksProps) =>
               ? block.typical_unit_image_url[0]?.url
               : undefined
 
-            const formattedPriceForm = format(
-              (toNumber(block.units_price_from) ?? 0) / exchangeRate,
-              {
-                currency: exchangeRate?.currency,
-              },
-            )
+            const unitsPriceFromNumber = toNumber(block.units_price_from)
+            const formattedPriceForm =
+              unitsPriceFromNumber && unitsPriceFromNumber > 0
+                ? format(unitsPriceFromNumber / exchangeRate, { currency })
+                : t('property.requestClarification', {
+                    defaultValue: 'Upon request',
+                  })
 
             return (
               <div
@@ -76,9 +77,7 @@ const DetailsUnitBlocksComponent = ({ developerObjectData }: UnitBlocksProps) =>
                   <Separator className='my-2' />
                   <div className=' py-3 flex items-center justify-between'>
                     <span className='text-sm text-muted-foreground'>{t('property.priceFrom')}</span>
-                    <span className='text-sm font-semibold text-primary'>
-                      {formattedPriceForm ?? '—'}
-                    </span>
+                    <span className='text-sm font-semibold text-primary'>{formattedPriceForm}</span>
                   </div>
                 </div>
               </div>

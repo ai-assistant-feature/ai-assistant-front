@@ -11,13 +11,14 @@ import {
 } from 'recharts'
 import { ChartConfig, ChartContainer } from '@/components/ui/chart'
 import { useGetPriceGraphQuery } from '../api/getPriceGraph.query'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCurrency } from '@app/-common/context/CurrencyProvider'
 import { useGetExchangeRatesQuery } from '@app/-common/api/getExchangeRates.query'
+import { type TPriceGraphPoint } from '@app/-developerComplexes/schemas/priceGraph.schema'
 
-const parseWeekDate = (week: string) => {
-  const [d, m, y] = week.split('.')
+const parsenameDate = (name: string) => {
+  const [d, m, y] = name.split('.')
   return new Date(Number(y), Number(m) - 1, Number(d)).getTime()
 }
 
@@ -27,9 +28,9 @@ const chartConfig = {
 } satisfies ChartConfig
 
 type ChartData =
-  | { data: Array<{ week: string; global: number }>; onlyGlobal: true }
+  | { data: Array<{ name: string; global: number }>; onlyGlobal: true }
   | {
-      data: Array<{ week: string; byArea: number; global: number }>
+      data: Array<{ name: string; byArea: number; global: number }>
       onlyGlobal: false
     }
 
@@ -63,63 +64,94 @@ const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
   const { data: exchangeRates } = useGetExchangeRatesQuery()
   const exchangeRate: number = (exchangeRates?.[currency] as number) || 1
 
-  const chartData = useMemo<ChartData>(() => {
+  const [selectedByAreaRoom, setSelectedByAreaRoom] = useState<string>('')
+  const [selectedGlobalRoom, setSelectedGlobalRoom] = useState<string>('')
+
+  const byAreaRooms = useMemo(() => {
+    const rooms = new Set<string>()
+    priceGraph?.by_area?.forEach((p) => p.by_rooms?.forEach((r) => rooms.add(r.room)))
+    return Array.from(rooms)
+  }, [priceGraph])
+
+  const globalRooms = useMemo(() => {
+    const rooms = new Set<string>()
+    priceGraph?.global?.forEach((p) => p.by_rooms?.forEach((r) => rooms.add(r.room)))
+    return Array.from(rooms)
+  }, [priceGraph])
+
+  const sampled = useMemo(() => {
     const byArea = priceGraph?.by_area ?? []
     const global = priceGraph?.global ?? []
 
-    if (!byArea.length && !global.length) return { data: [], onlyGlobal: false }
+    if (!byArea.length && !global.length)
+      return { names: [] as string[], onlyGlobal: false as const }
     if (!byArea.length && global.length) {
-      const sortedGlobal = [...global].sort((a, b) => parseWeekDate(a.week) - parseWeekDate(b.week))
+      const sortedGlobal = [...global].sort((a, b) => parsenameDate(a.name) - parsenameDate(b.name))
       const limitedGlobal = sortedGlobal.slice(-46)
       const step = (limitedGlobal.length - 1) / 9
-      const sampled = []
+      const names: string[] = []
       for (let i = 0; i < 10; i++) {
         const index = Math.round(i * step)
         const g = limitedGlobal[index]
-        if (g) sampled.push({ week: g.week, global: g.avg_trans_value_per_area })
+        if (g) names.push(g.name)
       }
-      return { data: sampled, onlyGlobal: true }
+      return { names, onlyGlobal: true as const }
     }
 
-    // Обычный вариант — объединяем by_area и global
-    const sortedByArea = [...byArea].sort((a, b) => parseWeekDate(a.week) - parseWeekDate(b.week))
-    const sortedGlobal = [...global].sort((a, b) => parseWeekDate(a.week) - parseWeekDate(b.week))
+    const sortedByArea = [...byArea].sort((a, b) => parsenameDate(a.name) - parsenameDate(b.name))
+    const sortedGlobal = [...global].sort((a, b) => parsenameDate(a.name) - parsenameDate(b.name))
     const limitedByArea = sortedByArea.slice(-46)
     const limitedGlobal = sortedGlobal.slice(-46)
     const step = (limitedByArea.length - 1) / 9
-    const sampled = []
+    const names: string[] = []
     for (let i = 0; i < 10; i++) {
       const index = Math.round(i * step)
       const byAreaItem = limitedByArea[index]
-      const globalItem = limitedGlobal.find((g) => g.week === byAreaItem.week)
+      const globalItem = limitedGlobal.find((g) => g.name === byAreaItem.name)
       if (byAreaItem && globalItem) {
-        sampled.push({
-          week: byAreaItem.week,
-          byArea: byAreaItem.avg_trans_value_per_area,
-          global: globalItem.avg_trans_value_per_area,
-        })
+        names.push(byAreaItem.name)
       }
     }
-    return { data: sampled, onlyGlobal: false }
+    return { names, onlyGlobal: false as const }
   }, [priceGraph])
 
   const displayData = useMemo<ChartData>(() => {
-    if (!chartData.data.length) return chartData
-    if (chartData.onlyGlobal) {
-      return {
-        onlyGlobal: true,
-        data: chartData.data.map((d) => ({ week: d.week, global: d.global / exchangeRate })),
-      }
+    if (!sampled.names.length) return { data: [], onlyGlobal: sampled.onlyGlobal }
+
+    const byArea = priceGraph?.by_area ?? []
+    const global = priceGraph?.global ?? []
+
+    const getValue = (point: TPriceGraphPoint | undefined, selectedRoom: string) => {
+      if (!point) return undefined
+      if (!selectedRoom) return point.avg_trans_value_per_area
+      const byRoom = point.by_rooms?.find((r) => r.room === selectedRoom)
+      return byRoom?.avg_trans_value_per_area
     }
-    return {
-      onlyGlobal: false,
-      data: chartData.data.map((d) => ({
-        week: d.week,
-        byArea: d.byArea / exchangeRate,
-        global: d.global / exchangeRate,
-      })),
+
+    if (sampled.onlyGlobal) {
+      const data = sampled.names
+        .map((name) => {
+          const gPoint = global.find((p) => p.name === name)
+          const gVal = getValue(gPoint, selectedGlobalRoom)
+          if (gVal == null) return null
+          return { name, global: gVal / exchangeRate }
+        })
+        .filter(Boolean) as Array<{ name: string; global: number }>
+      return { onlyGlobal: true as const, data }
     }
-  }, [chartData, exchangeRate])
+
+    const data = sampled.names
+      .map((name) => {
+        const aPoint = byArea.find((p) => p.name === name)
+        const gPoint = global.find((p) => p.name === name)
+        const aVal = getValue(aPoint, selectedByAreaRoom)
+        const gVal = getValue(gPoint, selectedGlobalRoom)
+        if (aVal == null || gVal == null) return null
+        return { name, byArea: aVal / exchangeRate, global: gVal / exchangeRate }
+      })
+      .filter(Boolean) as Array<{ name: string; byArea: number; global: number }>
+    return { onlyGlobal: false as const, data }
+  }, [sampled, priceGraph, exchangeRate, selectedByAreaRoom, selectedGlobalRoom])
 
   const avg = useMemo(() => {
     if (displayData.onlyGlobal || !displayData.data.length) return 0
@@ -130,15 +162,50 @@ const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
   }, [displayData])
 
   if (isLoading) return <div className='text-gray-500'>{t('developerChart.loading')}</div>
-  if (!chartData.data?.length) return null
+  if (!displayData.data?.length) return null
 
   return (
     <div>
       <h3 className='mb-2 text-2xl font-semibold mt-12 '>{t('developerChart.title')}</h3>
-
-      {chartData.onlyGlobal && (
+      <p className='text-gray-500 text-xs mb-2'>Data from Dubai Land Department</p>
+      {displayData.onlyGlobal && (
         <div className='mb-2 text-gray-500'>{t('developerChart.onlyGlobalNote')}</div>
       )}
+
+      <div className='flex flex-wrap items-center gap-3 mb-4'>
+        {!displayData.onlyGlobal && (
+          <div className='flex items-center gap-2'>
+            <label className='text-sm text-muted-foreground'>{t('developerChart.byArea')}</label>
+            <select
+              className='text-sm border border-border rounded-md px-2 py-1 bg-background'
+              value={selectedByAreaRoom}
+              onChange={(e) => setSelectedByAreaRoom(e.target.value)}
+            >
+              <option value=''>{'All'}</option>
+              {byAreaRooms.map((room) => (
+                <option key={room} value={room}>
+                  {room}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+        <div className='flex items-center gap-2'>
+          <label className='text-sm text-muted-foreground'>{t('developerChart.global')}</label>
+          <select
+            className='text-sm border border-border rounded-md px-2 py-1 bg-background'
+            value={selectedGlobalRoom}
+            onChange={(e) => setSelectedGlobalRoom(e.target.value)}
+          >
+            <option value=''>{'All'}</option>
+            {globalRooms.map((room) => (
+              <option key={room} value={room}>
+                {room}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
 
       <ChartContainer
         config={chartConfig}
@@ -159,7 +226,7 @@ const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
 
             <CartesianGrid strokeDasharray='4 8' strokeOpacity={0.08} />
             <XAxis
-              dataKey='week'
+              dataKey='name'
               tick={{ fontSize: 12 }}
               tickMargin={8}
               tickFormatter={(val) => val.slice(0, 5)}

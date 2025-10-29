@@ -65,6 +65,11 @@ const ComplexCardComponent = ({ flat, setDeveloperId }: FlatCardProps) => {
           <div className='text-sm text-muted-foreground'>{t('property.priceFrom')}</div>
           <div className='text-sm font-semibold text-foreground'>{formatted}</div>
         </div>
+        {(flat.min_price_bedroom_type || flat.max_price_bedroom_type) && (
+          <div className='text-xs text-muted-foreground mt-0.5'>
+            {flat.min_price_bedroom_type || flat.max_price_bedroom_type}
+          </div>
+        )}
       </div>
     </div>
   )
