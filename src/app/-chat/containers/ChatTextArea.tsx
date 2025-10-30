@@ -1,4 +1,5 @@
 import { FC, useState } from 'react'
+import { z } from 'zod'
 import { cn } from '@/lib/utils'
 // ui
 import { useSidebar } from '@/components/ui/sidebar'
@@ -9,14 +10,24 @@ import { ChatActions } from '@app/-chat/components/ChatActions'
 // containers
 import { QuickQuestions } from './QuickQuestions.container'
 import { useChatContext } from '@app/-chat/context/ChatProvider'
+// schemas
+import { ActionButtonSchema } from '@app/-chat/schemas/assistantResponce.schema'
 
 interface IProps {
   isPending: boolean
   handleSend: (value: string, options?: { buttonId?: string }) => void
   onHeightChange?: (height: number) => void
+  actionButtons?: Array<z.infer<typeof ActionButtonSchema>>
 }
 
-export const ChatTextArea: FC<IProps> = ({ isPending, handleSend, onHeightChange }) => {
+export const ChatTextArea: FC<IProps> = ({
+  isPending,
+  handleSend,
+  onHeightChange,
+  actionButtons,
+}) => {
+  // api
+
   const { state } = useSidebar()
   const [input, setInput] = useState('')
   const { shouldShowQuickQuestions } = useChatContext()
@@ -42,7 +53,9 @@ export const ChatTextArea: FC<IProps> = ({ isPending, handleSend, onHeightChange
           } as React.CSSProperties
         }
       >
-        {shouldShowQuickQuestions && <QuickQuestions handleSend={sendMessage} />}
+        {(shouldShowQuickQuestions || (actionButtons?.length ?? 0) > 0) && (
+          <QuickQuestions handleSend={sendMessage} actionButtons={actionButtons} />
+        )}
         <form className='isolate z-[3] w-full flex flex-col md:border-transparent md:pt-0'>
           <div className='relative w-full'>
             <div className='relative border rounded-t-4xl md:rounded-4xl p-6 pt-2 bg-background border-border'>

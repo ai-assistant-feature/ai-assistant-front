@@ -47,7 +47,10 @@ export default defineConfig({
       workbox: {
         clientsClaim: true,
         skipWaiting: true,
-        navigateFallbackDenylist: [/^\/api\//],
+        navigateFallbackDenylist: [
+          /^\/api\//, // исключаем все запросы к /api/*
+          /^\/dashboards\//, // исключаем все запросы к /dashboards/*
+        ],
         runtimeCaching: [
           {
             urlPattern: /\/api\//,
