@@ -6,10 +6,9 @@ export const ResponseTypeEnum = z.enum(['apartmentsList', 'needMoreInfo', 'small
 export type ResponseType = z.infer<typeof ResponseTypeEnum>
 
 export const ActionButtonSchema = z.object({
-  label: z.string(), // текст кнопки
-  actionType: z.enum(['select', 'navigate', 'input', 'custom']),
-  value: z.union([z.string(), z.number()]).optional(), // выбранное значение, сумма или id объекта
-  payload: z.record(z.any()).optional(), // дополнительная информация (например {usage: 'investment'})
+  btn_id: z.string(),
+  title: z.string(),
+  text: z.string(),
 })
 
 export const AssistantResponseSchema = z.object({
