@@ -27,6 +27,7 @@ const ChatMessagesContainer: FC<IProps> = ({ messages, isPending, isError, input
   const isMobile = useIsMobile()
   useScrollToEnd(messagesEndRef, [messages, isPending])
 
+  
   const marginBottom = inputHeight + (isMobile ? MOBILE_BOTTOM_OFFSET : DESKTOP_BOTTOM_OFFSET)
 
   const hasMessages = messages.length > 0

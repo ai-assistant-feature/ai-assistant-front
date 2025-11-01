@@ -8,9 +8,14 @@ import { z } from 'zod'
 interface IProps {
   handleSend: (value: string, options?: { buttonId?: string }) => void
   actionButtons?: Array<z.infer<typeof ActionButtonSchema>>
+  handleOpenApplicationForm: () => void
 }
 
-export const QuickQuestions: FC<IProps> = ({ handleSend, actionButtons }) => {
+export const QuickQuestions: FC<IProps> = ({
+  handleSend,
+  actionButtons,
+  handleOpenApplicationForm,
+}) => {
   const [dismissed, setDismissed] = useState(false)
   const { t } = useTranslation()
   const quickQuestions = getQuickQuestions(t)
@@ -40,8 +45,9 @@ export const QuickQuestions: FC<IProps> = ({ handleSend, actionButtons }) => {
   return (
     <div className='w-full overflow-x-auto pb-4 px-2 scrollbar-hide'>
       <div className='flex gap-2 w-max'>
-        {hasServerButtons
-          ? actionButtons!.map((b) => (
+        {hasServerButtons ? (
+          <>
+            {actionButtons!.map((b) => (
               <button
                 key={b.btn_id}
                 type='button'
@@ -58,8 +64,23 @@ export const QuickQuestions: FC<IProps> = ({ handleSend, actionButtons }) => {
                   {b.text}
                 </div>
               </button>
-            ))
-          : visibleQuestions.map((q) => (
+            ))}
+            {actionButtons!.length > 0 && (
+              <button
+                key='contact-agent-extra'
+                type='button'
+                className='flex px-4 py-2 rounded-2xl bg-accent hover:bg-accent/80 transition w-auto max-w-[240px] text-left'
+                onClick={handleOpenApplicationForm}
+              >
+                <div className='text-sm font-bold truncate self-start text-accent-foreground'>
+                  Связаться с агентом
+                </div>
+              </button>
+            )}
+          </>
+        ) : (
+          <>
+            {visibleQuestions.map((q) => (
               <button
                 key={q.id}
                 type='button'
@@ -74,6 +95,20 @@ export const QuickQuestions: FC<IProps> = ({ handleSend, actionButtons }) => {
                 </div>
               </button>
             ))}
+            {visibleQuestions.length > 0 && (
+              <button
+                key='contact-agent-extra'
+                type='button'
+                className='flex px-4 py-2 rounded-2xl bg-accent hover:bg-accent/80 transition w-auto max-w-[200px]'
+                onClick={handleOpenApplicationForm}
+              >
+                <div className='text-sm font-bold truncate self-start text-accent-foreground'>
+                  Связаться с агентом
+                </div>
+              </button>
+            )}
+          </>
+        )}
       </div>
     </div>
   )
