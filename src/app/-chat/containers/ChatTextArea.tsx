@@ -18,6 +18,7 @@ interface IProps {
   handleSend: (value: string, options?: { buttonId?: string }) => void
   onHeightChange?: (height: number) => void
   actionButtons?: Array<z.infer<typeof ActionButtonSchema>>
+  handleOpenApplicationForm: () => void
 }
 
 export const ChatTextArea: FC<IProps> = ({
@@ -25,6 +26,7 @@ export const ChatTextArea: FC<IProps> = ({
   handleSend,
   onHeightChange,
   actionButtons,
+  handleOpenApplicationForm,
 }) => {
   // api
 
@@ -54,7 +56,7 @@ export const ChatTextArea: FC<IProps> = ({
         }
       >
         {(shouldShowQuickQuestions || (actionButtons?.length ?? 0) > 0) && (
-          <QuickQuestions handleSend={sendMessage} actionButtons={actionButtons} />
+          <QuickQuestions handleSend={sendMessage} actionButtons={actionButtons} handleOpenApplicationForm={handleOpenApplicationForm} />
         )}
         <form className='isolate z-[3] w-full flex flex-col md:border-transparent md:pt-0'>
           <div className='relative w-full'>
