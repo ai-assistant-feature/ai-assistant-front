@@ -69,10 +69,10 @@ export const QuickQuestions: FC<IProps> = ({
               <button
                 key='contact-agent-extra'
                 type='button'
-                className='flex px-4 py-2 rounded-2xl bg-accent hover:bg-accent/80 transition w-auto max-w-[240px] text-left'
+                className='flex px-4 py-2 text-white rounded-2xl bg-primary hover:bg-accent/80 transition w-auto max-w-[240px] text-left'
                 onClick={handleOpenApplicationForm}
               >
-                <div className='text-sm font-bold truncate self-start text-accent-foreground'>
+                <div className='text-sm font-bold truncate self-start text-white'>
                   Связаться с агентом
                 </div>
               </button>
@@ -99,10 +99,10 @@ export const QuickQuestions: FC<IProps> = ({
               <button
                 key='contact-agent-extra'
                 type='button'
-                className='flex px-4 py-2 rounded-2xl bg-accent hover:bg-accent/80 transition w-auto max-w-[200px]'
+                className='flex px-4 py-2 text-white rounded-2xl bg-primary hover:bg-accent/80 transition w-auto max-w-[240px] text-left'
                 onClick={handleOpenApplicationForm}
               >
-                <div className='text-sm font-bold truncate self-start text-accent-foreground'>
+                <div className='text-sm font-bold truncate self-start text-white'>
                   Связаться с агентом
                 </div>
               </button>

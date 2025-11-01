@@ -1,8 +1,7 @@
 import {
-  BarChart,
-  Bar,
+  LineChart,
+  Line,
   XAxis,
-  // YAxis,
   Tooltip,
   CartesianGrid,
   Legend,
@@ -166,7 +165,7 @@ const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
 
   return (
     <div>
-      <h3 className='mb-2 text-2xl font-semibold mt-12 '>{t('developerChart.title')}</h3>
+      <h3 className='mb-2 text-2xl font-semibold mt-12'>{t('developerChart.title')}</h3>
       <p className='text-gray-500 text-xs mb-2'>Data from Dubai Land Department</p>
       {displayData.onlyGlobal && (
         <div className='mb-2 text-gray-500'>{t('developerChart.onlyGlobalNote')}</div>
@@ -212,18 +211,7 @@ const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
         className='w-full h-[340px] md:h-[400px] aspect-auto overflow-hidden'
       >
         <ResponsiveContainer width='100%' height='100%'>
-          <BarChart data={displayData.data} margin={{ top: 16, right: 16, left: 0, bottom: 8 }}>
-            <defs>
-              <linearGradient id='byAreaGradient' x1='0' y1='0' x2='0' y2='1'>
-                <stop offset='0%' stopColor='#2563eb' stopOpacity={0.9} />
-                <stop offset='100%' stopColor='#2563eb' stopOpacity={0.1} />
-              </linearGradient>
-              <linearGradient id='globalGradient' x1='0' y1='0' x2='0' y2='1'>
-                <stop offset='0%' stopColor='#94a3b8' stopOpacity={0.8} />
-                <stop offset='100%' stopColor='#94a3b8' stopOpacity={0.2} />
-              </linearGradient>
-            </defs>
-
+          <LineChart data={displayData.data} margin={{ top: 16, right: 16, left: 0, bottom: 8 }}>
             <CartesianGrid strokeDasharray='4 8' strokeOpacity={0.08} />
             <XAxis
               dataKey='name'
@@ -231,12 +219,6 @@ const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
               tickMargin={8}
               tickFormatter={(val) => val.slice(0, 5)}
             />
-            {/* <YAxis
-              tickFormatter={(val) => `${formatPrice(Number(val))}`}
-              width={80}
-              tick={{ fontSize: 12 }}
-              domain={['dataMin - 2', 'dataMax + 4']}
-            /> */}
             <Tooltip content={<CustomTooltip />} />
             <Legend />
             {!displayData.onlyGlobal && (
@@ -253,24 +235,30 @@ const DeveloperChartContainer = ({ propertyId }: { propertyId: string }) => {
               />
             )}
             {!displayData.onlyGlobal && (
-              <Bar
+              <Line
+                type='monotone'
                 dataKey='byArea'
                 name={t('developerChart.byArea')}
-                fill='url(#byAreaGradient)'
-                radius={[4, 4, 0, 0]}
+                stroke='#2563eb'
+                strokeWidth={2}
+                dot={{ r: 3 }}
+                activeDot={{ r: 5 }}
                 isAnimationActive
-                animationDuration={1000}
+                animationDuration={800}
               />
             )}
-            <Bar
+            <Line
+              type='monotone'
               dataKey='global'
               name={t('developerChart.global')}
-              fill='url(#globalGradient)'
-              radius={[4, 4, 0, 0]}
+              stroke='#94a3b8'
+              strokeWidth={2}
+              dot={{ r: 3 }}
+              activeDot={{ r: 5 }}
               isAnimationActive
-              animationDuration={1000}
+              animationDuration={800}
             />
-          </BarChart>
+          </LineChart>
         </ResponsiveContainer>
       </ChartContainer>
     </div>
